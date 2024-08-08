@@ -1,5 +1,4 @@
 ---
-kind: blog
 layout: post
 title: 'How to Install GitLab Runner on Kubernetes'
 description: 'Learn how to install Gitlab CI/CD Runner on Kubernetes and grant access to the Docker Daemon to build containers.'

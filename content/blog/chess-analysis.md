@@ -1,5 +1,4 @@
 ---
-kind: blog
 layout: post
 title: 'Relationship Between Chess Opening Knowledge and Player Rating'
 description: 'How does knowledge of Chess Openings relate to player rating? In this analysis, I investigate the use Book Openings and Master Games with a sample of 20,000 public Lichess Games.'

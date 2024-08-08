@@ -1,5 +1,4 @@
 ---
-kind: blog
 layout: post
 title: 'Build a Database Pt. 1: Motivation & Design'
 description: 'Learn the motivations and designs behind building a simple LSM-Tree based Key-Value Store style database engine, similar to RocksDB.'

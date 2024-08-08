@@ -1,5 +1,4 @@
 ---
-kind: healthcare-data
 layout: npi
 title: 'National Provider Identifier Standard (NPI)'
 description: 'REST API and Monthly Archives of Healthcare Providers and NPI numbers'

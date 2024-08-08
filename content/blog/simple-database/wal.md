@@ -1,5 +1,4 @@
 ---
-kind: blog
 layout: post
 title: 'Build a Database Pt. 3: Write Ahead Log(WAL)'
 description: 'Guide to building a Write Ahead Log(WAL) for a LSM-Tree database. We look at how RocksDB designed their WAL and build our own for our database engine.'
