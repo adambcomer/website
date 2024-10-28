@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  {{ partial "head.html" . }}
+
+
+  <body class="surface on-surface-text">
+    {{ partial "header.html" }}
+
+
+    <main class="px-6 md:px-12 mb-32 max-w-screen-2xl mx-auto">
+      <div class="my-64">
+        <h1 class="display-large">{{ .Params.header }}</h1>
+        <p class="headline-medium">
+          {{ .Params.subheader }}
+        </p>
+      </div>
+
+      {{ if .Content }}
+        <div>
+          {{ .Content }}
+        </div>
+      {{ end }}
+
+
+      <div>
+        {{ with resources.Get "photography/2024/october/photos.json" }}
+          {{ with . | transform.Unmarshal }}
+            <div class="grid grid-cols-3 gap-1">
+              {{ range . }}
+                <a href="{{ .path }}">
+                  <div class="aspect-square">
+                    <picture>
+                      {{ range .sources }}
+                        <source
+                          type="{{ .type }}"
+                          srcset="{{ delimit .srcset ", " }}"
+                        />
+                      {{ end }}
+                      <img
+                        src="{{ .src }}"
+                        alt="{{ .alt }}"
+                        class="object-cover w-full h-full"
+                      />
+                    </picture>
+                  </div>
+                </a>
+              {{ end }}
+            </div>
+          {{ end }}
+        {{ else }}
+          {{ errorf "Unable to get page resource %q" "photography/2024/october/photos.json" }}
+        {{ end }}
+
+      </div>
+    </main>
+
+    {{ partial "footer.html" }}
+  </body>
+</html>

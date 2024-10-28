@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  {{ partial "head.html" . }}
+
+
+  <body class="surface on-surface-text">
+    {{ partial "header.html" }}
+
+
+    <main class="px-6 md:px-12 mb-32 max-w-screen-2xl mx-auto">
+      <div class="my-64">
+        <h1 class="display-large">Photography</h1>
+        <p class="headline-medium">My personal photography</p>
+      </div>
+
+      <div>
+        {{ range .Pages }}
+          <div
+            class="surface-container-high p-8 rounded-[32px] overflow-hidden h-full"
+          >
+            <h2 class="display-small line-clamp-2">
+              {{ .Params.header }}
+            </h2>
+            <p class="label-large on-surface-variant-text mt-6">About</p>
+            <p class="body-large mt-2 line-clamp-3">
+              {{ .Params.subheader }}
+            </p>
+            <div class="flex flex-row mt-8">
+              <a
+                href="{{ .Permalink }}"
+                class="primary-text hover:secondary-text"
+                >View Album</a
+              >
+            </div>
+          </div>
+        {{ end }}
+
+      </div>
+    </main>
+
+    {{ partial "footer.html" }}
+  </body>
+</html>
