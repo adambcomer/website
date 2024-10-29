@@ -7,30 +7,35 @@
     {{ partial "header.html" }}
 
 
-    <main class="px-6 md:px-12 mb-32 max-w-screen-2xl mx-auto">
-      <div class="my-16 my-64">
-        <h1 class="display-large">{{ .Params.header }}</h1>
-        <p class="headline-medium">
-          {{ .Params.subheader }}
-        </p>
-      </div>
-
-      {{ if .Content }}
-        <div>
-          {{ .Content }}
+    <main class="mb-32 max-w-screen-2xl mx-auto">
+      <div class="px-6 md:px-12">
+        <div class="my-16 my-64">
+          <h1 class="display-large">{{ .Params.header }}</h1>
+          <p class="headline-medium">
+            {{ .Params.subheader }}
+          </p>
         </div>
-      {{ end }}
 
+        {{ if .Content }}
+          <div>
+            {{ .Content }}
+          </div>
+        {{ end }}
+      </div>
 
       <div>
         <picture>
           {{ range .Params.sources }}
-            <source type="{{ .type }}" srcset="{{ delimit .srcset ", " }}" />
+            <source
+              type="{{ .type }}"
+              srcset="{{ delimit .srcset ", " }}"
+              sizes="100vw"
+            />
           {{ end }}
           <img
             src="{{ .Params.src }}"
             alt="{{ .Params.alt }}"
-            class="mx-auto max-w-full max-h-[90vh] rounded-lg"
+            class="mx-auto max-w-full max-h-[90vh]"
           />
         </picture>
       </div>
