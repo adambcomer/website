@@ -3,7 +3,7 @@
     {{ range . }}
       {{ $params := dict
         "description" .alt
-        "canonical" (print "https://adambcomer.com/photography/2024/october/" .path)
+        "canonical" (print "https://adambcomer.com/photography/2024/october/" .path "/")
       }}
       {{ $content := dict
         "mediaType" "text/markdown"
