@@ -24,28 +24,30 @@
       </div>
 
       <div>
-        {{ with resources.Get "photography/2024/october/photos.json" }}
+        {{ with resources.Get .Params.photos }}
           {{ with . | transform.Unmarshal }}
             <div class="grid grid-cols-3 gap-px md:gap-1">
-              {{ range . }}
-                <a href="{{ .path }}">
-                  <div class="aspect-square">
-                    <picture>
-                      {{ range .sources }}
-                        <source
-                          type="{{ .type }}"
-                          srcset="{{ delimit .srcset ", " }}"
-                          sizes="33vw"
+              {{ range $p := . }}
+                {{ with site.GetPage $p.path }}
+                  <a href="{{ .Permalink }}">
+                    <div class="aspect-square">
+                      <picture>
+                        {{ range $p.sources }}
+                          <source
+                            type="{{ .type }}"
+                            srcset="{{ delimit .srcset ", " }}"
+                            sizes="33vw"
+                          />
+                        {{ end }}
+                        <img
+                          src="{{ $p.src }}"
+                          alt="{{ $p.alt }}"
+                          class="object-cover w-full h-full"
                         />
-                      {{ end }}
-                      <img
-                        src="{{ .src }}"
-                        alt="{{ .alt }}"
-                        class="object-cover w-full h-full"
-                      />
-                    </picture>
-                  </div>
-                </a>
+                      </picture>
+                    </div>
+                  </a>
+                {{ end }}
               {{ end }}
             </div>
           {{ end }}

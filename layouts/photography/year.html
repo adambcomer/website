@@ -14,9 +14,9 @@
       </div>
 
       <div>
-        {{ range .Pages }}
+        {{ range sort .Pages "Params.date" "asc" }}
           <div
-            class="surface-container-high p-8 rounded-[32px] overflow-hidden h-full"
+            class="surface-container-high p-8 mt-8 rounded-[32px] overflow-hidden h-full"
           >
             <h2 class="display-small line-clamp-2">
               {{ .Params.header }}
