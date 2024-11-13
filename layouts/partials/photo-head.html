@@ -13,7 +13,22 @@
   <meta property="og:image:width" content="{{ .Params.srcWidth }}" />
   <meta property="og:image:height" content="{{ .Params.srcHeight }}" />
 
-  {{ $style := resources.Get "style.css" | resources.Minify | resources.Fingerprint }}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org/",
+      "@type": "ImageObject",
+      "contentUrl": "{{ .Params.src }}",
+      "license": "https://creativecommons.org/licenses/by-nc/4.0/",
+      "creditText": "Adam Comer",
+      "creator": {
+        "@type": "Person",
+        "name": "Adam Comer",
+        "url": "https://adambcomer.com/",
+        "email": "adambcomer@proton.me"
+      },
+      "copyrightNotice": "Adam Comer"
+    }
+  </script> {{ $style := resources.Get "style.css" | resources.Minify | resources.Fingerprint }}
   <link rel="stylesheet" href="{{ $style.Permalink }}" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
