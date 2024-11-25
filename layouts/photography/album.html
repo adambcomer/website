@@ -27,29 +27,77 @@
         {{ with resources.Get .Params.photos }}
           {{ with . | transform.Unmarshal }}
             <div class="grid grid-cols-3 gap-px md:gap-1">
-              {{ range $p := . }}
-                {{ with site.GetPage $p.path }}
-                  <a href="{{ .Permalink }}">
-                    <div class="aspect-square">
-                      <picture>
-                        {{ range $p.sources }}
-                          <source
-                            type="{{ .type }}"
-                            srcset="{{ delimit .srcset ", " }}"
-                            sizes="33vw"
-                          />
-                        {{ end }}
-                        <img
-                          src="{{ $p.src }}"
-                          alt="{{ $p.alt }}"
-                          class="object-cover w-full h-full"
+              {{ range . }}
+                <div class="photo aspect-square cursor-pointer">
+                  <picture>
+                    {{ range .sources }}
+                      <source
+                        type="{{ .type }}"
+                        srcset="{{ delimit .srcset ", " }}"
+                        sizes="33vw"
+                      />
+                    {{ end }}
+                    <img
+                      src="{{ .src }}"
+                      alt="{{ .alt }}"
+                      class="object-cover w-full h-full"
+                    />
+                  </picture>
+                </div>
+                <div
+                  class="modal hidden fixed flex left-0 right-0 top-0 bottom-0 bg-black/70 p-1"
+                >
+                  <div
+                    class="modal-content w-fit max-w-screen-2xl mx-auto max-h-[calc(100%-64px)] my-auto surface p-6 2xl:p-12 rounded-xl"
+                  >
+                    <picture>
+                      {{ range .sources }}
+                        <source
+                          type="{{ .type }}"
+                          srcset="{{ delimit .srcset ", " }}"
                         />
-                      </picture>
+                      {{ end }}
+                      <img
+                        src="{{ .src }}"
+                        alt="{{ .alt }}"
+                        class="object-contain w-full max-h-[calc(100vh-64px-4rem-88px)] 2xl:max-h-[calc(100vh-64px-7rem-88px)]"
+                      />
+                    </picture>
+                    <div class="mt-4">
+                      <h3 class="title-large">{{ .header }}</h3>
+                      <h4 class="label-large">{{ .subheader }}</h4>
+                      <div class="body-small">
+                        This work is licensed under
+                        <a
+                          href="https://creativecommons.org/licenses/by-nc/4.0/"
+                          class="primary-text underline hover:secondary-text"
+                          >CC BY-NC 4.0</a
+                        >.
+                      </div>
                     </div>
-                  </a>
-                {{ end }}
+                  </div>
+                </div>
               {{ end }}
             </div>
+
+            <script>
+              document.querySelectorAll('.photo').forEach((e) => {
+                e.addEventListener('click', () => {
+                  e.nextElementSibling.classList.remove('hidden')
+                  document.body.classList.add('overflow-hidden')
+                })
+              })
+              document.querySelectorAll('.modal').forEach((e) => {
+                e.addEventListener('click', () => {
+                  e.classList.add('hidden')
+                  document.body.classList.remove('overflow-hidden')
+                })
+                e.querySelector('.modal-content').addEventListener(
+                  'click',
+                  (e) => e.stopPropagation()
+                )
+              })
+            </script>
           {{ end }}
         {{ else }}
           {{ errorf "Unable to get page resource %q" "photography/2024/october/photos.json" }}
