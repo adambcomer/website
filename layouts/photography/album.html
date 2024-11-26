@@ -28,7 +28,7 @@
           {{ with . | transform.Unmarshal }}
             <div class="grid grid-cols-3 gap-px md:gap-1">
               {{ range . }}
-                <div class="photo aspect-square cursor-pointer">
+                <div class="photo aspect-square cursor-pointer" tabindex="0">
                   <picture>
                     {{ range .sources }}
                       <source
@@ -46,26 +46,30 @@
                 </div>
                 <div
                   class="modal hidden fixed flex left-0 right-0 top-0 bottom-0 bg-black/70 p-1"
+                  aria-modal="true"
+                  role="dialog"
+                  tabindex="-1"
                 >
                   <div
-                    class="modal-content w-fit max-w-screen-2xl mx-auto max-h-[calc(100%-64px)] my-auto surface p-6 2xl:p-12 rounded-xl"
+                    class="modal-content w-fit max-w-screen-2xl mx-auto max-h-[calc(100%-32px)] my-auto surface p-4 2xl:p-8 rounded-xl"
                   >
                     <picture>
                       {{ range .sources }}
                         <source
                           type="{{ .type }}"
                           srcset="{{ delimit .srcset ", " }}"
+                          sizes="100vw"
                         />
                       {{ end }}
                       <img
                         src="{{ .src }}"
                         alt="{{ .alt }}"
-                        class="object-contain w-full max-h-[calc(100vh-64px-4rem-88px)] 2xl:max-h-[calc(100vh-64px-7rem-88px)]"
+                        class="object-contain w-full max-h-[calc(100vh-32px-2rem-0.5rem-0.5rem-60px)] 2xl:max-h-[calc(100vh-32px-4rem-0.5rem-0.5rem-60px)]"
                       />
                     </picture>
-                    <div class="mt-4">
-                      <h3 class="title-large">{{ .header }}</h3>
-                      <h4 class="label-large">{{ .subheader }}</h4>
+                    <div class="mt-2">
+                      <h3 class="title-medium">{{ .header }}</h3>
+                      <h4 class="label-medium">{{ .subheader }}</h4>
                       <div class="body-small">
                         This work is licensed under
                         <a
@@ -81,21 +85,42 @@
             </div>
 
             <script>
-              document.querySelectorAll('.photo').forEach((e) => {
-                e.addEventListener('click', () => {
-                  e.nextElementSibling.classList.remove('hidden')
-                  document.body.classList.add('overflow-hidden')
-                })
+              const modals = Array.from(
+                document.querySelectorAll('.photo')
+              ).map((photo) => {
+                return {
+                  photo: photo,
+                  modal: photo.nextElementSibling
+                }
               })
-              document.querySelectorAll('.modal').forEach((e) => {
-                e.addEventListener('click', () => {
-                  e.classList.add('hidden')
+
+              modals.forEach(({ photo, modal }) => {
+                photo.addEventListener('click', () => {
+                  modal.classList.remove('hidden')
+                  document.body.classList.add('overflow-hidden')
+                  modal.focus()
+                })
+                photo.addEventListener('keydown', (e) => {
+                  if (e.keyCode === 13) {
+                    photo.nextElementSibling.classList.remove('hidden')
+                    document.body.classList.add('overflow-hidden')
+                    modal.focus()
+                  }
+                })
+
+                modal.addEventListener('click', () => {
+                  modal.classList.add('hidden')
                   document.body.classList.remove('overflow-hidden')
                 })
-                e.querySelector('.modal-content').addEventListener(
-                  'click',
-                  (e) => e.stopPropagation()
-                )
+                modal.addEventListener('keydown', (e) => {
+                  if (e.keyCode === 27) {
+                    modal.classList.add('hidden')
+                    document.body.classList.remove('overflow-hidden')
+                  }
+                })
+                modal
+                  .querySelector('.modal-content')
+                  .addEventListener('click', (e) => e.stopPropagation())
               })
             </script>
           {{ end }}
