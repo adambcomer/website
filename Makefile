@@ -11,3 +11,7 @@ dev-tailwind:
 
 dev-hugo:
 	npm run hugo:watch
+
+clean:
+	rm -rf public
+	rm -rf resources
