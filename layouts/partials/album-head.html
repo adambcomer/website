@@ -9,26 +9,35 @@
   <meta property="og:description" content="{{ .Params.description }}" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="{{ .Params.canonical }}" />
-  <meta property="og:image" content="{{ .Params.src }}" />
-  <meta property="og:image:width" content="{{ .Params.srcWidth }}" />
-  <meta property="og:image:height" content="{{ .Params.srcHeight }}" />
+  {{ with resources.Get .Params.photos }}
+    {{ with . | transform.Unmarshal }}
+      {{ $img := index . 0 }}
+      <meta property="og:image" content="{{ $img.src }}" />
+      <meta property="og:image:width" content="{{ $img.srcWidth }}" />
+      <meta property="og:image:height" content="{{ $img.srcHeight }}" />
 
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org/",
-      "@type": "ImageObject",
-      "contentUrl": "{{ .Params.src }}",
-      "license": "https://creativecommons.org/licenses/by-nc/4.0/",
-      "creditText": "Adam Comer",
-      "creator": {
-        "@type": "Person",
-        "name": "Adam Comer",
-        "url": "https://adambcomer.com/",
-        "email": "adambcomer@proton.me"
-      },
-      "copyrightNotice": "Adam Comer"
-    }
-  </script> {{ $style := resources.Get "style.css" | resources.Minify | resources.Fingerprint }}
+      {{ range . }}
+        <script type="application/ld+json">
+          {
+            "@context": "https://schema.org/",
+            "@type": "ImageObject",
+            "contentUrl": "{{ .src }}",
+            "license": "https://creativecommons.org/licenses/by-nc/4.0/",
+            "creditText": "Adam Comer",
+            "creator": {
+              "@type": "Person",
+              "name": "Adam Comer",
+              "url": "https://adambcomer.com/",
+              "email": "adambcomer@proton.me"
+            },
+            "copyrightNotice": "Adam Comer"
+          }
+        </script>
+      {{ end }}
+    {{ end }}
+  {{ end }}
+
+  {{ $style := resources.Get "style.css" | resources.Minify | resources.Fingerprint }}
   <link rel="stylesheet" href="{{ $style.Permalink }}" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />

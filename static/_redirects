@@ -8,3 +8,6 @@
 /lin-tree-solver/* https://lin-tree-solver.adambcomer.com/:splat 301
 /wisckey-database https://wisckey-database.adambcomer.com 301
 /wisckey-database/* https://wisckey-database.adambcomer.com/:splat 301
+/photography/2024/october/* /photography/2024/october/ 301
+/photography/2024/november/* /photography/2024/november/ 301
+
