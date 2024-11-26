@@ -1,4 +1,4 @@
-/contact  /  301
+/contact/*  /  301
 /blog/setup-gitlab-cicd-on-kubernetes.html /blog/install-gitlab-runner-kubernetes 301
 /blog/simple-database.html /blog/simple-database 301
 /blog/simple-database/motivation-design.html /blog/simple-database/motivation-design 301
@@ -8,6 +8,6 @@
 /lin-tree-solver/* https://lin-tree-solver.adambcomer.com/:splat 301
 /wisckey-database https://wisckey-database.adambcomer.com 301
 /wisckey-database/* https://wisckey-database.adambcomer.com/:splat 301
-/photography/2024/october/:slug /photography/2024/october/ 301
-/photography/2024/november/:slug /photography/2024/november/ 301
+/photography/2024/october/:slug/* /photography/2024/october/ 301
+/photography/2024/november/:slug/* /photography/2024/november/ 301
 
