@@ -27,7 +27,7 @@
         {{ with resources.Get .Params.photos }}
           {{ with . | transform.Unmarshal }}
             <div class="grid grid-cols-3 gap-px md:gap-1">
-              {{ range . }}
+              {{ range $i, $p := . }}
                 <div class="photo aspect-square cursor-pointer" tabindex="0">
                   <picture>
                     {{ range .sources }}
@@ -47,6 +47,7 @@
                 <div
                   class="modal hidden fixed flex left-0 right-0 top-0 bottom-0 bg-black/70 p-1"
                   aria-modal="true"
+                  aria-labelledby="{{ print "modal_label_" $i }}"
                   role="dialog"
                   tabindex="-1"
                 >
@@ -68,7 +69,12 @@
                       />
                     </picture>
                     <div class="mt-2">
-                      <h3 class="title-medium">{{ .header }}</h3>
+                      <h3
+                        id="{{ print "modal_label_" $i }}"
+                        class="title-medium"
+                      >
+                        {{ .header }}
+                      </h3>
                       <h4 class="label-medium">{{ .subheader }}</h4>
                       <div class="body-small">
                         This work is licensed under
@@ -87,12 +93,10 @@
             <script>
               const modals = Array.from(
                 document.querySelectorAll('.photo')
-              ).map((photo) => {
-                return {
-                  photo: photo,
-                  modal: photo.nextElementSibling
-                }
-              })
+              ).map((photo) => ({
+                photo: photo,
+                modal: photo.nextElementSibling
+              }))
 
               modals.forEach(({ photo, modal }) => {
                 photo.addEventListener('click', () => {
