@@ -22,6 +22,8 @@
             "@context": "https://schema.org/",
             "@type": "ImageObject",
             "contentUrl": "{{ .src }}",
+            "width": {{ .srcWidth }},
+            "height": {{ .srcHeight }},
             "license": "https://creativecommons.org/licenses/by-nc/4.0/",
             "creditText": "Adam Comer",
             "creator": {
@@ -30,7 +32,10 @@
               "url": "https://adambcomer.com/",
               "email": "adambcomer@proton.me"
             },
-            "copyrightNotice": "Adam Comer"
+            "copyrightNotice": "Adam Comer",
+            "acquireLicensePage": "https://adambcomer.com/#contact",
+            "name": "{{ .header }}",
+            "description": "{{ .alt }}"
           }
         </script>
       {{ end }}
