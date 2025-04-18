@@ -26,9 +26,13 @@
       <div>
         {{ with resources.Get .Params.photos }}
           {{ with . | transform.Unmarshal }}
-            <div class="grid grid-cols-3 gap-px md:gap-1">
+            <ul class="grid grid-cols-3 gap-px md:gap-1">
               {{ range $i, $p := . }}
-                <div class="photo aspect-square cursor-pointer" tabindex="0">
+                <button
+                  class="photo aspect-square cursor-pointer"
+                  tabindex="0"
+                  aria-expanded="false"
+                >
                   <picture>
                     {{ range .sources }}
                       <source
@@ -43,7 +47,7 @@
                       class="object-cover w-full h-full"
                     />
                   </picture>
-                </div>
+                </button>
                 <div
                   class="modal hidden fixed flex left-0 right-0 top-0 bottom-0 bg-black/70 p-1"
                   aria-modal="true"
@@ -88,7 +92,7 @@
                   </div>
                 </div>
               {{ end }}
-            </div>
+            </ul>
 
             <script>
               const modals = Array.from(
@@ -102,12 +106,14 @@
                 photo.addEventListener('click', () => {
                   modal.classList.remove('hidden')
                   document.body.classList.add('overflow-hidden')
+                  photo.setAttribute('aria-expanded', 'true')
                   modal.focus()
                 })
                 photo.addEventListener('keydown', (e) => {
                   if (e.keyCode === 13) {
                     photo.nextElementSibling.classList.remove('hidden')
                     document.body.classList.add('overflow-hidden')
+                    photo.setAttribute('aria-expanded', 'true')
                     modal.focus()
                   }
                 })
@@ -115,11 +121,13 @@
                 modal.addEventListener('click', () => {
                   modal.classList.add('hidden')
                   document.body.classList.remove('overflow-hidden')
+                  photo.setAttribute('aria-expanded', 'false')
                 })
                 modal.addEventListener('keydown', (e) => {
                   if (e.keyCode === 27) {
                     modal.classList.add('hidden')
                     document.body.classList.remove('overflow-hidden')
+                    photo.setAttribute('aria-expanded', 'false')
                   }
                 })
                 modal
