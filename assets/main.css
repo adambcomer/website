@@ -1,8 +1,6 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import 'tailwindcss';
 
-@import 'material/theme.css';
+@import './material/theme.css';
 
 .material-symbols-outlined {
   font-variation-settings:

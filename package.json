@@ -4,17 +4,18 @@
   "description": "",
   "main": "tailwind.config.js",
   "scripts": {
-    "tailwind:watch": "tailwindcss -i ./assets/main.css -o ./assets/style.css -w",
+    "tailwind:watch": "npx @tailwindcss/cli -i ./assets/main.css -o ./assets/style.css -w",
     "hugo:watch": "hugo server",
     "format": "prettier . --write",
-    "build": "tailwindcss -i ./assets/main.css -o ./assets/style.css && hugo --minify"
+    "build": "npx @tailwindcss/cli -i ./assets/main.css -o ./assets/style.css && hugo --minify"
   },
   "author": "Adam Comer",
   "license": "ISC",
   "dependencies": {
+    "@tailwindcss/cli": "4.1.4",
     "postcss-import": "16.1.0",
-    "prettier": "3.4.2",
+    "prettier": "3.5.3",
     "prettier-plugin-go-template": "0.0.15",
-    "tailwindcss": "3.4.17"
+    "tailwindcss": "4.1.4"
   }
 }
