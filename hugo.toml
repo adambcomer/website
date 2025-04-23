@@ -2,6 +2,8 @@ baseURL = 'https://adambcomer.com/'
 languageCode = 'en-us'
 title = 'Adam Comer'
 
+disableKinds = ['taxonomy']
+
 [markup]
   [markup.highlight]
     noClasses = true
