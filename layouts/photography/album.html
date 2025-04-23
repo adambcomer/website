@@ -26,12 +26,13 @@
       <div>
         {{ with resources.Get .Params.photos }}
           {{ with . | transform.Unmarshal }}
-            <ul class="grid grid-cols-3 gap-px md:gap-1">
+            <div class="grid grid-cols-3 gap-px md:gap-1">
               {{ range $i, $p := . }}
                 <button
                   class="photo aspect-square cursor-pointer"
                   tabindex="0"
                   aria-expanded="false"
+                  aria-controls="{{ print "modal_" $i }}"
                 >
                   <picture>
                     {{ range .sources }}
@@ -49,6 +50,7 @@
                   </picture>
                 </button>
                 <div
+                  id="{{ print "modal_" $i }}"
                   class="modal hidden fixed flex left-0 right-0 top-0 bottom-0 bg-black/70 p-1"
                   aria-modal="true"
                   aria-labelledby="{{ print "modal_label_" $i }}"
@@ -92,7 +94,7 @@
                   </div>
                 </div>
               {{ end }}
-            </ul>
+            </div>
 
             <script>
               const modals = Array.from(
