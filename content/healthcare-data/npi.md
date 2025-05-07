@@ -1,15 +1,20 @@
 ---
 layout: npi
 title: 'National Provider Identifier Standard (NPI)'
-description: 'REST API and Monthly Archives of Healthcare Providers and NPI numbers'
+description:
+  'REST API and Monthly Archives of Healthcare Providers and NPI numbers'
 canonical: https://adambcomer.com/blog/chess-analysis/
 ---
 
 ## REST API
 
-Access NPI Provider data via a HTTP based REST API. Data for this API comes from [monthly archives of NPI Provider information](https://download.cms.gov/nppes/NPI_Files.html) by Centers for Medicare & Medicaid Services (CMS).
+Access NPI Provider data via a HTTP based REST API. Data for this API comes from
+[monthly archives of NPI Provider information](https://download.cms.gov/nppes/NPI_Files.html)
+by Centers for Medicare & Medicaid Services (CMS).
 
-These archives are available to download below if you wish to host your own. Alternatively, this API provides a simple, ergonomic way to access this large corpus of information without needing to process the entire archive.
+These archives are available to download below if you wish to host your own.
+Alternatively, this API provides a simple, ergonomic way to access this large
+corpus of information without needing to process the entire archive.
 
 ### Features
 
@@ -27,7 +32,9 @@ https://npi-healthcare-data.adambcomer.com/npis/{NPI_NUMBER}
 
 ### Example Request
 
-This example API request uses `curl` and [`jq`](https://jqlang.github.io/jq/) to demonstrates how to access NPI Provider data from CMS archives by their NPI number.
+This example API request uses `curl` and [`jq`](https://jqlang.github.io/jq/) to
+demonstrates how to access NPI Provider data from CMS archives by their NPI
+number.
 
 ```bash-session
 $ curl -sSf https://npi-healthcare-data.adambcomer.com/npis/1508869488 | jq
@@ -152,7 +159,9 @@ $ curl -sSf https://npi-healthcare-data.adambcomer.com/npis/1508869488 | jq
 
 ## Archives
 
-Download and decompress the latest SQLite formatted archive of NPI Provider data from CMS. Archives are compressed using [zstd](https://facebook.github.io/zstd/).
+Download and decompress the latest SQLite formatted archive of NPI Provider data
+from CMS. Archives are compressed using
+[zstd](https://facebook.github.io/zstd/).
 
 ```bash-session
 $ curl --proto '=https' -sSf https://healthcare-data.adambcomer.com/npi/npi_data_july_2023.sqlite.zst | zstd -d - -o npi_data_july_2023.sqlite
@@ -167,11 +176,19 @@ $ curl --proto '=https' -sSf https://healthcare-data.adambcomer.com/npi/npi_data
 
 ### Documentation
 
-The Centers for Medicare & Medicaid Services (CMS) publishes a [monthly archive of all recognized providers and their associated NPI number](https://download.cms.gov/nppes/NPI_Files.html). This data is invaluable because it enables downstream services to consistency reference healthcare providers.
+The Centers for Medicare & Medicaid Services (CMS) publishes a
+[monthly archive of all recognized providers and their associated NPI number](https://download.cms.gov/nppes/NPI_Files.html).
+This data is invaluable because it enables downstream services to consistency
+reference healthcare providers.
 
-While publicly available, the data is cumbersome and challenging to process on resource constrained computers. The primary use case of a NPI dataset is to lookup provider information base on their NPI number. But, since the data lives in a ~10GB CSV file, this makes searching next to impossible.
+While publicly available, the data is cumbersome and challenging to process on
+resource constrained computers. The primary use case of a NPI dataset is to
+lookup provider information base on their NPI number. But, since the data lives
+in a ~10GB CSV file, this makes searching next to impossible.
 
-To make searches and point queries possible on modest hardware, I formatted the data into SQLite tables. SQLite tables give us the benefits of fast indexes, table joins, and stable datatypes.
+To make searches and point queries possible on modest hardware, I formatted the
+data into SQLite tables. SQLite tables give us the benefits of fast indexes,
+table joins, and stable datatypes.
 
 ```sql
 TABLE providers (
