@@ -42,8 +42,10 @@
     {{ end }}
   {{ end }}
 
-  {{ $style := resources.Get "style.css" | resources.Minify | resources.Fingerprint }}
-  <link rel="stylesheet" href="{{ $style.Permalink }}" />
+  {{ with resources.Get "style.css" | minify }}
+    <style>{{ .Content | safeCSS }}</style>
+  {{ end }}
+
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
