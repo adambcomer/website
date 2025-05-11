@@ -33,6 +33,7 @@
                   tabindex="0"
                   aria-expanded="false"
                   aria-controls="{{ print "modal_" $i }}"
+                  aria-label="Open full sized image for '{{ .alt }}'"
                 >
                   <picture>
                     {{ range .sources }}
