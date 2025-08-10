@@ -1,0 +1,6 @@
+{{ with resources.Get "main.css" }}
+  {{ $opts := dict "minify" true }}
+  {{ with . | css.TailwindCSS $opts }}
+    <style>{{ .Content | safeCSS }}</style>
+  {{ end }}
+{{ end }}

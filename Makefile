@@ -4,13 +4,13 @@ install:
 	npm install
 
 dev:
-	make -j 2 dev-tailwind dev-hugo
+	npm run dev
 
-dev-tailwind:
-	npm run tailwind:watch
+build:
+	npm run build
 
-dev-hugo:
-	npm run hugo:watch
+serve: build
+	npx serve public
 
 clean:
 	rm -rf public

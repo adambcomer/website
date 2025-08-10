@@ -56,8 +56,8 @@
         }
       }
     }
-  </script> {{ with resources.Get "style.css" | minify }}
-    <style>{{ .Content | safeCSS }}</style>
+  </script> {{ with (templates.Defer (dict "key" "global")) }}
+    {{ partial "css.html" . }}
   {{ end }}
 
 

@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@source "hugo_stats.json";
 
 @import './material/theme.css';
 
