@@ -11,10 +11,10 @@
   "author": "Adam Comer",
   "license": "ISC",
   "dependencies": {
-    "@tailwindcss/cli": "4.1.11",
+    "@tailwindcss/cli": "4.1.12",
     "postcss-import": "16.1.1",
     "prettier": "3.6.2",
     "prettier-plugin-go-template": "0.0.15",
-    "tailwindcss": "4.1.11"
+    "tailwindcss": "4.1.12"
   }
 }
