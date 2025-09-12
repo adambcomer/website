@@ -14,16 +14,153 @@
       </div>
 
       <div class="surface-container-high rounded-[32px] p-6 md:p-12">
+        <h2 class="display-small">Syniti</h2>
+
+        <h3 class="headline-small mt-6">Software Engineer III</h3>
+
+        <div class="!font-light body-large on-surface-variant-text inline-flex">
+          <span>Mar 2025 - Present</span>
+        </div>
+
+        <p class="body-large mt-4">
+          As a Software Engineer III on the core platform team, I led the effort
+          to optimize queries from the graph database by over 95%, solving
+          ongoing service stability and performance issues; and developed code
+          AST transformations to modernize over 150k lines-of-code for frontend
+          and backend services.
+        </p>
+        <p class="body-large mt-4">
+          A key service in the Syniti Data Governance Platform (SKP) was
+          suffering from performance issues related to the graph database that
+          didn&apos;t support compound indexes. To solve this issue while
+          working around the limitations of the database, I developed a compound
+          indexing scheme for the database, which resulted in a reduction of
+          query latency by over 95%. The custom index dramatically improved
+          service performance, directly resolving the DevOps team&apos;s
+          vertical scaling challenges.
+        </p>
+        <p class="body-large mt-4">
+          As the team&apos;s codebase has expanded to over a million
+          lines-of-code, I introduced tooling and scripts for automated code AST
+          transformations to increase developer productivity and simplify
+          dependency upgrades across dozens of services. The largest code
+          transformation I wrote restructured the Typescript type generation for
+          GraphQL clients, saving ~100k lines-of-code in work. Overall, my
+          initiative to bring automated tooling to the code maintenance process
+          has saved months of engineering hours that would have been dedicated
+          to refactoring code by hand.
+        </p>
+        <p class="body-large mt-4">
+          Additionally, I worked closely with the team to provide code reviews,
+          feedback on system designs, and mentoring for new software engineers.
+        </p>
+
+        <h3 class="headline-small mt-6">Software Engineer II</h3>
+
+        <div class="!font-light body-large on-surface-variant-text inline-flex">
+          <span>Jan 2024 - Mar 2025</span><span class="px-2">•</span
+          ><span>1 yr 3 mos</span>
+        </div>
+
+        <p class="body-large mt-4">
+          As a Software Engineer II on the core platform team, I led the
+          development of the Uptime Monitoring service, a collector of service
+          uptime statistics for SLAs, and the UI component refactor to modernize
+          our old NextJS frontend.
+        </p>
+        <p class="body-large mt-4">
+          The Uptime Monitoring service collects uptime statistics and reports
+          them to the central Prometheus database for SLA reporting and downtime
+          tracking. Currently, the Go service collects data from the over 40
+          services and is used in all 6 cloud regions. Additionally, these
+          statistics are used to measure our uptime for Syniti&apos;s customers.
+        </p>
+        <p class="body-large mt-4">
+          The UI component evaluation was the groundwork to plan and estimate
+          the work and man-hours required to migrate away from an unmaintained
+          component library. This project was critical in the effort to
+          modernize the NextJS frontend. I reviewed several leading open source
+          UI frameworks and component libraries to aid senior engineers and
+          management&apos;s decisions on the future direction of components in
+          the UI.
+        </p>
+        <p class="body-large mt-4">
+          For my professional growth, I assumed ownership of the graph
+          processing and indexing services, providing support for customers and
+          API consumers, maintaining dependencies, and giving guidance to other
+          engineers that were implementing new features in the services. In this
+          new role, I developed features to connect data quality results from
+          the data quality team to the graph indexing service.
+        </p>
+        <p class="body-large mt-4">
+          Additionally, I worked closely with the team to provide code reviews,
+          feedback on system designs, and mentoring for new software engineers.
+        </p>
+
+        <h3 class="headline-small mt-6">Cloud Software Engineer</h3>
+
+        <div class="!font-light body-large on-surface-variant-text inline-flex">
+          <span>Jun 2022 - Jan 2024</span><span class="px-2">•</span
+          ><span>1 yr 8 mos</span>
+        </div>
+
+        <p class="body-large mt-4">
+          As a Cloud Software Engineer on the core platform team, I led the
+          development of a Visual SQL Query Builder, a feature for non-technical
+          users to write SQL queries, and the migration to a Rich-Text data
+          format, involving an organization-wide plan for backwards and forwards
+          compatibility contingencies.
+        </p>
+        <p class="body-large mt-4">
+          The Visual SQL Query Builder was designed as a feature that would
+          enable non-technical data stewards and consultants to design data
+          quality rules on the Syniti Data Governance Platform (SKP). I
+          developed a SQL parser/generator to read existing queries to populate
+          the React NextJS UI for the various SQL clauses and dynamically
+          generate new SQL queries after editing. This feature was successful in
+          enabling non-technical users to build complex WHERE and JOIN clauses
+          on their data.
+        </p>
+        <p class="body-large mt-4">
+          The Rich Text data migration was a major initiative to integrate a new
+          Rich Text editor into the UI and migrate tens of thousands of records
+          of existing customer Markdown to a Rich Text format. First, I created
+          components to render a Rich Text Editor and render the custom rich
+          text format in the UI. Then, I designed a backwards compatibility
+          layer with user input sanitization for transforming existing markdown
+          records to the new rich text format when fetched from the server.
+          Lastly, I created a migration process to roll out the new data format
+          that allowed for all clients, internal and external, to handle
+          backwards and forwards compatibility issues. Overall, the execution of
+          the migration was seamless with a <0.01% error rate.
+        </p>
+        <p class="body-large mt-4">
+          Additionally, I worked closely with the team to provide code reviews,
+          feedback on system designs, and mentoring for new software engineers.
+        </p>
+
+        <div class="flex flex-wrap mt-6">
+          {{ $tech := slice "Golang" "Javascript" "Typescript" "HTML" "CSS" "React" "NextJS" "NodeJS" "Docker" "Kubernetes" "Prometheus" "Grafana" "Git" }}
+          {{ range $tech }}
+            <span
+              class="label-large secondary-container on-secondary-container-text px-2 py-1 rounded-lg mr-4 mt-2"
+              >{{ . }}</span
+            >
+          {{ end }}
+        </div>
+      </div>
+
+      <div class="surface-container-high rounded-[32px] p-6 md:p-12 mt-32">
         <h2 class="display-small">Knowtworthy</h2>
 
-        <h3 class="title-medium on-surface-variant-text mt-6">Role</h3>
-        <p class="body-large mt-2">Software Developer and Co-Founder</p>
+        <h3 class="headline-small mt-6">Software Developer and Co-Founder</h3>
 
-        <h3 class="title-medium on-surface-variant-text mt-6">Time</h3>
-        <p class="body-large mt-2">Nov 2017 - Present</p>
+        <div class="!font-light body-large on-surface-variant-text inline-flex">
+          <span>Nov 2017 - Jun 2022</span><span class="px-2">•</span
+          ><span>4 yr 8 mos</span>
+        </div>
 
-        <h3 class="title-medium on-surface-variant-text mt-6">About</h3>
-        <p class="body-large mt-2">
+        <p class="body-large mt-4">
           <a
             href="https://knowtworthy.com/"
             class="primary-text underline hover:secondary-text"
@@ -62,10 +199,7 @@
           and collect logs from our backend servers.
         </p>
 
-        <h3 class="title-medium on-surface-variant-text mt-6">
-          Tools and Technologies
-        </h3>
-        <div class="flex flex-wrap mt-2">
+        <div class="flex flex-wrap mt-6">
           {{ $tech := slice "Javascript" "Typescript" "HTML" "CSS" "React" "Websockets" "Gatsby.js" "Node.js" "Golang" "Docker" "Kubernetes" "Elasticsearch" "MongoDB" "AWS EC2" "AWS EKS" "AWS ECS" "AWS Cloudfront" "AWS S3" "AWS SQS" "AWS OpenSearch" "AWS X-Ray" "AWS Cloudwatch" "Google Text-to-Speech" "Git" "Gitlab CI/CD" }}
           {{ range $tech }}
             <span
@@ -79,14 +213,14 @@
       <div class="surface-container-high rounded-[32px] p-6 md:p-12 mt-32">
         <h2 class="display-small">Bank of Montreal (BMO)</h2>
 
-        <h3 class="title-medium on-surface-variant-text mt-6">Role</h3>
-        <p class="body-large mt-2">Software Developer Intern</p>
+        <h3 class="headline-small mt-6">Software Developer Intern</h3>
 
-        <h3 class="title-medium on-surface-variant-text mt-6">Time</h3>
-        <p class="body-large mt-2">May 2019 - Aug 2019</p>
+        <div class="!font-light body-large on-surface-variant-text inline-flex">
+          <span>May 2019 - Aug 2019</span><span class="px-2">•</span
+          ><span>5 mos</span>
+        </div>
 
-        <h3 class="title-medium on-surface-variant-text mt-6">About</h3>
-        <p class="body-large mt-2">
+        <p class="body-large mt-4">
           During my summer internship at
           <a
             href="https://www.bmo.com/"
@@ -106,12 +240,12 @@
           </a>
           , I built the UI prototypes and pitched the design to management.
           Additionally, I built the web frontend with HTML, CSS, and jQuery on
-          Microsoft’s C# MVC.
+          Microsoft&apos;s C# MVC.
         </p>
         <p class="md-body-large mt-4">
-          When I wasn’t working on the BI tool, I helped the Business Associates
-          automate tedious tasks with Python scripts. My most impactful effort
-          was a
+          When I wasn&apos;t working on the BI tool, I helped the Business
+          Associates automate tedious tasks with Python scripts. My most
+          impactful effort was a
           <a
             href="https://en.wikipedia.org/wiki/Regression_testing"
             class="primary-text underline hover:secondary-text"
@@ -122,10 +256,7 @@
           compatible.
         </p>
 
-        <h3 class="title-medium on-surface-variant-text mt-6">
-          Tools and Technologies
-        </h3>
-        <div class="flex flex-wrap mt-2">
+        <div class="flex flex-wrap mt-6">
           {{ $tech := slice "Javascript" "jQuery" "HTML" "CSS" "Python" "C#" "MVC" "ElasticSearch" "Kibana" }}
           {{ range $tech }}
             <span
@@ -139,13 +270,13 @@
       <div class="surface-container-high rounded-[32px] p-6 md:p-12 mt-32">
         <h2 class="display-small">BDM Trucks</h2>
 
-        <h3 class="title-medium on-surface-variant-text mt-6">Role</h3>
-        <p class="body-large mt-2">Web Developer</p>
+        <h3 class="headline-small mt-6">Web Developer</h3>
 
-        <h3 class="title-medium on-surface-variant-text mt-6">Time</h3>
-        <p class="body-large mt-2">Sep 2017 - Nov 2017</p>
+        <div class="!font-light body-large on-surface-variant-text inline-flex">
+          <span>Sep 2017 - Nov 2017</span><span class="px-2">•</span
+          ><span>3 mos</span>
+        </div>
 
-        <h3 class="title-medium on-surface-variant-text mt-6">About</h3>
         <p class="body-large mt-2">
           <a
             href="http://www.bdmtrucks.com/"
@@ -165,10 +296,7 @@
           draw more traffic from their local area.
         </p>
 
-        <h3 class="title-medium on-surface-variant-text mt-6">
-          Tools and Technologies
-        </h3>
-        <div class="flex flex-wrap mt-2">
+        <div class="flex flex-wrap mt-6">
           {{ $tech := slice "HTML" "CSS" "Boostrap 4" "Github Pages" }}
           {{ range $tech }}
             <span
@@ -182,19 +310,19 @@
       <div class="surface-container-high rounded-[32px] p-6 md:p-12 mt-32">
         <h2 class="display-small">SBIRT</h2>
 
-        <h3 class="title-medium on-surface-variant-text mt-6">Role</h3>
-        <p class="body-large mt-2">Software Developer</p>
+        <h3 class="headline-small mt-6">Software Developer</h3>
 
-        <h3 class="title-medium on-surface-variant-text mt-6">Time</h3>
-        <p class="body-large mt-2">Oct 2015 - Dec 2016</p>
+        <div class="!font-light body-large on-surface-variant-text inline-flex">
+          <span>Oct 2015 - Dec 2016</span><span class="px-2">•</span
+          ><span>1 yr 3 mos</span>
+        </div>
 
-        <h3 class="title-medium on-surface-variant-text mt-6">About</h3>
-        <p class="body-large mt-2">
+        <p class="body-large mt-4">
           <a
             href="https://www.su.edu/pharmacy/"
             class="primary-text underline hover:secondary-text"
           >
-            Shenandoah University’s School of Pharmacy
+            Shenandoah University&apos;s School of Pharmacy
           </a>
           needed a tool to collect data on drug abuse from local clinics in the
           Northern Virginia area. I built an iOS and Android app to assist their
@@ -203,10 +331,7 @@
           intervention in the local area, potentially saving lives.
         </p>
 
-        <h3 class="title-medium on-surface-variant-text mt-6">
-          Tools and Technologies
-        </h3>
-        <div class="flex flex-wrap mt-2">
+        <div class="flex flex-wrap mt-6">
           {{ $tech := slice "Java" "Android" "Swift" "iOS" "GCP App Engine" "SQL" "MySQL" }}
           {{ range $tech }}
             <span
