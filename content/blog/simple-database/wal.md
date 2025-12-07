@@ -6,8 +6,8 @@ description:
   how RocksDB designed their WAL and build our own for our database engine.'
 canonical: https://adambcomer.com/blog/simple-database/wal/
 author: 'Adam Comer'
-updateDate: 2022-04-04T19:21:04+0000
-createDate: 2020-06-19T04:55:44+0000
+updateDate: 2025-12-07T08:43:12Z
+createDate: 2020-06-19T04:55:44Z
 image: 'images/blog/simple-database-write-ahead-log-cover.jpg'
 imageAlt: 'Pile of wood logs'
 ---
@@ -55,7 +55,7 @@ writes data to a buffer that is eventually flushed to disk. Buffered I/O can be
 avoided by using Unbuffered I/O — which writes data directly to the physical
 disk.
 
-[According to Google’s LevelDB, RocksDB’s predecessor, Buffered I/O can be “thousand times as fast as synchronous writes.”](https://github.com/google/leveldb/blob/master/doc/index.md#synchronous-writes)
+[According to Google’s LevelDB, RocksDB’s predecessor, Buffered I/O can be “thousand times as fast as synchronous writes.”](https://github.com/google/leveldb/blob/ac691084fdc5546421a55b25e7653d450e5a25fb/doc/index.md#synchronous-writes)
 Although there is a clear performance benefit, if the OS or the physical server
 crash, all of the buffered writes are lost. This may be an acceptable risk if
 there is a replication strategy of the underlying data or the data can be
@@ -64,14 +64,14 @@ regenerated easily.
 ## RocksDB WAL
 
 The
-[RocksDB variant of the WAL](https://github.com/facebook/rocksdb/wiki/Write-Ahead-Log)
+[RocksDB variant of the WAL](https://github.com/facebook/rocksdb/wiki/Write-Ahead-Log-(WAL)/72ff53f7d990c660703b41c5ecaf2fe54582a8ea)
 doesn’t deviate far from the description of the WAL. It is a stream of database
 operations stored on disk, no extra data structures. RocksDB opts to store
 records from the WAL in a block format. Each block is 32KB and contains at most
 one record. Records that are larger than a block are broken into multiple block
 size chunks. At the start of each block is a checksum of the block’s contents to
 verify its integrity. The full block format,
-[copied from the github repository](https://github.com/facebook/rocksdb/wiki/Write-Ahead-Log-File-Format#record-format),
+[copied from the github repository](https://github.com/facebook/rocksdb/wiki/Write-Ahead-Log-File-Format/51069e3b75815b42959681b6e923e3f114b422bb#record-format),
 is below:
 
 ```plaintext
@@ -92,7 +92,7 @@ records written by the most recent log writer vs a previous one.
 Immediately when I saw that RocksDB was using a block model, I was surprised
 because small records would leave many padding bytes, wasting disk space. The
 designers of RocksDB know this and
-[left a comment about it in the drawbacks section](https://github.com/facebook/rocksdb/wiki/Write-Ahead-Log-File-Format#downsides);
+[left a comment about it in the drawbacks section](https://github.com/facebook/rocksdb/wiki/Write-Ahead-Log-File-Format/51069e3b75815b42959681b6e923e3f114b422bb#downsides);
 but, they use it with good reason. Tools like MapReduce can take advantage of
 this block design and use it to split files into parts for batch processing
 jobs. Although I will never use this, there are probably some processing jobs at

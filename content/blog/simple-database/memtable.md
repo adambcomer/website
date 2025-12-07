@@ -6,8 +6,8 @@ description:
   how RocksDB designed their MemTable and build our own for our database engine.'
 canonical: https://adambcomer.com/blog/simple-database/memtable/
 author: 'Adam Comer'
-updateDate: 2022-04-04T19:21:04+0000
-createDate: 2020-06-12T00:18:28+0000
+updateDate: 2025-12-07T08:43:12Z
+createDate: 2020-06-12T00:18:28Z
 image: 'images/blog/simple-database-memtable-cover.jpg'
 imageAlt: 'Empty glass elevator shaft'
 ---
@@ -46,12 +46,12 @@ writes.
 ## RocksDB MemTable
 
 Looking at RocksDB, the database our database is based on,
-[their MemTable](https://github.com/facebook/rocksdb/wiki/MemTable) uses a
-[SkipList](https://en.wikipedia.org/wiki/Skip_list) by default. A SkipList is
-very similar to a linked list but with many additional links. The first layer of
-links matches a LinkedList. Additional layers are created by selecting a
-progressively smaller subset of elements from the prior layer. The additional
-layers are LinkedLists that skip elements.
+[their MemTable](https://github.com/facebook/rocksdb/wiki/MemTable/0fcb6453a2cdeab9211113ff66f911bdf126b69b)
+uses a [SkipList](https://en.wikipedia.org/wiki/Skip_list) by default. A
+SkipList is very similar to a linked list but with many additional links. The
+first layer of links matches a LinkedList. Additional layers are created by
+selecting a progressively smaller subset of elements from the prior layer. The
+additional layers are LinkedLists that skip elements.
 
 When performing a search, the function starts at the most sparse layer and moves
 to lower layers when the next skip connection overshoots the target. The

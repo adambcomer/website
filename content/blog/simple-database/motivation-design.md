@@ -6,8 +6,8 @@ description:
   Key-Value Store style database engine, similar to RocksDB.'
 canonical: https://adambcomer.com/blog/simple-database/motivation-design/
 author: 'Adam Comer'
-updateDate: 2022-04-04T19:21:04+0000
-createDate: 2020-05-28T23:34:47+0000
+updateDate: 2025-12-07T08:43:12Z
+createDate: 2020-05-28T23:34:47Z
 image: 'images/blog/simple-database-motivation-design-cover.jpg'
 imageAlt: 'Servers in a data center'
 ---
@@ -86,9 +86,9 @@ LSM-Trees([original paper](https://www.cs.umb.edu/~poneil/lsmtree.pdf),
 [wiki](https://en.wikipedia.org/wiki/Log-structured_merge-tree)).
 
 B-Trees are the dominant storage data-structure in relational databases, like
-[MySQL](https://dev.mysql.com/doc/refman/8.0/en/index-btree-hash.html) and
-[Postgres](https://www.postgresql.org/docs/current/btree-intro.html). B-Trees
-are shallow search trees stored on disk. The leaf nodes hold sorted batches or
+[MySQL](https://dev.mysql.com/doc/refman/8.4/en/index-btree-hash.html) and
+[Postgres](https://www.postgresql.org/docs/current/btree.html). B-Trees are
+shallow search trees stored on disk. The leaf nodes hold sorted batches or
 records and the internal nodes hold references to other internal nodes or leaf
 nodes. As records are written, the database allocates more leaf nodes and
 rebalances the tree to keep search times low.
@@ -140,7 +140,7 @@ databases. For example,
 [CockroachDB](https://www.cockroachlabs.com/blog/cockroachdb-on-rocksd/) and
 [YugaByte](https://blog.yugabyte.com/how-we-built-a-high-performance-document-store-on-rocksdb/),
 relational SQL databases, use RocksDB to store and query the database records.
-[Dgraph](https://dgraph.io/blog/post/badger-over-rocksdb-in-dgraph/), a graph
+[Dgraph](https://hypermode.com/blog/badger-over-rocksdb-in-dgraph), a graph
 database, uses [BadgerDB](https://github.com/dgraph-io/badger)(another Key-Value
 store) for records and connections.
 [ElasticSearch](https://www.elastic.co/elasticsearch/), a document database,
@@ -166,7 +166,7 @@ project, understand the broad strokes first.
 #### MemTable
 
 The
-MemTable([RocksDB MemTable](https://github.com/facebook/rocksdb/wiki/MemTable),
+MemTable([RocksDB MemTable](https://github.com/facebook/rocksdb/wiki/MemTable/0fcb6453a2cdeab9211113ff66f911bdf126b69b),
 [Our MemTable](/blog/simple-database/memtable/)), Memory Table for short, is an
 in-memory cache of the latest records written to the database. When a record is
 written, we immediately add the record to the MemTable and sort the records by
@@ -180,7 +180,7 @@ and using Binary Search to find a record.
 
 Since memory isn’t persistent, we need a way to store our MemTable so data isn’t
 lost. The Write Ahead Log(WAL)
-([RocksDB WAL](https://github.com/facebook/rocksdb/wiki/Write-Ahead-Log),
+([RocksDB WAL](<https://github.com/facebook/rocksdb/wiki/Write-Ahead-Log-(WAL)/72ff53f7d990c660703b41c5ecaf2fe54582a8ea>),
 [Our WAL](/blog/simple-database/wal/)) is an append only file that holds the
 record operations for the MemTable. When we set a new key, update a key, or
 delete a record, a new entry is immediately appended to the WAL. In the event of
@@ -192,7 +192,7 @@ corresponding WAL is deleted.
 
 When a MemTable is flushed to disk, we take that Sorted Run and store it on disk
 as a
-[SSTable](https://github.com/facebook/rocksdb/wiki/Rocksdb-BlockBasedTable-Format).
+[SSTable](https://github.com/facebook/rocksdb/wiki/Rocksdb-BlockBasedTable-Format/eec7dca51da8cbdcc1b915661550093f1024e0a6).
 The SSTables are organized into levels with max capacities of powers of 10, e.g.
 10MB, 100MB, 1000MB, …. When a level reaches max capacity, a Compaction is
 triggered to move a SSTable to the next level. Since records are not updated
@@ -206,14 +206,14 @@ prove this invariance).
 
 ### Compaction
 
-[Compaction](https://github.com/facebook/rocksdb/wiki/Compaction) is the garbage
-collection and data management process of our database. To trigger a Compaction,
-a level of our SSTables must reach max capacity. Once triggered, Compaction
-takes a SSTable from the filled level and merges it with the SSTables in the
-next level with overlapping key ranges. When the files are merged, the keys are
-re-sorted, outdated records are removed, and a new SSTable is created. If the
-next level exceeds capacity, Compactions are repeated at the next level until
-the top level is reached.
+[Compaction](https://github.com/facebook/rocksdb/wiki/Compaction/a4880c101f719057efc8fbc8019322b623bf158d)
+is the garbage collection and data management process of our database. To
+trigger a Compaction, a level of our SSTables must reach max capacity. Once
+triggered, Compaction takes a SSTable from the filled level and merges it with
+the SSTables in the next level with overlapping key ranges. When the files are
+merged, the keys are re-sorted, outdated records are removed, and a new SSTable
+is created. If the next level exceeds capacity, Compactions are repeated at the
+next level until the top level is reached.
 
 ### API
 
