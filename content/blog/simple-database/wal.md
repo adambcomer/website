@@ -64,7 +64,7 @@ regenerated easily.
 ## RocksDB WAL
 
 The
-[RocksDB variant of the WAL](https://github.com/facebook/rocksdb/wiki/Write-Ahead-Log-(WAL)/72ff53f7d990c660703b41c5ecaf2fe54582a8ea)
+[RocksDB variant of the WAL](<https://github.com/facebook/rocksdb/wiki/Write-Ahead-Log-(WAL)/72ff53f7d990c660703b41c5ecaf2fe54582a8ea>)
 doesn’t deviate far from the description of the WAL. It is a stream of database
 operations stored on disk, no extra data structures. RocksDB opts to store
 records from the WAL in a block format. Each block is 32KB and contains at most
