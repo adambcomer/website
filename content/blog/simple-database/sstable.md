@@ -113,6 +113,9 @@ binary searches.
 ### SSTableEntry Struct
 
 ```rust
+/// SSTableEntry is a single entry returned from an SSTable lookup.
+///
+/// A `None` value indicates the key was deleted (tombstone).
 pub struct SSTableEntry {
     key: Vec<u8>,
     value: Option<Vec<u8>>,
@@ -129,7 +132,18 @@ deleted.
 
 ### SSTable Struct
 
-```rust
+````rust
+/// SSTable is an immutable, sorted on-disk table flushed from a MemTable.
+///
+/// Each SSTable file stores entries in sorted key order using the binary format:
+///
+/// ```text
+/// [ key_len: usize ][ key: [u8] ][ deleted: u8 ][ val_len: usize ][ value: [u8] ][ timestamp: u128 ]
+/// ```
+///
+/// `val_len` and `value` are omitted for deleted (tombstone) entries.
+///
+/// An in-memory offset index enables O(log n) binary search without scanning the file.
 pub struct SSTable {
     file: BufReader<File>,
     path: PathBuf,
@@ -137,7 +151,7 @@ pub struct SSTable {
     low_key: Vec<u8>,
     high_key: Vec<u8>,
 }
-```
+````
 
 The two fields worth highlighting are `offsets` and `low_key`/`high_key`.
 
@@ -162,6 +176,11 @@ When the MemTable reaches capacity, the database flushes it to disk by calling
 simultaneously builds the `offsets` index.
 
 ```rust
+/// Flushes `memtable` to a new SSTable file under `dir/<level>/<timestamp>.sstable`.
+///
+/// Entries are written in the sorted order of the MemTable. The offset of each
+/// entry is recorded so that [`get`](SSTable::get) can binary search without a
+/// full file scan.
 pub fn new(memtable: &MemTable, level: usize, dir: &Path) -> io::Result<SSTable> {
     let timestamp = SystemTime::now()
         .duration_since(UNIX_EPOCH)
@@ -238,6 +257,10 @@ memory. The `load_from_path` method reconstructs the `offsets` index by scanning
 the file from start to finish, just as `new` built it during the flush.
 
 ```rust
+/// Reconstructs an `SSTable` from an existing file on disk.
+///
+/// Scans the file once to rebuild the offset index and read the low/high keys,
+/// then seeks back to the beginning so the table is ready for lookups.
 pub fn load_from_path(path: &Path) -> io::Result<SSTable> {
     let file = OpenOptions::new().read(true).open(&path)?;
     let mut file = BufReader::new(file);
@@ -299,6 +322,9 @@ Before performing an expensive binary search, the caller can use `key_in_range`
 to quickly eliminate SSTables whose key range doesn't include the target key.
 
 ```rust
+/// Returns `true` if `key` falls within `[low_key, high_key]` (inclusive).
+///
+/// Use this as a cheap pre-filter before calling [`get`](SSTable::get).
 pub fn key_in_range(&self, key: &[u8]) -> bool {
     key >= &self.low_key && key <= &self.high_key
 }
@@ -318,6 +344,12 @@ search over the offsets, seeking the file to each midpoint and comparing the key
 on disk to the target key.
 
 ```rust
+/// Searches for `key` using binary search over the offset index.
+///
+/// Returns:
+/// - `Ok(Some(entry))` if the key is found. For deleted keys, `entry.value` is `None`.
+/// - `Ok(None)` if the key is not present in this table.
+/// - `Err(_)` on I/O failure.
 pub fn get(&mut self, key: &[u8]) -> io::Result<Option<SSTableEntry>> {
     let mut a = 0;
     let mut b = self.offsets.len() - 1;
