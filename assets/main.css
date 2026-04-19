@@ -72,6 +72,8 @@
 
 .blog-content ul {
   margin-top: 16px;
+  margin-left: 20px;
+  list-style-type: disc;
 }
 
 .blog-content li {

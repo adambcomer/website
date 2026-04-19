@@ -486,3 +486,4 @@ can hold more than a single MemTables worth of data.
 - [Build a Database Pt. 1: Motivation & Design](/blog/simple-database/motivation-design/)
 - [Build a Database Pt. 2: MemTable](/blog/simple-database/memtable/)
 - Build a Database Pt. 3: Write Ahead Log(WAL)
+- [Build a Database Pt. 4: SSTable](/blog/simple-database/sstable/)

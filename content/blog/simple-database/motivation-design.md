@@ -286,3 +286,4 @@ Stores work.
 - Build a Database Pt. 1: Motivation & Design
 - [Build a Database Pt. 2: MemTable](/blog/simple-database/memtable/)
 - [Build a Database Pt. 3: Write Ahead Log(WAL)](/blog/simple-database/wal/)
+- [Build a Database Pt. 4: SSTable](/blog/simple-database/sstable/)
