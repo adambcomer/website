@@ -9,43 +9,35 @@
   <meta property="og:description" content="{{ .Params.description }}" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="{{ .Params.canonical }}" />
-  {{ with resources.Get .Params.photos }}
-    {{ with . | transform.Unmarshal }}
-      {{ $img := index . 0 }}
-      <meta property="og:image" content="{{ $img.src }}" />
-      <meta property="og:image:width" content="{{ $img.srcWidth }}" />
-      <meta property="og:image:height" content="{{ $img.srcHeight }}" />
+  {{ with resources.Get .Params.photos }} {{ with . | transform.Unmarshal }} {{ $img := index . 0 }}
+  <meta property="og:image" content="{{ $img.src }}" />
+  <meta property="og:image:width" content="{{ $img.srcWidth }}" />
+  <meta property="og:image:height" content="{{ $img.srcHeight }}" />
 
-      {{ range . }}
-        <script type="application/ld+json">
-          {
-            "@context": "https://schema.org/",
-            "@type": "ImageObject",
-            "contentUrl": "{{ .src }}",
-            "width": {{ .srcWidth }},
-            "height": {{ .srcHeight }},
-            "license": "https://creativecommons.org/licenses/by-nc/4.0/",
-            "creditText": "Adam Comer",
-            "creator": {
-              "@type": "Person",
-              "name": "Adam Comer",
-              "url": "https://adambcomer.com/",
-              "email": "adambcomer@proton.me"
-            },
-            "copyrightNotice": "Adam Comer",
-            "acquireLicensePage": "https://adambcomer.com/#contact",
-            "name": "{{ .header }}",
-            "description": "{{ .alt }}"
-          }
-        </script>
-      {{ end }}
-    {{ end }}
-  {{ end }}
-
-  {{ with (templates.Defer (dict "key" "global")) }}
-    {{ partial "css.html" . }}
-  {{ end }}
-
+  {{ range . }}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org/",
+      "@type": "ImageObject",
+      "contentUrl": "{{ .src }}",
+      "width": {{ .srcWidth }},
+      "height": {{ .srcHeight }},
+      "license": "https://creativecommons.org/licenses/by-nc/4.0/",
+      "creditText": "Adam Comer",
+      "creator": {
+        "@type": "Person",
+        "name": "Adam Comer",
+        "url": "https://adambcomer.com/",
+        "email": "adambcomer@proton.me"
+      },
+      "copyrightNotice": "Adam Comer",
+      "acquireLicensePage": "https://adambcomer.com/#contact",
+      "name": "{{ .header }}",
+      "description": "{{ .alt }}"
+    }
+  </script>
+  {{ end }} {{ end }} {{ end }} {{ with (templates.Defer (dict "key" "global")) }} {{ partial
+  "css.html" . }} {{ end }}
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

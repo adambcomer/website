@@ -2,9 +2,8 @@
 layout: post
 title: 'Build a Database Pt. 4: SSTable'
 description:
-  'Guide to building a Sorted String Table(SSTable) for a LSM-Tree database. We
-  look at how RocksDB designs their SSTable format and build our own for our
-  database engine.'
+  'Guide to building a Sorted String Table(SSTable) for a LSM-Tree database. We look at how RocksDB
+  designs their SSTable format and build our own for our database engine.'
 canonical: https://adambcomer.com/blog/simple-database/sstable/
 author: 'Adam Comer'
 updateDate: 2026-04-18T00:00:00Z
@@ -15,76 +14,66 @@ imageAlt: 'Rows of sorted books in a library'
 
 Last article,
 [we created our Write Ahead Log(WAL) for MemTable persistence and recovery](/blog/simple-database/wal/).
-Now that the MemTable has a backup, we need a way to move data off of it and
-onto disk permanently. When the MemTable reaches its capacity, it is flushed to
-disk as a Sorted String Table, or SSTable. We will look at how RocksDB designs
-their on-disk table format, analyze the tradeoffs of different approaches, and
-build our own SSTable in Rust.
+Now that the MemTable has a backup, we need a way to move data off of it and onto disk permanently.
+When the MemTable reaches its capacity, it is flushed to disk as a Sorted String Table, or SSTable.
+We will look at how RocksDB designs their on-disk table format, analyze the tradeoffs of different
+approaches, and build our own SSTable in Rust.
 
 ## What Is an SSTable?
 
-A Sorted String Table(SSTable) is an immutable, on-disk file that holds a sorted
-run of key-value records. When the MemTable reaches its maximum capacity all of
-its entries are written sequentially to a new SSTable file and the MemTable is
-cleared. Because the MemTable keeps its records sorted by key at all times, the
-resulting SSTable inherits that order, giving us a sorted run on disk.
+A Sorted String Table(SSTable) is an immutable, on-disk file that holds a sorted run of key-value
+records. When the MemTable reaches its maximum capacity all of its entries are written sequentially
+to a new SSTable file and the MemTable is cleared. Because the MemTable keeps its records sorted by
+key at all times, the resulting SSTable inherits that order, giving us a sorted run on disk.
 
-SSTables are organized into **Levels** with exponentially growing max
-capacities. Level 0 holds freshly flushed SSTables. When Level 0 fills up, a
-Compaction is triggered that merges those files into Level 1, which has a larger
-capacity. This cascades upward: Level 1 flushes into Level 2, Level 2 into Level
-3, and so on. During Compaction, the keys from overlapping SSTables are merged
-and re-sorted, and any records overwritten by newer entries are discarded. This
-keeps disk usage manageable and ensures that reads always find the most current
-version of a record.
+SSTables are organized into **Levels** with exponentially growing max capacities. Level 0 holds
+freshly flushed SSTables. When Level 0 fills up, a Compaction is triggered that merges those files
+into Level 1, which has a larger capacity. This cascades upward: Level 1 flushes into Level 2, Level
+2 into Level 3, and so on. During Compaction, the keys from overlapping SSTables are merged and
+re-sorted, and any records overwritten by newer entries are discarded. This keeps disk usage
+manageable and ensures that reads always find the most current version of a record.
 
-The sorted order of an SSTable is the key to making reads fast. For a lookup, we
-can use [Binary Search](https://en.wikipedia.org/wiki/Binary_search_algorithm)
-over the sorted keys rather than scanning every record. The challenge with an
-on-disk file, however, is that we cannot directly index into the middle of the
-file the way we would with an in-memory array. The SSTable needs to carry enough
-metadata to jump directly to any record's position in the file without reading
+The sorted order of an SSTable is the key to making reads fast. For a lookup, we can use
+[Binary Search](https://en.wikipedia.org/wiki/Binary_search_algorithm) over the sorted keys rather
+than scanning every record. The challenge with an on-disk file, however, is that we cannot directly
+index into the middle of the file the way we would with an in-memory array. The SSTable needs to
+carry enough metadata to jump directly to any record's position in the file without reading
 everything before it.
 
 ## RocksDB SSTable
 
 RocksDB stores its SSTables in a
 [Block-Based Table format](https://github.com/facebook/rocksdb/wiki/Rocksdb-BlockBasedTable-Format/eec7dca51da8cbdcc1b915661550093f1024e0a6).
-Rather than storing records back-to-back in a flat file, RocksDB groups records
-into fixed-size **Data Blocks**, typically 4KB each. Within each block, keys are
-stored in sorted order and can be compressed using algorithms like Snappy or
-Zstd. Compression is one of the main motivations for the block model: individual
-key-value pairs compress poorly, but a block of similar-looking records
+Rather than storing records back-to-back in a flat file, RocksDB groups records into fixed-size
+**Data Blocks**, typically 4KB each. Within each block, keys are stored in sorted order and can be
+compressed using algorithms like Snappy or Zstd. Compression is one of the main motivations for the
+block model: individual key-value pairs compress poorly, but a block of similar-looking records
 compresses very well.
 
-On top of the Data Blocks, RocksDB appends several additional sections to the
-file:
+On top of the Data Blocks, RocksDB appends several additional sections to the file:
 
-- **Index Block**: Stores the last key in each Data Block along with the block's
-  byte offset. This allows a lookup to binary-search the index to find the right
-  Data Block, then binary-search within that block to find the record.
-- **Filter Block**: A [Bloom filter](https://en.wikipedia.org/wiki/Bloom_filter)
-  for each Data Block. Before performing a binary search, RocksDB queries the
-  Bloom filter to determine if a key _could_ exist in the SSTable. If the filter
-  says no, the lookup exits immediately without any disk I/O, dramatically
-  reducing read amplification across many SSTable files.
-- **Footer**: A fixed-size section at the end of the file containing byte
-  offsets for the Index Block and Filter Block, so that loading a file requires
-  only a single seek to the end.
+- **Index Block**: Stores the last key in each Data Block along with the block's byte offset. This
+  allows a lookup to binary-search the index to find the right Data Block, then binary-search within
+  that block to find the record.
+- **Filter Block**: A [Bloom filter](https://en.wikipedia.org/wiki/Bloom_filter) for each Data
+  Block. Before performing a binary search, RocksDB queries the Bloom filter to determine if a key
+  _could_ exist in the SSTable. If the filter says no, the lookup exits immediately without any disk
+  I/O, dramatically reducing read amplification across many SSTable files.
+- **Footer**: A fixed-size section at the end of the file containing byte offsets for the Index
+  Block and Filter Block, so that loading a file requires only a single seek to the end.
 
-This layered design reflects the engineering demands of a production database.
-The Index Block enables fast lookups without reading all records into memory,
-The Bloom Filter Block eliminates many full binary searches that return nothing,
-and block-level compression lets RocksDB store far more data on disk than an
-uncompressed format would allow.
+This layered design reflects the engineering demands of a production database. The Index Block
+enables fast lookups without reading all records into memory, The Bloom Filter Block eliminates many
+full binary searches that return nothing, and block-level compression lets RocksDB store far more
+data on disk than an uncompressed format would allow.
 
 ## Our SSTable
 
-Our SSTable skips the block model and compression and instead stores records in
-a simple flat layout. Each record is written back-to-back with only the metadata
-needed to read it back. To recover the ability to binary search on disk, we keep
-an in-memory `offsets` vector that maps each record index to its byte offset in
-the file. This trades a bit of memory for a much simpler implementation.
+Our SSTable skips the block model and compression and instead stores records in a simple flat
+layout. Each record is written back-to-back with only the metadata needed to read it back. To
+recover the ability to binary search on disk, we keep an in-memory `offsets` vector that maps each
+record index to its byte offset in the file. This trades a bit of memory for a much simpler
+implementation.
 
 Our on-disk format for each entry is:
 
@@ -100,15 +89,14 @@ Value      = Value data (absent if Tombstone is set)
 Timestamp  = Write timestamp in microseconds (16 bytes)
 ```
 
-Tombstoned entries omit the Value Size and Value fields entirely, saving disk
-space for deleted records.
+Tombstoned entries omit the Value Size and Value fields entirely, saving disk space for deleted
+records.
 
 ### Building Our SSTable
 
-The code for the SSTable lives in two structs: `SSTableEntry` and `SSTable`. The
-`SSTableEntry` is the deserialized representation of a single record read off
-disk. The `SSTable` wraps the file handle and the in-memory index used for
-binary searches.
+The code for the SSTable lives in two structs: `SSTableEntry` and `SSTable`. The `SSTableEntry` is
+the deserialized representation of a single record read off disk. The `SSTable` wraps the file
+handle and the in-memory index used for binary searches.
 
 ### SSTableEntry Struct
 
@@ -123,12 +111,10 @@ pub struct SSTableEntry {
 }
 ```
 
-The `SSTableEntry` mirrors the `MemTableEntry` from
-[part two](/blog/simple-database/memtable/), with the difference that we do not
-store a `deleted` boolean. Because we only return an `SSTableEntry` when we
-successfully locate a record, a Tombstone is represented by `value` being
-`None`. The caller can inspect `value` to determine whether the record was
-deleted.
+The `SSTableEntry` mirrors the `MemTableEntry` from [part two](/blog/simple-database/memtable/),
+with the difference that we do not store a `deleted` boolean. Because we only return an
+`SSTableEntry` when we successfully locate a record, a Tombstone is represented by `value` being
+`None`. The caller can inspect `value` to determine whether the record was deleted.
 
 ### SSTable Struct
 
@@ -155,25 +141,23 @@ pub struct SSTable {
 
 The two fields worth highlighting are `offsets` and `low_key`/`high_key`.
 
-The `offsets` vector is the SSTable's in-memory index. Each element is the byte
-offset of the corresponding record in the file, in the same sorted order as the
-keys. When we binary-search for a key, we binary-search this vector to find the
-right offset, then seek the file to that position and read the record. Without
-this index, a lookup would require reading every record from the beginning of
-the file.
+The `offsets` vector is the SSTable's in-memory index. Each element is the byte offset of the
+corresponding record in the file, in the same sorted order as the keys. When we binary-search for a
+key, we binary-search this vector to find the right offset, then seek the file to that position and
+read the record. Without this index, a lookup would require reading every record from the beginning
+of the file.
 
-The `low_key` and `high_key` store the smallest and largest keys in the file.
-Before committing to a binary search, the caller can call `key_in_range` to
-quickly determine if a key could possibly exist in this SSTable, avoiding
-unnecessary disk seeks.
+The `low_key` and `high_key` store the smallest and largest keys in the file. Before committing to a
+binary search, the caller can call `key_in_range` to quickly determine if a key could possibly exist
+in this SSTable, avoiding unnecessary disk seeks.
 
 ### SSTable Methods
 
 #### Create a New SSTable From a MemTable
 
-When the MemTable reaches capacity, the database flushes it to disk by calling
-`SSTable::new`. This method serializes every entry in the MemTable to a file and
-simultaneously builds the `offsets` index.
+When the MemTable reaches capacity, the database flushes it to disk by calling `SSTable::new`. This
+method serializes every entry in the MemTable to a file and simultaneously builds the `offsets`
+index.
 
 ```rust
 /// Flushes `memtable` to a new SSTable file under `dir/<level>/<timestamp>.sstable`.
@@ -238,23 +222,21 @@ pub fn new(memtable: &MemTable, level: usize, dir: &Path) -> io::Result<SSTable>
 }
 ```
 
-The file is placed in a subdirectory named after the level, e.g.,
-`data/0/1234567890.sstable`. Using the current timestamp as the filename
-guarantees uniqueness and gives us a natural ordering for files at the same
-level. A `BufWriter` is used for writing because the metadata fields (key
-length, tombstone, value length) are only a few bytes each. Batching these small
-writes with a `BufWriter` reduces the number of system calls to the OS.
+The file is placed in a subdirectory named after the level, e.g., `data/0/1234567890.sstable`. Using
+the current timestamp as the filename guarantees uniqueness and gives us a natural ordering for
+files at the same level. A `BufWriter` is used for writing because the metadata fields (key length,
+tombstone, value length) are only a few bytes each. Batching these small writes with a `BufWriter`
+reduces the number of system calls to the OS.
 
-After all entries are flushed, the `BufWriter` is closed and the file is
-re-opened as a `BufReader` for subsequent reads. The `low_key` and `high_key`
-are taken directly from the first and last entries of the MemTable, which are
-already guaranteed to be sorted.
+After all entries are flushed, the `BufWriter` is closed and the file is re-opened as a `BufReader`
+for subsequent reads. The `low_key` and `high_key` are taken directly from the first and last
+entries of the MemTable, which are already guaranteed to be sorted.
 
 #### Load an Existing SSTable From Disk
 
-After a database restart, the SSTable files on disk need to be reloaded into
-memory. The `load_from_path` method reconstructs the `offsets` index by scanning
-the file from start to finish, just as `new` built it during the flush.
+After a database restart, the SSTable files on disk need to be reloaded into memory. The
+`load_from_path` method reconstructs the `offsets` index by scanning the file from start to finish,
+just as `new` built it during the flush.
 
 ```rust
 /// Reconstructs an `SSTable` from an existing file on disk.
@@ -305,21 +287,19 @@ pub fn load_from_path(path: &Path) -> io::Result<SSTable> {
 }
 ```
 
-The method uses `seek_relative` to skip over the key and value bytes rather than
-reading them into a buffer. This is faster because the OS only needs to advance
-a file cursor, not copy data into memory. Once all offsets are collected, the
-method reads the first entry for `low_key` and seeks to the last offset for
-`high_key`.
+The method uses `seek_relative` to skip over the key and value bytes rather than reading them into a
+buffer. This is faster because the OS only needs to advance a file cursor, not copy data into
+memory. Once all offsets are collected, the method reads the first entry for `low_key` and seeks to
+the last offset for `high_key`.
 
-This reconstruction cost is a direct consequence of our simple flat format.
-RocksDB avoids it by embedding the index inside the file itself. For our
-purposes, the startup scan is acceptable since SSTables are immutable, so this
-work is done once per file per database start.
+This reconstruction cost is a direct consequence of our simple flat format. RocksDB avoids it by
+embedding the index inside the file itself. For our purposes, the startup scan is acceptable since
+SSTables are immutable, so this work is done once per file per database start.
 
 #### Check if a Key Falls Within the SSTable's Range
 
-Before performing an expensive binary search, the caller can use `key_in_range`
-to quickly eliminate SSTables whose key range doesn't include the target key.
+Before performing an expensive binary search, the caller can use `key_in_range` to quickly eliminate
+SSTables whose key range doesn't include the target key.
 
 ```rust
 /// Returns `true` if `key` falls within `[low_key, high_key]` (inclusive).
@@ -330,18 +310,16 @@ pub fn key_in_range(&self, key: &[u8]) -> bool {
 }
 ```
 
-This is a simple byte-slice comparison against `low_key` and `high_key`. Since
-Rust compares byte slices lexicographically, this works correctly for our
-byte-encoded keys. In a multi-level database with many SSTable files, this
-short-circuit is critical for read performance. A lookup that touches ten
-SSTable files would need to do ten binary searches without this check. With it,
-most files are eliminated before reading a single entry.
+This is a simple byte-slice comparison against `low_key` and `high_key`. Since Rust compares byte
+slices lexicographically, this works correctly for our byte-encoded keys. In a multi-level database
+with many SSTable files, this short-circuit is critical for read performance. A lookup that touches
+ten SSTable files would need to do ten binary searches without this check. With it, most files are
+eliminated before reading a single entry.
 
 #### Look Up a Record by Key
 
-The `get` method is where the `offsets` vector earns its place. It runs a binary
-search over the offsets, seeking the file to each midpoint and comparing the key
-on disk to the target key.
+The `get` method is where the `offsets` vector earns its place. It runs a binary search over the
+offsets, seeking the file to each midpoint and comparing the key on disk to the target key.
 
 ```rust
 /// Searches for `key` using binary search over the offset index.
@@ -411,38 +389,32 @@ pub fn get(&mut self, key: &[u8]) -> io::Result<Option<SSTableEntry>> {
 }
 ```
 
-Each iteration of the loop does one seek and reads only the key at the midpoint,
-not the full record. Only when the key matches do we read the tombstone, value,
-and timestamp. This matters because keys are much smaller than values on
-average, so we avoid reading large values during the search.
+Each iteration of the loop does one seek and reads only the key at the midpoint, not the full
+record. Only when the key matches do we read the tombstone, value, and timestamp. This matters
+because keys are much smaller than values on average, so we avoid reading large values during the
+search.
 
-The binary search does `O(Log N)` disk seeks in the worst case. Compared to a
-linear scan, this can mean reading a handful of disk positions instead of
-thousands. The cost of maintaining the `offsets` vector in memory is small (8
-bytes per entry), so a SSTable with 10,000 records requires only 80KB of memory
-for the index. This is a reasonable tradeoff for a simple database. Feel free to
-experiment with other data-structures and layouts that optimize for different
-use cases.
+The binary search does `O(Log N)` disk seeks in the worst case. Compared to a linear scan, this can
+mean reading a handful of disk positions instead of thousands. The cost of maintaining the `offsets`
+vector in memory is small (8 bytes per entry), so a SSTable with 10,000 records requires only 80KB
+of memory for the index. This is a reasonable tradeoff for a simple database. Feel free to
+experiment with other data-structures and layouts that optimize for different use cases.
 
-Note the overflow checks around `m == usize::MAX` and `m == usize::MIN`. Because
-we are working with unsigned indices, decrementing or incrementing past the
-bounds would wrap around instead of returning a sensible error. These guards
-prevent undefined behavior in the edge case where the key is smaller than the
-first entry or larger than the last.
+Note the overflow checks around `m == usize::MAX` and `m == usize::MIN`. Because we are working with
+unsigned indices, decrementing or incrementing past the bounds would wrap around instead of
+returning a sensible error. These guards prevent undefined behavior in the edge case where the key
+is smaller than the first entry or larger than the last.
 
 ## Conclusion
 
-The SSTable is the primary on-disk storage unit of our LSM-Tree database.
-Building it required two key decisions: a flat sequential file format for
-simplicity and an in-memory offsets vector to enable binary search on disk.
-Compared to RocksDB's Block-Based Table format with its Index Blocks, Filter
-Blocks, and compression, our SSTable trades raw performance for ease of
-understanding. But the core principle — a sorted, immutable, binary-searchable
-file — is the same in both designs.
+The SSTable is the primary on-disk storage unit of our LSM-Tree database. Building it required two
+key decisions: a flat sequential file format for simplicity and an in-memory offsets vector to
+enable binary search on disk. Compared to RocksDB's Block-Based Table format with its Index Blocks,
+Filter Blocks, and compression, our SSTable trades raw performance for ease of understanding. But
+the core principle — a sorted, immutable, binary-searchable file — is the same in both designs.
 [The complete SSTable component can be found in this repository along with unit tests](https://github.com/adambcomer/database-engine/blob/master/src/sstable.rs).
-Next, we will build the SSTable Manager that implements the Compaction process
-to merge SSTables across levels and reclaim space from deleted and overwritten
-records.
+Next, we will build the SSTable Manager that implements the Compaction process to merge SSTables
+across levels and reclaim space from deleted and overwritten records.
 
 ## Index
 

@@ -2,153 +2,129 @@
 <html lang="en">
   {{ partial "album-head.html" . }}
 
-
   <body class="surface on-surface-text">
     {{ partial "header.html" }}
-
 
     <main class="mb-32 max-w-screen-2xl mx-auto">
       <div class="px-6 md:px-12">
         <div class="my-64">
           <h1 class="display-large">{{ .Params.header }}</h1>
-          <p class="headline-medium">
-            {{ .Params.subheader }}
-          </p>
+          <p class="headline-medium">{{ .Params.subheader }}</p>
         </div>
 
         {{ if .Content }}
-          <div class="blog-content mb-16">
-            {{ .Content }}
-          </div>
+        <div class="blog-content mb-16">{{ .Content }}</div>
         {{ end }}
       </div>
 
       <div>
-        {{ with resources.Get .Params.photos }}
-          {{ with . | transform.Unmarshal }}
-            <div class="grid grid-cols-3 gap-px md:gap-1">
-              {{ range $i, $p := . }}
-                <button
-                  class="photo aspect-square cursor-pointer"
-                  tabindex="0"
-                  aria-expanded="false"
-                  aria-controls="{{ print "modal_" $i }}"
-                  aria-label="Open full sized image for '{{ .alt }}'"
-                >
-                  <picture>
-                    {{ range .sources }}
-                      <source
-                        type="{{ .type }}"
-                        srcset="{{ delimit .srcset ", " }}"
-                        sizes="33vw"
-                      />
-                    {{ end }}
-                    <img
-                      src="{{ .src }}"
-                      alt="{{ .alt }}"
-                      class="object-cover w-full h-full"
-                      height="{{ .srcHeight }}"
-                      width="{{ .srcWidth }}"
-                      loading="lazy"
-                    />
-                  </picture>
-                </button>
-                <div
-                  id="{{ print "modal_" $i }}"
-                  class="modal hidden fixed flex left-0 right-0 top-0 bottom-0 bg-black/70 p-1"
-                  aria-modal="true"
-                  aria-labelledby="{{ print "modal_label_" $i }}"
-                  role="dialog"
-                  tabindex="-1"
-                >
-                  <div
-                    class="modal-content w-fit max-w-screen-2xl mx-auto max-h-[calc(100%-32px)] my-auto surface p-4 2xl:p-8 rounded-xl"
-                  >
-                    <picture>
-                      {{ range .sources }}
-                        <source
-                          type="{{ .type }}"
-                          srcset="{{ delimit .srcset ", " }}"
-                          sizes="100vw"
-                        />
-                      {{ end }}
-                      <img
-                        src="{{ .src }}"
-                        alt="{{ .alt }}"
-                        class="object-contain w-full max-h-[calc(100vh-32px-2rem-0.5rem-0.5rem-60px)] 2xl:max-h-[calc(100vh-32px-4rem-0.5rem-0.5rem-60px)]"
-                        height="{{ .srcHeight }}"
-                        width="{{ .srcWidth }}"
-                        loading="lazy"
-                      />
-                    </picture>
-                    <div class="mt-2">
-                      <h3
-                        id="{{ print "modal_label_" $i }}"
-                        class="title-medium"
-                      >
-                        {{ .header }}
-                      </h3>
-                      <h4 class="label-medium">{{ .subheader }}</h4>
-                      <div class="body-small">
-                        This work is licensed under
-                        <a
-                          href="https://creativecommons.org/licenses/by-nc/4.0/"
-                          class="primary-text underline hover:secondary-text"
-                          >CC BY-NC 4.0</a
-                        >.
-                      </div>
-                    </div>
-                  </div>
-                </div>
+        {{ with resources.Get .Params.photos }} {{ with . | transform.Unmarshal }}
+        <div class="grid grid-cols-3 gap-px md:gap-1">
+          {{ range $i, $p := . }} {{ $modalId := print "modal_" $i }} {{ $modalLabelId := print
+          "modal_label_" $i }}
+          <button
+            class="photo aspect-square cursor-pointer"
+            tabindex="0"
+            aria-expanded="false"
+            aria-controls="{{ $modalId }}"
+            aria-label="Open full sized image for '{{ .alt }}'"
+          >
+            <picture>
+              {{ range .sources }} {{ $srcset := delimit .srcset ", " }}
+              <source type="{{ .type }}" srcset="{{ $srcset }}" sizes="33vw" />
               {{ end }}
+              <img
+                src="{{ .src }}"
+                alt="{{ .alt }}"
+                class="object-cover w-full h-full"
+                height="{{ .srcHeight }}"
+                width="{{ .srcWidth }}"
+                loading="lazy"
+              />
+            </picture>
+          </button>
+          <div
+            id="{{ $modalId }}"
+            class="modal hidden fixed flex left-0 right-0 top-0 bottom-0 bg-black/70 p-1"
+            aria-modal="true"
+            aria-labelledby="{{ $modalLabelId }}"
+            role="dialog"
+            tabindex="-1"
+          >
+            <div
+              class="modal-content w-fit max-w-screen-2xl mx-auto max-h-[calc(100%-32px)] my-auto surface p-4 2xl:p-8 rounded-xl"
+            >
+              <picture>
+                {{ range .sources }} {{ $srcset := delimit .srcset ", " }}
+                <source type="{{ .type }}" srcset="{{ $srcset }}" sizes="100vw" />
+                {{ end }}
+                <img
+                  src="{{ .src }}"
+                  alt="{{ .alt }}"
+                  class="object-contain w-full max-h-[calc(100vh-32px-2rem-0.5rem-0.5rem-60px)] 2xl:max-h-[calc(100vh-32px-4rem-0.5rem-0.5rem-60px)]"
+                  height="{{ .srcHeight }}"
+                  width="{{ .srcWidth }}"
+                  loading="lazy"
+                />
+              </picture>
+              <div class="mt-2">
+                <h3 id="{{ $modalLabelId }}" class="title-medium">{{ .header }}</h3>
+                <h4 class="label-medium">{{ .subheader }}</h4>
+                <div class="body-small">
+                  This work is licensed under
+                  <a
+                    href="https://creativecommons.org/licenses/by-nc/4.0/"
+                    class="primary-text underline hover:secondary-text"
+                    >CC BY-NC 4.0</a
+                  >.
+                </div>
+              </div>
             </div>
-
-            <script>
-              const modals = Array.from(
-                document.querySelectorAll('.photo')
-              ).map((photo) => ({
-                photo: photo,
-                modal: photo.nextElementSibling
-              }))
-
-              modals.forEach(({ photo, modal }) => {
-                photo.addEventListener('click', () => {
-                  modal.classList.remove('hidden')
-                  document.body.classList.add('overflow-hidden')
-                  photo.setAttribute('aria-expanded', 'true')
-                  modal.focus()
-                })
-                photo.addEventListener('keydown', (e) => {
-                  if (e.keyCode === 13) {
-                    photo.nextElementSibling.classList.remove('hidden')
-                    document.body.classList.add('overflow-hidden')
-                    photo.setAttribute('aria-expanded', 'true')
-                    modal.focus()
-                  }
-                })
-
-                modal.addEventListener('click', () => {
-                  modal.classList.add('hidden')
-                  document.body.classList.remove('overflow-hidden')
-                  photo.setAttribute('aria-expanded', 'false')
-                })
-                modal.addEventListener('keydown', (e) => {
-                  if (e.keyCode === 27) {
-                    modal.classList.add('hidden')
-                    document.body.classList.remove('overflow-hidden')
-                    photo.setAttribute('aria-expanded', 'false')
-                  }
-                })
-                modal
-                  .querySelector('.modal-content')
-                  .addEventListener('click', (e) => e.stopPropagation())
-              })
-            </script>
+          </div>
           {{ end }}
-        {{ else }}
-          {{ errorf "Unable to get page resource %q" "photography/2024/october/photos.json" }}
-        {{ end }}
+        </div>
 
+        <script>
+          const modals = Array.from(document.querySelectorAll('.photo')).map((photo) => ({
+            photo: photo,
+            modal: photo.nextElementSibling
+          }))
+
+          modals.forEach(({ photo, modal }) => {
+            photo.addEventListener('click', () => {
+              modal.classList.remove('hidden')
+              document.body.classList.add('overflow-hidden')
+              photo.setAttribute('aria-expanded', 'true')
+              modal.focus()
+            })
+            photo.addEventListener('keydown', (e) => {
+              if (e.keyCode === 13) {
+                photo.nextElementSibling.classList.remove('hidden')
+                document.body.classList.add('overflow-hidden')
+                photo.setAttribute('aria-expanded', 'true')
+                modal.focus()
+              }
+            })
+
+            modal.addEventListener('click', () => {
+              modal.classList.add('hidden')
+              document.body.classList.remove('overflow-hidden')
+              photo.setAttribute('aria-expanded', 'false')
+            })
+            modal.addEventListener('keydown', (e) => {
+              if (e.keyCode === 27) {
+                modal.classList.add('hidden')
+                document.body.classList.remove('overflow-hidden')
+                photo.setAttribute('aria-expanded', 'false')
+              }
+            })
+            modal
+              .querySelector('.modal-content')
+              .addEventListener('click', (e) => e.stopPropagation())
+          })
+        </script>
+        {{ end }} {{ else }} {{ errorf "Unable to get page resource %q"
+        "photography/2024/october/photos.json" }} {{ end }}
       </div>
     </main>
 

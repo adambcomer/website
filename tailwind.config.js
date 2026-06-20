@@ -9,10 +9,5 @@ module.exports = {
       sc: ["'Noto Sans SC'"]
     }
   },
-  plugins: [
-    'postcss-import',
-    'tailwindcss/nesting',
-    'tailwindcss',
-    'autoprefixer'
-  ]
+  plugins: ['postcss-import', 'tailwindcss/nesting', 'tailwindcss', 'autoprefixer']
 }

@@ -2,10 +2,8 @@
 <html lang="en">
   {{ partial "head.html" . }}
 
-
   <body class="surface on-surface-text">
     {{ partial "header.html" }}
-
 
     <main class="px-6 md:px-12 mb-32 max-w-screen-2xl mx-auto">
       <div class="my-64">
@@ -23,12 +21,10 @@
               class="surface-container-high p-8 rounded-[32px] overflow-hidden h-full hover:surface-container-highest"
             >
               <p class="label-large">Page</p>
-              <h3 class="headline-medium line-clamp-2">
-                Build a Simple Database
-              </h3>
+              <h3 class="headline-medium line-clamp-2">Build a Simple Database</h3>
               <p class="body-large mt-4 line-clamp-3">
-                Introductory tutorial to designing and building a LSM-Tree based
-                Key-Value Store like RocksDB
+                Introductory tutorial to designing and building a LSM-Tree based Key-Value Store
+                like RocksDB
               </p>
             </div>
           </a>
@@ -40,31 +36,27 @@
 
         <div class="grid gap-6 grid-cols-1 lg:grid-cols-12 mt-8">
           {{ range where .Pages "IsPage" true }}
-            <a href="{{ .Permalink }}" class="col-span-4">
-              <div
-                class="surface-container-high rounded-[32px] overflow-hidden h-full hover:surface-container-highest"
-              >
-                {{ $image := resources.Get .Params.image }}
-                {{ $image := $image.Fill "696x392 jpg q90 Center" }}
-                <img
-                  class="w-full rounded-[32px]"
-                  src="{{ $image.Permalink }}"
-                  width="{{ $image.Width }}"
-                  height="{{ $image.Height }}"
-                  alt="{{ .Params.imageAlt }}"
-                />
+          <a href="{{ .Permalink }}" class="col-span-4">
+            <div
+              class="surface-container-high rounded-[32px] overflow-hidden h-full hover:surface-container-highest"
+            >
+              {{ $image := resources.Get .Params.image }} {{ $image := $image.Fill "696x392 jpg q90
+              Center" }}
+              <img
+                class="w-full rounded-[32px]"
+                src="{{ $image.Permalink }}"
+                width="{{ $image.Width }}"
+                height="{{ $image.Height }}"
+                alt="{{ .Params.imageAlt }}"
+              />
 
-                <div class="p-8">
-                  <p class="label-large">Article</p>
-                  <h3 class="headline-medium line-clamp-2">
-                    {{ .Title }}
-                  </h3>
-                  <p class="body-large mt-4 line-clamp-3">
-                    {{ .Params.description }}
-                  </p>
-                </div>
+              <div class="p-8">
+                <p class="label-large">Article</p>
+                <h3 class="headline-medium line-clamp-2">{{ .Title }}</h3>
+                <p class="body-large mt-4 line-clamp-3">{{ .Params.description }}</p>
               </div>
-            </a>
+            </div>
+          </a>
           {{ end }}
         </div>
       </div>

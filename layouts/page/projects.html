@@ -2,13 +2,11 @@
 <html lang="en">
   {{ partial "head.html" . }}
 
-
   <body class="surface on-surface-text">
     {{ partial "header.html" }}
 
-
     <main class="px-6 md:px-12 max-w-screen-2xl mx-auto mb-32">
-      <div class=" my-64">
+      <div class="my-64">
         <h1 class="display-large">Projects</h1>
         <p class="headline-small">My coding projects I&apos;ve built for fun</p>
       </div>
@@ -28,23 +26,20 @@
           >
             Linguistics Tree Solver
           </a>
-          automatically builds linguistics syntax trees. After taking a syntax
-          course at the University of Toronto, I wanted to make a tool that
-          applied the theory we learned in class. Unlike the tree builders we
-          used in class, this tool is able to parse an annotated sentence and
-          display every tree that satisfies the syntax rules.
+          automatically builds linguistics syntax trees. After taking a syntax course at the
+          University of Toronto, I wanted to make a tool that applied the theory we learned in
+          class. Unlike the tree builders we used in class, this tool is able to parse an annotated
+          sentence and display every tree that satisfies the syntax rules.
         </p>
 
-        <h3 class="title-medium on-surface-variant-text mt-6">
-          Tools and Technologies
-        </h3>
+        <h3 class="title-medium on-surface-variant-text mt-6">Tools and Technologies</h3>
         <div class="flex flex-wrap mt-2">
-          {{ $tech := slice "Javascript" "Typescript" "React" "Canvas" "Material UI" }}
-          {{ range $tech }}
-            <span
-              class="label-large secondary-container on-secondary-container-text px-2 py-1 rounded-lg mr-4 mt-2"
-              >{{ . }}</span
-            >
+          {{ $tech := slice "Javascript" "Typescript" "React" "Canvas" "Material UI" }} {{ range
+          $tech }}
+          <span
+            class="label-large secondary-container on-secondary-container-text px-2 py-1 rounded-lg mr-4 mt-2"
+            >{{ . }}</span
+          >
           {{ end }}
         </div>
       </div>
@@ -64,29 +59,23 @@
             Sentiment
           </a>
           was a Hackathon project made at
-          <a
-            href="https://hackthe6ix.com/"
-            class="primary-text underline hover:secondary-text"
-          >
+          <a href="https://hackthe6ix.com/" class="primary-text underline hover:secondary-text">
             Hack The 6ix
           </a>
-          . The project&apos;s goal was to tracks a meeting conversation and
-          find its sentiment. Using the transcripts of the meeting and an open
-          source linguistic analysis tool, we were able to successfully build
-          the project in React and Node.js. After 36 hours of coding, we gave
-          our presentation to the judges and won first place.
+          . The project&apos;s goal was to tracks a meeting conversation and find its sentiment.
+          Using the transcripts of the meeting and an open source linguistic analysis tool, we were
+          able to successfully build the project in React and Node.js. After 36 hours of coding, we
+          gave our presentation to the judges and won first place.
         </p>
 
-        <h3 class="title-medium on-surface-variant-text mt-6">
-          Tools and Technologies
-        </h3>
+        <h3 class="title-medium on-surface-variant-text mt-6">Tools and Technologies</h3>
         <div class="flex flex-wrap mt-2">
-          {{ $tech := slice "Javascript" "React" "Node.js" "Python" "Google Text-to-Speech" }}
-          {{ range $tech }}
-            <span
-              class="label-large secondary-container on-secondary-container-text px-2 py-1 rounded-lg mr-4 mt-2"
-              >{{ . }}</span
-            >
+          {{ $tech := slice "Javascript" "React" "Node.js" "Python" "Google Text-to-Speech" }} {{
+          range $tech }}
+          <span
+            class="label-large secondary-container on-secondary-container-text px-2 py-1 rounded-lg mr-4 mt-2"
+            >{{ . }}</span
+          >
           {{ end }}
         </div>
       </div>
@@ -99,37 +88,32 @@
 
         <h3 class="title-medium on-surface-variant-text mt-6">About</h3>
         <p class="body-large mt-2">
-          AI Chatbots have been around for a while but have been traditionally
-          based on keywords.
+          AI Chatbots have been around for a while but have been traditionally based on keywords.
           <a
             href="https://github.com/adambcomer/Tensorflow-Seq2Seq-Dialogs"
             class="primary-text underline hover:secondary-text"
           >
             This project
           </a>
-          aimed to have the chatbot understand the sematic contents of the
-          messages by processing the messages with a neural network. The neural
-          network was a
+          aimed to have the chatbot understand the sematic contents of the messages by processing
+          the messages with a neural network. The neural network was a
           <a
             href="https://google.github.io/seq2seq/"
             class="primary-text underline hover:secondary-text"
           >
             Seq2Seq model
           </a>
-          , the state of the art at the time, and was moderately successful at
-          processing chat messages.
+          , the state of the art at the time, and was moderately successful at processing chat
+          messages.
         </p>
 
-        <h3 class="title-medium on-surface-variant-text mt-6">
-          Tools and Technologies
-        </h3>
+        <h3 class="title-medium on-surface-variant-text mt-6">Tools and Technologies</h3>
         <div class="flex flex-wrap mt-2">
-          {{ $tech := slice "Python" "Tensorflow" "Numpy" }}
-          {{ range $tech }}
-            <span
-              class="label-large secondary-container on-secondary-container-text px-2 py-1 rounded-lg mr-4 mt-2"
-              >{{ . }}</span
-            >
+          {{ $tech := slice "Python" "Tensorflow" "Numpy" }} {{ range $tech }}
+          <span
+            class="label-large secondary-container on-secondary-container-text px-2 py-1 rounded-lg mr-4 mt-2"
+            >{{ . }}</span
+          >
           {{ end }}
         </div>
       </div>
@@ -143,8 +127,8 @@
             <div
               class="surface-container-high rounded-[32px] overflow-hidden h-full hover:surface-container-highest"
             >
-              {{ $image := resources.Get "images/blog/post-1-cover.jpeg" }}
-              {{ $image := $image.Fill "696x392 jpg q90 Center" }}
+              {{ $image := resources.Get "images/blog/post-1-cover.jpeg" }} {{ $image := $image.Fill
+              "696x392 jpg q90 Center" }}
               <img
                 class="w-full rounded-[32px]"
                 src="{{ $image.Permalink }}"
@@ -159,8 +143,8 @@
                   How to Install a GitLab Runner on Kubernetes
                 </h3>
                 <p class="body-large mt-4 line-clamp-3">
-                  Learn how to install Gitlab CI/CD Runner on Kubernetes and
-                  grant access to the Docker Daemon to build containers.
+                  Learn how to install Gitlab CI/CD Runner on Kubernetes and grant access to the
+                  Docker Daemon to build containers.
                 </p>
               </div>
             </div>
@@ -169,8 +153,8 @@
             <div
               class="surface-container-high rounded-[32px] overflow-hidden h-full hover:surface-container-highest"
             >
-              {{ $image := resources.Get "images/blog/simple-database-motivation-design-cover.jpg" }}
-              {{ $image := $image.Fill "696x392 jpg q90 Center" }}
+              {{ $image := resources.Get "images/blog/simple-database-motivation-design-cover.jpg"
+              }} {{ $image := $image.Fill "696x392 jpg q90 Center" }}
               <img
                 class="w-full rounded-[32px]"
                 src="{{ $image.Permalink }}"
@@ -181,12 +165,10 @@
 
               <div class="p-8">
                 <p class="label-large">Article</p>
-                <h3 class="headline-medium line-clamp-2">
-                  Build a Simple Database
-                </h3>
+                <h3 class="headline-medium line-clamp-2">Build a Simple Database</h3>
                 <p class="body-large mt-4 line-clamp-3">
-                  Introductory tutorial to designing and building a LSM-Tree
-                  based Key-Value Store like RocksDB.
+                  Introductory tutorial to designing and building a LSM-Tree based Key-Value Store
+                  like RocksDB.
                 </p>
               </div>
             </div>
@@ -195,8 +177,8 @@
             <div
               class="surface-container-high rounded-[32px] overflow-hidden h-full hover:surface-container-highest"
             >
-              {{ $image := resources.Get "images/blog/post-2-cover.jpg" }}
-              {{ $image := $image.Fill "696x392 jpg q90 Center" }}
+              {{ $image := resources.Get "images/blog/post-2-cover.jpg" }} {{ $image := $image.Fill
+              "696x392 jpg q90 Center" }}
               <img
                 class="w-full rounded-[32px]"
                 src="{{ $image.Permalink }}"
@@ -210,9 +192,9 @@
                   Relationship Between Chess Opening Knowledge and Player Rating
                 </h3>
                 <p class="body-large mt-4 line-clamp-3">
-                  How does knowledge of Chess Openings relate to player rating?
-                  In this analysis, I investigate the use Book Openings and
-                  Master Games with a sample of 20,000 public Lichess Games.
+                  How does knowledge of Chess Openings relate to player rating? In this analysis, I
+                  investigate the use Book Openings and Master Games with a sample of 20,000 public
+                  Lichess Games.
                 </p>
               </div>
             </div>

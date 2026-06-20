@@ -2,22 +2,16 @@
 <html lang="en">
   {{ partial "blog-post-head.html" . }}
 
-
   <body class="surface on-surface-text">
     {{ partial "header.html" }}
     <main class="px-6 max-w-screen-lg mx-auto">
       <h1 class="display-large mt-32">{{ .Title }}</h1>
-      <p class="headline-small mt-16">
-        {{ .Params.author }}
-      </p>
+      <p class="headline-small mt-16">{{ .Params.author }}</p>
       <p class="headline-small !font-light">
-        {{ $date := time.AsTime .Params.updateDate }}
-        Updated
-        {{ $date.Format "Jan 02, 2006" }}
+        {{ $date := time.AsTime .Params.updateDate }} Updated {{ $date.Format "Jan 02, 2006" }}
       </p>
 
-      {{ $image := resources.Get .Params.image }}
-      {{ $image := $image.Fill "1920x1080 q90" }}
+      {{ $image := resources.Get .Params.image }} {{ $image := $image.Fill "1920x1080 q90" }}
       <img
         class="mt-16 rounded-[32px]"
         src="{{ $image.Permalink }}"
@@ -26,9 +20,7 @@
         alt="{{ .Params.imageAlt }}"
       />
 
-      <div class="my-16 blog-content">
-        {{ .Content }}
-      </div>
+      <div class="my-16 blog-content">{{ .Content }}</div>
     </main>
 
     {{ partial "footer.html" }}

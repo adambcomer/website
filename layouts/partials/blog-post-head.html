@@ -1,6 +1,5 @@
-{{ $image := resources.Get "images/adam-comer-portrait.jpg" }}
-{{ $image := $image.Fill "720x720 q90" }}
-
+{{ $image := resources.Get "images/adam-comer-portrait.jpg" }} {{ $image := $image.Fill "720x720
+q90" }}
 
 <head>
   <title>{{ .Title }} | Adam Comer</title>
@@ -56,10 +55,8 @@
         }
       }
     }
-  </script> {{ with (templates.Defer (dict "key" "global")) }}
-    {{ partial "css.html" . }}
-  {{ end }}
-
+  </script>
+  {{ with (templates.Defer (dict "key" "global")) }} {{ partial "css.html" . }} {{ end }}
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

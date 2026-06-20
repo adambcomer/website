@@ -2,18 +2,14 @@
 <html lang="en">
   {{ partial "head.html" . }}
 
-
   <body class="surface on-surface-text">
     {{ partial "header.html" }}
-
 
     <main class="px-6 md:px-12 mb-32 max-w-screen-2xl mx-auto">
       <div class="my-24 grid grid-cols-1 md:grid-cols-12 items-center">
         <div class="col-span-8">
           <h1 class="display-large text-center md:text-left">Adam Comer</h1>
-          <p class="headline-small text-center md:text-left">
-            Software Engineer
-          </p>
+          <p class="headline-small text-center md:text-left">Software Engineer</p>
           <div
             class="flex flex-row gap-12 mt-12 w-full place-content-evenly md:place-content-start"
           >
@@ -29,17 +25,14 @@
             >
               LinkedIn
             </a>
-            <a
-              href="/blog/"
-              class="cursor-pointer title-large primary-text hover:secondary-text"
-            >
+            <a href="/blog/" class="cursor-pointer title-large primary-text hover:secondary-text">
               Blog
             </a>
           </div>
         </div>
 
-        {{ $image := resources.Get "images/adam-comer-portrait.jpg" }}
-        {{ $image := $image.Resize "720x720 q90" }}
+        {{ $image := resources.Get "images/adam-comer-portrait.jpg" }} {{ $image := $image.Resize
+        "720x720 q90" }}
         <img
           class="col-span-4 h-fit rounded-[48px] mt-16 md:mt-0"
           src="{{ $image.Permalink }}"
@@ -60,39 +53,37 @@
           <div class="grid gap-8 grid-cols-1 lg:grid-cols-2 my-4">
             <div>
               <p class="body-large">
-                I&apos;m a Full-stack Software Engineer with a broad background
-                in Frontend, Backend, and DevOps development. Currently, I work
-                as a Software Engineer III at Syniti on the core Platform Team.
-                I primarily contribute to the Go microservices and internal
-                libraries on the backend and the Next.js/React on the Frontend.
-                Additionally, I am the lead maintainer of the team's core asset
-                microservice and internal Graph Indexing microservice.
+                I&apos;m a Full-stack Software Engineer with a broad background in Frontend,
+                Backend, and DevOps development. Currently, I work as a Software Engineer III at
+                Syniti on the core Platform Team. I primarily contribute to the Go microservices and
+                internal libraries on the backend and the Next.js/React on the Frontend.
+                Additionally, I am the lead maintainer of the team's core asset microservice and
+                internal Graph Indexing microservice.
               </p>
               <p class="body-large mt-4">
-                Outside of work, I like to use Rust, C, and Python in my
-                personal projects.
+                Outside of work, I like to use Rust, C, and Python in my personal projects.
               </p>
             </div>
             <div>
               <p class="title-medium on-surface-variant-text">Languages</p>
               <div class="flex flex-wrap">
-                {{ $languages := slice "Javascript" "Typescript" "Golang" "Python" "HTML" "CSS" "C" "Rust" "Java" }}
-                {{ range $languages }}
-                  <span
-                    class="label-large secondary-container on-secondary-container-text px-2 py-1 rounded-lg mr-4 mt-2"
-                    >{{ . }}</span
-                  >
+                {{ $languages := slice "Javascript" "Typescript" "Golang" "Python" "HTML" "CSS" "C"
+                "Rust" "Java" }} {{ range $languages }}
+                <span
+                  class="label-large secondary-container on-secondary-container-text px-2 py-1 rounded-lg mr-4 mt-2"
+                  >{{ . }}</span
+                >
                 {{ end }}
               </div>
 
               <p class="title-medium md-on-surface-variant mt-4">Tools</p>
               <div class="flex flex-wrap">
-                {{ $tools := slice "Docker" "MongoDB" "Git" "Kubernetes" "React" "AWS" }}
-                {{ range $tools }}
-                  <span
-                    class="label-large secondary-container on-secondary-container-text px-2 py-1 rounded-lg mr-4 mt-2"
-                    >{{ . }}</span
-                  >
+                {{ $tools := slice "Docker" "MongoDB" "Git" "Kubernetes" "React" "AWS" }} {{ range
+                $tools }}
+                <span
+                  class="label-large secondary-container on-secondary-container-text px-2 py-1 rounded-lg mr-4 mt-2"
+                  >{{ . }}</span
+                >
                 {{ end }}
               </div>
             </div>
@@ -111,9 +102,7 @@
                   width="24"
                   class="primary-fill group-hover:secondary-fill"
                 >
-                  <path
-                    d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"
-                  />
+                  <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
                 </svg>
               </i>
             </button>
@@ -130,8 +119,8 @@
             <div
               class="surface-container-high rounded-[32px] overflow-hidden h-full hover:surface-container-highest"
             >
-              {{ $image := resources.Get "images/blog/post-1-cover.jpeg" }}
-              {{ $image := $image.Fill "696x392 jpg q90 Center" }}
+              {{ $image := resources.Get "images/blog/post-1-cover.jpeg" }} {{ $image := $image.Fill
+              "696x392 jpg q90 Center" }}
               <img
                 class="w-full rounded-[32px]"
                 src="{{ $image.Permalink }}"
@@ -146,8 +135,8 @@
                   How to Install a GitLab Runner on Kubernetes
                 </h3>
                 <p class="body-large mt-4 line-clamp-3">
-                  Learn how to install Gitlab CI/CD Runner on Kubernetes and
-                  grant access to the Docker Daemon to build containers.
+                  Learn how to install Gitlab CI/CD Runner on Kubernetes and grant access to the
+                  Docker Daemon to build containers.
                 </p>
               </div>
             </div>
@@ -156,8 +145,8 @@
             <div
               class="surface-container-high rounded-[32px] overflow-hidden h-full hover:surface-container-highest"
             >
-              {{ $image := resources.Get "images/blog/simple-database-motivation-design-cover.jpg" }}
-              {{ $image := $image.Fill "696x392 jpg q90 Center" }}
+              {{ $image := resources.Get "images/blog/simple-database-motivation-design-cover.jpg"
+              }} {{ $image := $image.Fill "696x392 jpg q90 Center" }}
               <img
                 class="w-full rounded-[32px]"
                 src="{{ $image.Permalink }}"
@@ -168,12 +157,10 @@
 
               <div class="p-8">
                 <p class="label-large">Article</p>
-                <h3 class="headline-medium line-clamp-2">
-                  Build a Simple Database
-                </h3>
+                <h3 class="headline-medium line-clamp-2">Build a Simple Database</h3>
                 <p class="body-large mt-4 line-clamp-3">
-                  Introductory tutorial to designing and building a LSM-Tree
-                  based Key-Value Store like RocksDB.
+                  Introductory tutorial to designing and building a LSM-Tree based Key-Value Store
+                  like RocksDB.
                 </p>
               </div>
             </div>
@@ -182,8 +169,8 @@
             <div
               class="surface-container-high rounded-[32px] overflow-hidden h-full hover:surface-container-highest"
             >
-              {{ $image := resources.Get "images/blog/post-2-cover.jpg" }}
-              {{ $image := $image.Fill "696x392 jpg q90 Center" }}
+              {{ $image := resources.Get "images/blog/post-2-cover.jpg" }} {{ $image := $image.Fill
+              "696x392 jpg q90 Center" }}
               <img
                 class="w-full rounded-[32px]"
                 src="{{ $image.Permalink }}"
@@ -197,9 +184,9 @@
                   Relationship Between Chess Opening Knowledge and Player Rating
                 </h3>
                 <p class="body-large mt-4 line-clamp-3">
-                  How does knowledge of Chess Openings relate to player rating?
-                  In this analysis, I investigate the use Book Openings and
-                  Master Games with a sample of 20,000 public Lichess Games.
+                  How does knowledge of Chess Openings relate to player rating? In this analysis, I
+                  investigate the use Book Openings and Master Games with a sample of 20,000 public
+                  Lichess Games.
                 </p>
               </div>
             </div>
