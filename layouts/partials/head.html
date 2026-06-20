@@ -1,5 +1,5 @@
-{{ $image := resources.Get "images/adam-comer-portrait.jpg" }} {{ $image := $image.Fill "720x720
-q90" }}
+<!-- prettier-ignore -->
+{{ $image := resources.Get "images/adam-comer-portrait.jpg" }} {{ $image := $image.Fill "720x720 q90" }}
 
 <head>
   <title>{{ .Title }}</title>

@@ -181,11 +181,9 @@
           collect logs from our backend servers.
         </p>
 
+        <!-- prettier-ignore -->
         <div class="flex flex-wrap mt-6">
-          {{ $tech := slice "Javascript" "Typescript" "HTML" "CSS" "React" "Websockets" "Gatsby.js"
-          "Node.js" "Golang" "Docker" "Kubernetes" "Elasticsearch" "MongoDB" "AWS EC2" "AWS EKS"
-          "AWS ECS" "AWS Cloudfront" "AWS S3" "AWS SQS" "AWS OpenSearch" "AWS X-Ray" "AWS
-          Cloudwatch" "Google Text-to-Speech" "Git" "Gitlab CI/CD" }} {{ range $tech }}
+          {{ $tech := slice "Javascript" "Typescript" "HTML" "CSS" "React" "Websockets" "Gatsby.js" "Node.js" "Golang" "Docker" "Kubernetes" "Elasticsearch" "MongoDB" "AWS EC2" "AWS EKS" "AWS ECS" "AWS Cloudfront" "AWS S3" "AWS SQS" "AWS OpenSearch" "AWS X-Ray" "AWS Cloudwatch" "Google Text-to-Speech" "Git" "Gitlab CI/CD" }} {{ range $tech }}
           <span
             class="label-large secondary-container on-secondary-container-text px-2 py-1 rounded-lg mr-4 mt-2"
             >{{ . }}</span

@@ -40,8 +40,8 @@
             <div
               class="surface-container-high rounded-[32px] overflow-hidden h-full hover:surface-container-highest"
             >
-              {{ $image := resources.Get .Params.image }} {{ $image := $image.Fill "696x392 jpg q90
-              Center" }}
+              <!-- prettier-ignore -->
+              {{ $image := resources.Get .Params.image }} {{ $image := $image.Fill "696x392 jpg q90 Center" }}
               <img
                 class="w-full rounded-[32px]"
                 src="{{ $image.Permalink }}"
