@@ -405,13 +405,116 @@ unsigned indices, decrementing or incrementing past the bounds would wrap around
 returning a sensible error. These guards prevent undefined behavior in the edge case where the key
 is smaller than the first entry or larger than the last.
 
+### SSTableIterator Struct
+
+Alongside the `SSTable`, we include an `SSTableIterator` for sequentially reading every record in a
+file from start to finish. This is used during Compaction, where the database needs to merge the
+entries from overlapping SSTable files across levels.
+
+```rust
+/// SSTableIterator to iterate over the items in a SSTable file.
+pub struct SSTableIterator {
+    reader: BufReader<File>,
+}
+```
+
+Like the `WALIterator`, the struct holds only a `BufReader<File>`. The `BufReader` batches the many
+small `read_exact` calls — for key length, tombstone flag, value length, and timestamp — into larger
+OS reads, keeping I/O overhead low.
+
+### SSTableIterator Methods
+
+#### Create a New SSTableIterator
+
+```rust
+/// Creates a new SSTableIterator from a path to a SSTable file.
+pub fn new(path: PathBuf) -> io::Result<SSTableIterator> {
+    let file = OpenOptions::new().read(true).open(path)?;
+    let reader = BufReader::new(file);
+    Ok(SSTableIterator { reader })
+}
+```
+
+The constructor opens the file in read-only mode. Because SSTables are immutable, read-only access
+is always sufficient.
+
+#### Read Entries From the SSTable One-By-One
+
+To implement the `Iterator` trait, we define `Item = SSTableEntry` and implement `next`. Each call
+reads the on-disk fields in the same order they were written: key length, key bytes, tombstone flag,
+then optionally value length and value bytes for live records. The timestamp is always last.
+
+```rust
+impl Iterator for SSTableIterator {
+    type Item = SSTableEntry;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let mut len_buf = [0u8; size_of::<usize>()];
+        if self.reader.read_exact(&mut len_buf).is_err() {
+            return None;
+        }
+        let key_len = usize::from_le_bytes(len_buf);
+
+        let mut key = vec![0u8; key_len];
+        if self.reader.read_exact(&mut key).is_err() {
+            return None;
+        }
+
+        let mut deleted_buf = [0u8; size_of::<u8>()];
+        if self.reader.read_exact(&mut deleted_buf).is_err() {
+            return None;
+        }
+        let deleted = deleted_buf[0] == 1;
+
+        let mut value = None;
+        if !deleted {
+            let mut len_buf = [0u8; size_of::<usize>()];
+            if self.reader.read_exact(&mut len_buf).is_err() {
+                return None;
+            }
+            let value_len = usize::from_le_bytes(len_buf);
+
+            let mut value_buf = vec![0u8; value_len];
+            if self.reader.read_exact(&mut value_buf).is_err() {
+                return None;
+            }
+
+            value = Some(value_buf);
+        }
+
+        let mut timestamp_buf = [0; size_of::<u128>()];
+        if self.reader.read_exact(&mut timestamp_buf).is_err() {
+            return None;
+        }
+        let timestamp = u128::from_le_bytes(timestamp_buf);
+
+        Some(SSTableEntry {
+            key,
+            value,
+            timestamp,
+        })
+    }
+}
+```
+
+If any `read_exact` call fails, whether from reaching the end of the file or a genuine I/O error,
+`next` returns `None` and the iterator stops. This mirrors the behavior of the `WALIterator`. In a
+production database you would distinguish between EOF and a real error, but for our purposes a clean
+stop in both cases keeps the code simple.
+
+Notice that the `deleted` flag is not part of the returned `SSTableEntry`. A tombstoned record
+surfaces as `value: None`, so callers only need to inspect `value` to determine whether the record
+is live or deleted.
+[The full version of the `SSTableIterator` can be found here](https://github.com/adambcomer/database-engine/blob/master/src/sstable_iterator.rs).
+
 ## Conclusion
 
-The SSTable is the primary on-disk storage unit of our LSM-Tree database. Building it required two
-key decisions: a flat sequential file format for simplicity and an in-memory offsets vector to
-enable binary search on disk. Compared to RocksDB's Block-Based Table format with its Index Blocks,
-Filter Blocks, and compression, our SSTable trades raw performance for ease of understanding. But
-the core principle — a sorted, immutable, binary-searchable file — is the same in both designs.
+The SSTable is the primary on-disk storage unit of our LSM-Tree database. Building it required three
+key decisions: a flat sequential file format for simplicity, an in-memory offsets vector to enable
+binary search on disk, and a sequential `SSTableIterator` to support the Compaction process.
+Compared to RocksDB's Block-Based Table format with its Index Blocks, Filter Blocks, and
+compression, our SSTable trades raw performance for ease of understanding. But the core principle —
+a sorted, immutable, binary-searchable file — is the same in both designs.
 [The complete SSTable component can be found in this repository along with unit tests](https://github.com/adambcomer/database-engine/blob/master/src/sstable.rs).
 Next, we will build the SSTable Manager that implements the Compaction process to merge SSTables
 across levels and reclaim space from deleted and overwritten records.
