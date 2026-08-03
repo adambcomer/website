@@ -11,9 +11,9 @@
     "build": "hugo --minify"
   },
   "dependencies": {
-    "@tailwindcss/cli": "4.3.1",
-    "oxfmt": "0.55.0",
+    "@tailwindcss/cli": "4.3.3",
+    "oxfmt": "0.61.0",
     "postcss-import": "16.1.1",
-    "tailwindcss": "4.3.1"
+    "tailwindcss": "4.3.3"
   }
 }
