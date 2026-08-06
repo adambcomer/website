@@ -72,13 +72,14 @@ there.
 inside blog `.Content` is styled via `.blog-content` rules in `assets/main.css`, not Tailwind's
 typography plugin.
 
-**Photo processing pipeline** (`tools/images/`, outside the Hugo build): `img_conv.zsh <image>
-<filename-slug> <dest-dir>` takes a single original photo and produces resized jxl/avif/jpeg
-variants at six sizes (8.3MP down to 230KP), uploading nothing itself — it writes files to
-`<dest-dir>` and prints the corresponding photo-entry JSON fragment (`path`, `src`,
-`srcWidth`/`srcHeight`, `sources[].srcset`) that gets pasted into an album's `photos.json` (see
-Photography albums above; `header`/`subheader`/`alt` are left blank for manual fill-in). Requires
-`magick`, `identify` (ImageMagick), and `jq`. Generated URLs are rooted at
+**Photo processing pipeline** (`tools/images/`, outside the Hugo build): `img_conv.zsh <dir>
+<dest-dir> <out-json>` (invoked via `make convert-images DIR=... DEST=... [OUT=...]`) converts
+every original photo in `<dir>` into resized jxl/avif/jpeg variants at six sizes (8.3MP down to
+230KP), uploading nothing itself — it writes files to `<dest-dir>` and collects the per-image
+photo-entry JSON fragments (`path`, `src`, `srcWidth`/`srcHeight`, `sources[].srcset`) into a single
+JSON array written to `<out-json>`, ready to paste into an album's `photos.json` (see Photography
+albums above; `header`/`subheader`/`alt` are left blank for manual fill-in). Requires `magick`,
+`identify` (ImageMagick), and `jq`. Generated URLs are rooted at
 `https://images.adambcomer.com`, matching the `r2images` R2 bucket that `make upload-images`
 pushes processed images to. `tools/images/originals/` and `tools/images/web/` are gitignored —
 `make sync-originals` pulls originals from a remote host; processed output is uploaded via `make
