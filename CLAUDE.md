@@ -16,6 +16,11 @@ Simple Database" series), photography albums, and healthcare-data reference page
 - `make build` — production build (`hugo --minify`) into `public/`
 - `make serve` — build, then serve `public/` with `npx serve`
 - `make clean` — remove `public/` and `resources/` (Hugo's generated asset cache)
+- `make sync-originals IP=<host>` — rsync RAW/original photos from a remote host
+  (`~/personal/website/tools/images/originals/`) down into `tools/images/originals/`
+- `make upload-images DIR=<path>` — `rclone copy` processed images in `DIR` to the `r2images`
+  remote (Cloudflare R2 bucket `com-adambcomer-images`), setting a one-year immutable
+  `Cache-Control` header
 - `npm run format` — format the codebase with `oxfmt` (config in `.oxfmtrc.json`: no semicolons,
   single quotes, no trailing commas, prose-wrap always); no `make` target for this
 
@@ -66,3 +71,15 @@ there.
 **Blog content typography**: prose rendering (headings, paragraphs, lists, code blocks, images)
 inside blog `.Content` is styled via `.blog-content` rules in `assets/main.css`, not Tailwind's
 typography plugin.
+
+**Photo processing pipeline** (`tools/images/`, outside the Hugo build): `img_conv.zsh <image>
+<filename-slug> <dest-dir>` takes a single original photo and produces resized jxl/avif/jpeg
+variants at six sizes (8.3MP down to 230KP), uploading nothing itself — it writes files to
+`<dest-dir>` and prints the corresponding photo-entry JSON fragment (`path`, `src`,
+`srcWidth`/`srcHeight`, `sources[].srcset`) that gets pasted into an album's `photos.json` (see
+Photography albums above; `header`/`subheader`/`alt` are left blank for manual fill-in). Requires
+`magick`, `identify` (ImageMagick), and `jq`. Generated URLs are rooted at
+`https://images.adambcomer.com`, matching the `r2images` R2 bucket that `make upload-images`
+pushes processed images to. `tools/images/originals/` and `tools/images/web/` are gitignored —
+`make sync-originals` pulls originals from a remote host; processed output is uploaded via `make
+upload-images` rather than committed.
