@@ -19,7 +19,7 @@ clean:
 IP ?=
 
 sync-originals:
-	rsync -avP --progress adambcomer@$(IP):~/personal/website/tools/images/originals/ ./tools/images/originals/
+	rsync -avP --progress ./tools/images/originals/ adambcomer@$(IP):~/personal/website/tools/images/originals/
 
 upload-images:
 	rclone copy --header-upload='Cache-Control: public, max-age=31536000, immutable' $(DIR) r2images:com-adambcomer-images/$(DIR) -P
