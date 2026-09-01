@@ -3,10 +3,10 @@
   {{ partial "head.html" . }}
 
   <body class="surface on-surface-text">
-    {{ partial "header.html" }}
+    {{ partial "header.html" . }}
 
-    <main class="px-6 md:px-12 mb-32 max-w-screen-2xl mx-auto">
-      <div class="my-24 grid grid-cols-1 md:grid-cols-12 items-center">
+    <main class="px-6 md:px-12 mb-24 md:mb-32 max-w-screen-2xl mx-auto">
+      <div class="my-24 md:my-32 grid grid-cols-1 md:grid-cols-12 items-center">
         <div class="col-span-8">
           <h1 class="display-large text-center md:text-left">Adam Comer</h1>
           <p class="headline-small text-center md:text-left">Software Engineer</p>
@@ -15,17 +15,20 @@
           >
             <a
               href="https://github.com/adambcomer"
-              class="cursor-pointer title-large primary-text hover:secondary-text"
+              class="cursor-pointer title-large primary-text hover:secondary-text transition-colors duration-200"
             >
               Github
             </a>
             <a
               href="https://www.linkedin.com/in/adambcomer"
-              class="cursor-pointer title-large primary-text hover:secondary-text"
+              class="cursor-pointer title-large primary-text hover:secondary-text transition-colors duration-200"
             >
               LinkedIn
             </a>
-            <a href="/blog/" class="cursor-pointer title-large primary-text hover:secondary-text">
+            <a
+              href="/blog/"
+              class="cursor-pointer title-large primary-text hover:secondary-text transition-colors duration-200"
+            >
               Blog
             </a>
           </div>
@@ -50,7 +53,7 @@
             sizes="(min-width: 768px) 33vw, calc(100vw - 48px)"
           />
           <img
-            class="w-full rounded-[48px]"
+            class="w-full corner-extra-extra-large"
             src="{{ $jpeg960.Permalink }}"
             srcset="{{ $jpeg320.Permalink }} 320w, {{ $jpeg480.Permalink }} 480w, {{ $jpeg720.Permalink }} 720w, {{ $jpeg960.Permalink }} 960w"
             sizes="(min-width: 768px) 33vw, calc(100vw - 48px)"
@@ -64,12 +67,12 @@
         </picture>
       </div>
 
-      <div class="mt-48">
+      <div class="mt-24 md:mt-32">
         <h2 class="display-medium">About Me</h2>
         <p class="mb-2 title-large">Experience, skills, and background</p>
 
         <div
-          class="relative surface-container-high mt-8 px-6 pt-6 pb-16 md:p-12 rounded-[32px] md:rounded-[64px]"
+          class="relative surface-container-high mt-8 px-6 pt-6 pb-16 md:p-12 corner-extra-large-increased md:corner-extra-extra-large"
         >
           <h3 class="display-small">Software Engineer</h3>
           <div class="grid gap-8 grid-cols-1 lg:grid-cols-2 my-4">
@@ -93,18 +96,18 @@
                 {{ $languages := slice "Golang" "Typescript" "Javascript" "Rust" "Python" "SQL"
                 "HTML" "CSS" }} {{ range $languages }}
                 <span
-                  class="label-large secondary-container on-secondary-container-text px-2 py-1 rounded-lg mr-4 mt-2"
+                  class="label-large secondary-container on-secondary-container-text px-2 py-1 corner-small mr-4 mt-2"
                   >{{ . }}</span
                 >
                 {{ end }}
               </div>
 
-              <p class="title-medium md-on-surface-variant mt-4">Tools</p>
+              <p class="title-medium on-surface-variant-text mt-4">Tools</p>
               <div class="flex flex-wrap">
                 {{ $tools := slice "Terraform" "Kubernetes" "Docker" "AWS" "Istio" "React" "NextJS"
                 "DGraph" "Prometheus" "Git" }} {{ range $tools }}
                 <span
-                  class="label-large secondary-container on-secondary-container-text px-2 py-1 rounded-lg mr-4 mt-2"
+                  class="label-large secondary-container on-secondary-container-text px-2 py-1 corner-small mr-4 mt-2"
                   >{{ . }}</span
                 >
                 {{ end }}
@@ -114,7 +117,7 @@
 
           <a href="/experience/">
             <button
-              class="group absolute right-8 bottom-6 md:right-16 inline-flex items-center cursor-pointer title-large primary-text hover:secondary-text"
+              class="group absolute right-8 bottom-6 md:right-16 inline-flex items-center cursor-pointer title-large primary-text hover:secondary-text transition-colors duration-200"
             >
               Experience
               <i class="ml-2">
@@ -123,7 +126,7 @@
                   height="24"
                   viewBox="0 -960 960 960"
                   width="24"
-                  class="primary-fill group-hover:secondary-fill"
+                  class="primary-fill group-hover:secondary-fill transition-colors duration-200"
                 >
                   <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
                 </svg>
@@ -133,14 +136,14 @@
         </div>
       </div>
 
-      <div class="mt-32">
+      <div class="mt-24 md:mt-32">
         <h2 class="display-medium">Blog</h2>
         <p class="mb-2 title-large">Projects, writings, and code</p>
 
         <div class="grid gap-6 grid-cols-1 lg:grid-cols-12 mt-8">
           <a href="/blog/install-gitlab-runner-kubernetes/" class="col-span-4">
             <div
-              class="surface-container-high rounded-[32px] overflow-hidden h-full hover:surface-container-highest"
+              class="surface-container-high corner-extra-large-increased overflow-hidden h-full hover:surface-container-highest transition-colors duration-200"
             >
               <!-- prettier-ignore -->
               {{ $image := resources.Get "images/blog/post-1-cover.jpeg" }}
@@ -158,7 +161,7 @@
                   sizes="(min-width: 1024px) 33vw, calc(100vw - 48px)"
                 />
                 <img
-                  class="w-full rounded-[32px]"
+                  class="w-full corner-extra-large-increased"
                   src="{{ $jpeg1044.Permalink }}"
                   srcset="{{ $jpeg348.Permalink }} 348w, {{ $jpeg696.Permalink }} 696w, {{ $jpeg1044.Permalink }} 1044w"
                   sizes="(min-width: 1024px) 33vw, calc(100vw - 48px)"
@@ -184,7 +187,7 @@
           </a>
           <a href="/blog/simple-database/" class="col-span-4">
             <div
-              class="surface-container-high rounded-[32px] overflow-hidden h-full hover:surface-container-highest"
+              class="surface-container-high corner-extra-large-increased overflow-hidden h-full hover:surface-container-highest transition-colors duration-200"
             >
               <!-- prettier-ignore -->
               {{ $image := resources.Get "images/blog/simple-database-motivation-design-cover.jpg" }}
@@ -202,7 +205,7 @@
                   sizes="(min-width: 1024px) 33vw, calc(100vw - 48px)"
                 />
                 <img
-                  class="w-full rounded-[32px]"
+                  class="w-full corner-extra-large-increased"
                   src="{{ $jpeg1044.Permalink }}"
                   srcset="{{ $jpeg348.Permalink }} 348w, {{ $jpeg696.Permalink }} 696w, {{ $jpeg1044.Permalink }} 1044w"
                   sizes="(min-width: 1024px) 33vw, calc(100vw - 48px)"
@@ -226,7 +229,7 @@
           </a>
           <a href="/blog/chess-analysis/" class="col-span-4">
             <div
-              class="surface-container-high rounded-[32px] overflow-hidden h-full hover:surface-container-highest"
+              class="surface-container-high corner-extra-large-increased overflow-hidden h-full hover:surface-container-highest transition-colors duration-200"
             >
               <!-- prettier-ignore -->
               {{ $image := resources.Get "images/blog/post-2-cover.jpg" }}
@@ -244,7 +247,7 @@
                   sizes="(min-width: 1024px) 33vw, calc(100vw - 48px)"
                 />
                 <img
-                  class="w-full rounded-[32px]"
+                  class="w-full corner-extra-large-increased"
                   src="{{ $jpeg1044.Permalink }}"
                   srcset="{{ $jpeg348.Permalink }} 348w, {{ $jpeg696.Permalink }} 696w, {{ $jpeg1044.Permalink }} 1044w"
                   sizes="(min-width: 1024px) 33vw, calc(100vw - 48px)"
@@ -271,19 +274,19 @@
         </div>
       </div>
 
-      <div class="mt-32">
+      <div class="mt-24 md:mt-32">
         <h2 id="contact" class="display-medium">Contact</h2>
         <p class="mb-2 title-large">Reach out. Send a message.</p>
 
         <div
-          class="grid grid-cols-1 md:grid-cols-2 col-span-4 mt-8 rounded-[32px] overflow-hidden border border-[#8F909A]"
+          class="grid grid-cols-1 md:grid-cols-2 col-span-4 mt-8 corner-extra-large-increased overflow-hidden border border-[var(--md-sys-color-outline-variant)]"
         >
           <a href="mailto:adambcomer@gmail.com">
             <div
-              class="title-medium inline-flex items-center border-b md:border-r border-1 px-12 py-6 w-full hover:secondary-container hover:on-secondary-container-text"
+              class="group title-medium inline-flex items-center border-[var(--md-sys-color-outline-variant)] border-b md:border-r px-12 py-6 w-full hover:secondary-container hover:on-secondary-container-text transition-colors duration-200"
             >
               <svg
-                class="w-6 mr-4 on-surface-fill group-hover:on-secondary-container-fill"
+                class="w-6 mr-4 on-surface-fill group-hover:on-secondary-container-fill transition-colors duration-200"
                 xmlns="http://www.w3.org/2000/svg"
                 height="24"
                 viewBox="0 -960 960 960"
@@ -298,11 +301,11 @@
           </a>
           <a href="https://www.linkedin.com/in/adambcomer">
             <div
-              class="group title-medium inline-flex items-center border-b md:border-r border-1 px-12 py-6 w-full hover:secondary-container hover:on-secondary-container-text"
+              class="group title-medium inline-flex items-center border-[var(--md-sys-color-outline-variant)] border-b px-12 py-6 w-full hover:secondary-container hover:on-secondary-container-text transition-colors duration-200"
             >
               <i class="mr-3">
                 <svg
-                  class="w-6 on-surface-fill group-hover:on-secondary-container-fill"
+                  class="w-6 on-surface-fill group-hover:on-secondary-container-fill transition-colors duration-200"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 32 32"
                 >
@@ -317,11 +320,11 @@
           </a>
           <a href="https://github.com/adambcomer">
             <div
-              class="group title-medium inline-flex items-center border-b md:border-r border-1 px-12 py-6 w-full hover:secondary-container hover:on-secondary-container-text"
+              class="group title-medium inline-flex items-center border-[var(--md-sys-color-outline-variant)] border-b md:border-b-0 md:border-r px-12 py-6 w-full hover:secondary-container hover:on-secondary-container-text transition-colors duration-200"
             >
               <i class="mr-4">
                 <svg
-                  class="w-6 on-surface-fill group-hover:on-secondary-container-fill"
+                  class="w-6 on-surface-fill group-hover:on-secondary-container-fill transition-colors duration-200"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 32 32"
                 >
@@ -335,11 +338,11 @@
           </a>
           <a href="https://www.instagram.com/adamcomer/">
             <div
-              class="group title-medium inline-flex items-center border-b md:border-r border-1 px-12 py-6 w-full hover:secondary-container hover:on-secondary-container-text"
+              class="group title-medium inline-flex items-center px-12 py-6 w-full hover:secondary-container hover:on-secondary-container-text transition-colors duration-200"
             >
               <i class="mr-4">
                 <svg
-                  class="w-6 on-surface-fill group-hover:on-secondary-container-fill"
+                  class="w-6 on-surface-fill group-hover:on-secondary-container-fill transition-colors duration-200"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 32 32"
                 >

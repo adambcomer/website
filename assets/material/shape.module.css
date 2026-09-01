@@ -1,0 +1,27 @@
+@utility corner-none {
+  border-radius: var(--md-sys-shape-corner-none);
+}
+@utility corner-extra-small {
+  border-radius: var(--md-sys-shape-corner-extra-small);
+}
+@utility corner-small {
+  border-radius: var(--md-sys-shape-corner-small);
+}
+@utility corner-medium {
+  border-radius: var(--md-sys-shape-corner-medium);
+}
+@utility corner-large {
+  border-radius: var(--md-sys-shape-corner-large);
+}
+@utility corner-extra-large {
+  border-radius: var(--md-sys-shape-corner-extra-large);
+}
+@utility corner-extra-large-increased {
+  border-radius: var(--md-sys-shape-corner-extra-large-increased);
+}
+@utility corner-extra-extra-large {
+  border-radius: var(--md-sys-shape-corner-extra-extra-large);
+}
+@utility corner-full {
+  border-radius: var(--md-sys-shape-corner-full);
+}

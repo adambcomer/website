@@ -3,15 +3,15 @@
   {{ partial "head.html" . }}
 
   <body class="surface on-surface-text">
-    {{ partial "header.html" }}
+    {{ partial "header.html" . }}
 
-    <main class="px-6 md:px-12 mb-32 max-w-screen-2xl mx-auto">
-      <div class="my-64">
+    <main class="px-6 md:px-12 mb-24 md:mb-32 max-w-screen-2xl mx-auto">
+      <div class="my-24 md:my-32">
         <h1 class="display-large">Experience</h1>
         <p class="headline-small">My work experience and resume</p>
       </div>
 
-      <div class="surface-container-high rounded-[32px] p-6 md:p-12">
+      <div class="surface-container-high corner-extra-large-increased p-6 md:p-12">
         <h2 class="display-small">Syniti</h2>
 
         <h3 class="headline-small mt-6">Software Engineer III</h3>
@@ -25,7 +25,7 @@
           infrastructure-as-code, multi-cloud, and compliance work on the
           <a
             href="https://www.syniti.com/solutions/data-governance/"
-            class="primary-text underline hover:secondary-text"
+            class="primary-text underline hover:secondary-text transition-colors duration-200"
           >
             Syniti Data Governance Platform (SKP)</a
           >, alongside feature and performance work across our Go microservices and NextJS frontend.
@@ -121,7 +121,7 @@
           data stewards and consultants to design data quality rules on the
           <a
             href="https://www.syniti.com/solutions/data-governance/"
-            class="primary-text underline hover:secondary-text"
+            class="primary-text underline hover:secondary-text transition-colors duration-200"
           >
             Syniti Data Governance Platform (SKP)</a
           >. I built the query builder in React on NextJS along with a recursive descent SQL parser
@@ -146,14 +146,14 @@
         <div class="flex flex-wrap mt-6">
           {{ $tech := slice "Golang" "Typescript" "Javascript" "Rust" "Python" "SQL" "HTML" "CSS" "React" "NextJS" "GraphQL" "Terraform" "Kubernetes" "Istio" "Docker" "AWS" "Microsoft Azure" "Prometheus" "Grafana" "GitHub Actions" "Git" }} {{ range $tech }}
           <span
-            class="label-large secondary-container on-secondary-container-text px-2 py-1 rounded-lg mr-4 mt-2"
+            class="label-large secondary-container on-secondary-container-text px-2 py-1 corner-small mr-4 mt-2"
             >{{ . }}</span
           >
           {{ end }}
         </div>
       </div>
 
-      <div class="surface-container-high rounded-[32px] p-6 md:p-12 mt-32">
+      <div class="surface-container-high corner-extra-large-increased p-6 md:p-12 mt-24 md:mt-32">
         <h2 class="display-small">Knowtworthy</h2>
 
         <h3 class="headline-small mt-6">Software Developer and Co-Founder</h3>
@@ -163,7 +163,10 @@
         </div>
 
         <p class="body-large mt-4">
-          <a href="https://knowtworthy.com/" class="primary-text underline hover:secondary-text">
+          <a
+            href="https://knowtworthy.com/"
+            class="primary-text underline hover:secondary-text transition-colors duration-200"
+          >
             Knowtworthy
           </a>
           is a meetings productivity tool for business professionals to aid in organizing,
@@ -201,14 +204,14 @@
         <div class="flex flex-wrap mt-6">
           {{ $tech := slice "Javascript" "Typescript" "HTML" "CSS" "React" "Vite" "MUI" "Websockets" "ShareDB" "Node.js" "Koa.js" "Golang" "MongoDB" "Elasticsearch" "Docker" "Kubernetes" "AWS EC2" "AWS EKS" "AWS ECS" "AWS Cloudfront" "AWS S3" "AWS SQS" "AWS Lambda" "AWS X-Ray" "AWS Cloudwatch" "Stripe" "ffmpeg" "Google Speech-to-Text" "Git" "Gitlab CI/CD" }} {{ range $tech }}
           <span
-            class="label-large secondary-container on-secondary-container-text px-2 py-1 rounded-lg mr-4 mt-2"
+            class="label-large secondary-container on-secondary-container-text px-2 py-1 corner-small mr-4 mt-2"
             >{{ . }}</span
           >
           {{ end }}
         </div>
       </div>
 
-      <div class="surface-container-high rounded-[32px] p-6 md:p-12 mt-32">
+      <div class="surface-container-high corner-extra-large-increased p-6 md:p-12 mt-24 md:mt-32">
         <h2 class="display-small">Bank of Montreal (BMO)</h2>
 
         <h3 class="headline-small mt-6">Software Developer Intern</h3>
@@ -219,7 +222,10 @@
 
         <p class="body-large mt-4">
           During my summer internship at
-          <a href="https://www.bmo.com/" class="primary-text underline hover:secondary-text">
+          <a
+            href="https://www.bmo.com/"
+            class="primary-text underline hover:secondary-text transition-colors duration-200"
+          >
             BMO
           </a>
           , I was tasked with designing and building the web frontend for a new Business
@@ -227,19 +233,19 @@
           help them draw up reports and better understand their data. Using the
           <a
             href="https://www.carbondesignsystem.com/"
-            class="primary-text underline hover:secondary-text"
+            class="primary-text underline hover:secondary-text transition-colors duration-200"
           >
             Carbon Design System
           </a>
           , I built the UI prototypes and pitched the design to management. Additionally, I built
           the web frontend with HTML, CSS, and jQuery on Microsoft&apos;s C# MVC.
         </p>
-        <p class="md-body-large mt-4">
+        <p class="body-large mt-4">
           When I wasn&apos;t working on the BI tool, I helped the Business Associates automate
           tedious tasks with Python scripts. My most impactful effort was a
           <a
             href="https://en.wikipedia.org/wiki/Regression_testing"
-            class="primary-text underline hover:secondary-text"
+            class="primary-text underline hover:secondary-text transition-colors duration-200"
           >
             regression analysis
           </a>
@@ -250,14 +256,14 @@
           {{ $tech := slice "Javascript" "jQuery" "HTML" "CSS" "Python" "C#" "MVC" "ElasticSearch"
           "Kibana" }} {{ range $tech }}
           <span
-            class="label-large secondary-container on-secondary-container-text px-2 py-1 rounded-lg mr-4 mt-2"
+            class="label-large secondary-container on-secondary-container-text px-2 py-1 corner-small mr-4 mt-2"
             >{{ . }}</span
           >
           {{ end }}
         </div>
       </div>
 
-      <div class="surface-container-high rounded-[32px] p-6 md:p-12 mt-32">
+      <div class="surface-container-high corner-extra-large-increased p-6 md:p-12 mt-24 md:mt-32">
         <h2 class="display-small">BDM Trucks</h2>
 
         <h3 class="headline-small mt-6">Web Developer</h3>
@@ -267,12 +273,18 @@
         </div>
 
         <p class="body-large mt-2">
-          <a href="http://www.bdmtrucks.com/" class="primary-text underline hover:secondary-text">
+          <a
+            href="http://www.bdmtrucks.com/"
+            class="primary-text underline hover:secondary-text transition-colors duration-200"
+          >
             BDM Trucks
           </a>
           is a commercial truck repair service in Manassas, VA that needed a new website. I built
           them a new website using HTML, CSS, and
-          <a href="https://getbootstrap.com/" class="primary-text underline hover:secondary-text">
+          <a
+            href="https://getbootstrap.com/"
+            class="primary-text underline hover:secondary-text transition-colors duration-200"
+          >
             Bootstrap 4
           </a>
           . Additionally, I optimized the on-page SEO of their new website to draw more traffic from
@@ -282,14 +294,14 @@
         <div class="flex flex-wrap mt-6">
           {{ $tech := slice "HTML" "CSS" "Boostrap 4" "Github Pages" }} {{ range $tech }}
           <span
-            class="label-large secondary-container on-secondary-container-text px-2 py-1 rounded-lg mr-4 mt-2"
+            class="label-large secondary-container on-secondary-container-text px-2 py-1 corner-small mr-4 mt-2"
             >{{ . }}</span
           >
           {{ end }}
         </div>
       </div>
 
-      <div class="surface-container-high rounded-[32px] p-6 md:p-12 mt-32">
+      <div class="surface-container-high corner-extra-large-increased p-6 md:p-12 mt-24 md:mt-32">
         <h2 class="display-small">SBIRT</h2>
 
         <h3 class="headline-small mt-6">Software Developer</h3>
@@ -301,7 +313,7 @@
         <p class="body-large mt-4">
           <a
             href="https://www.su.edu/pharmacy/"
-            class="primary-text underline hover:secondary-text"
+            class="primary-text underline hover:secondary-text transition-colors duration-200"
           >
             Shenandoah University&apos;s School of Pharmacy
           </a>
@@ -315,7 +327,7 @@
           {{ $tech := slice "Java" "Android" "Swift" "iOS" "GCP App Engine" "SQL" "MySQL" }} {{
           range $tech }}
           <span
-            class="label-large secondary-container on-secondary-container-text px-2 py-1 rounded-lg mr-4 mt-2"
+            class="label-large secondary-container on-secondary-container-text px-2 py-1 corner-small mr-4 mt-2"
             >{{ . }}</span
           >
           {{ end }}

@@ -1,5 +1,6 @@
 @import './tokens.css';
 @import './colors.module.css';
 @import './typography.module.css';
+@import './shape.module.css';
 @import './theme.light.css';
 @import './theme.dark.css';

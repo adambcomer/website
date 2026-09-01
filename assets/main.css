@@ -3,6 +3,43 @@
 
 @import './material/theme.css';
 
+@layer base {
+  :root {
+    color-scheme: light dark;
+  }
+
+  /* Keyboard focus is otherwise invisible on the card links, which wrap a bare div.
+     Lives in @layer base so an element's own corner-* utility still wins. */
+  :focus-visible {
+    outline: 2px solid var(--md-sys-color-primary);
+    outline-offset: 2px;
+  }
+
+  /* Keeps the blog measure near 65-75 characters at the 22px body size, without
+     shrinking the figures Goldmark wraps in their own <p>. */
+  .blog-content > p:not(:has(picture, img)),
+  .blog-content > ul,
+  .blog-content > ol,
+  .blog-content > h2,
+  .blog-content > h3,
+  .blog-content > h4 {
+    max-width: 68ch;
+  }
+}
+
+/* M3 leans on motion for its state layers, but the transition-colors utilities in
+   the layouts are emitted unguarded, so honour the preference globally. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 .material-symbols-outlined {
   font-variation-settings:
     'FILL' 1,
@@ -16,7 +53,6 @@
   font-weight: normal;
   font-size: 45px;
   line-height: 52px;
-  color: var(--md-light-on-background);
   margin-top: 48px;
 }
 
@@ -67,7 +103,7 @@
   margin-top: 24px;
   padding: 16px 32px;
   overflow-x: auto;
-  border-radius: 16px;
+  border-radius: var(--md-sys-shape-corner-large);
 }
 
 .blog-content ul {
@@ -85,5 +121,5 @@
 }
 
 .blog-content img {
-  border-radius: 32px;
+  border-radius: var(--md-sys-shape-corner-extra-large-increased);
 }

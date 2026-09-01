@@ -3,15 +3,15 @@
   {{ partial "head.html" . }}
 
   <body class="surface on-surface-text">
-    {{ partial "header.html" }}
+    {{ partial "header.html" . }}
 
-    <main class="px-6 md:px-12 max-w-screen-2xl mx-auto mb-32">
-      <div class="my-64">
+    <main class="px-6 md:px-12 max-w-screen-2xl mx-auto mb-24 md:mb-32">
+      <div class="my-24 md:my-32">
         <h1 class="display-large">Projects</h1>
         <p class="headline-small">My coding projects I&apos;ve built for fun</p>
       </div>
 
-      <div class="surface-container-high rounded-[32px] p-6 md:p-12">
+      <div class="surface-container-high corner-extra-large-increased p-6 md:p-12">
         <h2 class="display-small">Linguistics Tree Solver</h2>
 
         <h3 class="title-medium on-surface-variant-text mt-6">Time</h3>
@@ -22,7 +22,7 @@
           This
           <a
             href="https://lin-tree-solver.adambcomer.com/"
-            class="primary-text underline hover:secondary-text"
+            class="primary-text underline hover:secondary-text transition-colors duration-200"
           >
             Linguistics Tree Solver
           </a>
@@ -37,14 +37,14 @@
           {{ $tech := slice "Javascript" "Typescript" "React" "Canvas" "Material UI" }} {{ range
           $tech }}
           <span
-            class="label-large secondary-container on-secondary-container-text px-2 py-1 rounded-lg mr-4 mt-2"
+            class="label-large secondary-container on-secondary-container-text px-2 py-1 corner-small mr-4 mt-2"
             >{{ . }}</span
           >
           {{ end }}
         </div>
       </div>
 
-      <div class="surface-container-high rounded-[32px] p-6 md:p-12 mt-32">
+      <div class="surface-container-high corner-extra-large-increased p-6 md:p-12 mt-24 md:mt-32">
         <h2 class="display-small">Sentiment</h2>
 
         <h3 class="title-medium on-surface-variant-text mt-6">Time</h3>
@@ -54,12 +54,15 @@
         <p class="body-large mt-2">
           <a
             href="https://www.devpost.com/software/knowtworthy-sentiment"
-            class="primary-text underline hover:secondary-text"
+            class="primary-text underline hover:secondary-text transition-colors duration-200"
           >
             Sentiment
           </a>
           was a Hackathon project made at
-          <a href="https://hackthe6ix.com/" class="primary-text underline hover:secondary-text">
+          <a
+            href="https://hackthe6ix.com/"
+            class="primary-text underline hover:secondary-text transition-colors duration-200"
+          >
             Hack The 6ix
           </a>
           . The project&apos;s goal was to tracks a meeting conversation and find its sentiment.
@@ -73,14 +76,14 @@
           {{ $tech := slice "Javascript" "React" "Node.js" "Python" "Google Text-to-Speech" }} {{
           range $tech }}
           <span
-            class="label-large secondary-container on-secondary-container-text px-2 py-1 rounded-lg mr-4 mt-2"
+            class="label-large secondary-container on-secondary-container-text px-2 py-1 corner-small mr-4 mt-2"
             >{{ . }}</span
           >
           {{ end }}
         </div>
       </div>
 
-      <div class="surface-container-high rounded-[32px] p-6 md:p-12 mt-32">
+      <div class="surface-container-high corner-extra-large-increased p-6 md:p-12 mt-24 md:mt-32">
         <h2 class="display-small">AI Chatbot</h2>
 
         <h3 class="title-medium on-surface-variant-text mt-6">Time</h3>
@@ -91,7 +94,7 @@
           AI Chatbots have been around for a while but have been traditionally based on keywords.
           <a
             href="https://github.com/adambcomer/Tensorflow-Seq2Seq-Dialogs"
-            class="primary-text underline hover:secondary-text"
+            class="primary-text underline hover:secondary-text transition-colors duration-200"
           >
             This project
           </a>
@@ -99,7 +102,7 @@
           the messages with a neural network. The neural network was a
           <a
             href="https://google.github.io/seq2seq/"
-            class="primary-text underline hover:secondary-text"
+            class="primary-text underline hover:secondary-text transition-colors duration-200"
           >
             Seq2Seq model
           </a>
@@ -111,21 +114,21 @@
         <div class="flex flex-wrap mt-2">
           {{ $tech := slice "Python" "Tensorflow" "Numpy" }} {{ range $tech }}
           <span
-            class="label-large secondary-container on-secondary-container-text px-2 py-1 rounded-lg mr-4 mt-2"
+            class="label-large secondary-container on-secondary-container-text px-2 py-1 corner-small mr-4 mt-2"
             >{{ . }}</span
           >
           {{ end }}
         </div>
       </div>
 
-      <div class="mt-64">
+      <div class="mt-24 md:mt-32">
         <h2 class="display-medium">Blog</h2>
         <p class="mb-2 title-large">Projects, writings, and code</p>
 
         <div class="grid gap-6 grid-cols-1 lg:grid-cols-12 mt-8">
           <a href="/blog/install-gitlab-runner-kubernetes/" class="col-span-4">
             <div
-              class="surface-container-high rounded-[32px] overflow-hidden h-full hover:surface-container-highest"
+              class="surface-container-high corner-extra-large-increased overflow-hidden h-full hover:surface-container-highest transition-colors duration-200"
             >
               <!-- prettier-ignore -->
               {{ $image := resources.Get "images/blog/post-1-cover.jpeg" }}
@@ -143,7 +146,7 @@
                   sizes="(min-width: 1024px) 33vw, calc(100vw - 48px)"
                 />
                 <img
-                  class="w-full rounded-[32px]"
+                  class="w-full corner-extra-large-increased"
                   src="{{ $jpeg1044.Permalink }}"
                   srcset="{{ $jpeg348.Permalink }} 348w, {{ $jpeg696.Permalink }} 696w, {{ $jpeg1044.Permalink }} 1044w"
                   sizes="(min-width: 1024px) 33vw, calc(100vw - 48px)"
@@ -169,7 +172,7 @@
           </a>
           <a href="/blog/simple-database/" class="col-span-4">
             <div
-              class="surface-container-high rounded-[32px] overflow-hidden h-full hover:surface-container-highest"
+              class="surface-container-high corner-extra-large-increased overflow-hidden h-full hover:surface-container-highest transition-colors duration-200"
             >
               <!-- prettier-ignore -->
               {{ $image := resources.Get "images/blog/simple-database-motivation-design-cover.jpg" }}
@@ -187,7 +190,7 @@
                   sizes="(min-width: 1024px) 33vw, calc(100vw - 48px)"
                 />
                 <img
-                  class="w-full rounded-[32px]"
+                  class="w-full corner-extra-large-increased"
                   src="{{ $jpeg1044.Permalink }}"
                   srcset="{{ $jpeg348.Permalink }} 348w, {{ $jpeg696.Permalink }} 696w, {{ $jpeg1044.Permalink }} 1044w"
                   sizes="(min-width: 1024px) 33vw, calc(100vw - 48px)"
@@ -211,7 +214,7 @@
           </a>
           <a href="/blog/chess-analysis/" class="col-span-4">
             <div
-              class="surface-container-high rounded-[32px] overflow-hidden h-full hover:surface-container-highest"
+              class="surface-container-high corner-extra-large-increased overflow-hidden h-full hover:surface-container-highest transition-colors duration-200"
             >
               <!-- prettier-ignore -->
               {{ $image := resources.Get "images/blog/post-2-cover.jpg" }}
@@ -229,7 +232,7 @@
                   sizes="(min-width: 1024px) 33vw, calc(100vw - 48px)"
                 />
                 <img
-                  class="w-full rounded-[32px]"
+                  class="w-full corner-extra-large-increased"
                   src="{{ $jpeg1044.Permalink }}"
                   srcset="{{ $jpeg348.Permalink }} 348w, {{ $jpeg696.Permalink }} 696w, {{ $jpeg1044.Permalink }} 1044w"
                   sizes="(min-width: 1024px) 33vw, calc(100vw - 48px)"

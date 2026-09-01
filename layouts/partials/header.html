@@ -1,17 +1,24 @@
+<!-- prettier-ignore -->
+{{ $cur := .RelPermalink }}
+{{ $homeActive := eq $cur "/" }}
+{{ $blogActive := hasPrefix $cur "/blog/" }}
+{{ $projectsActive := hasPrefix $cur "/projects/" }}
+{{ $experienceActive := hasPrefix $cur "/experience/" }}
+
 <nav class="flex flex-row m-6">
   <div class="flex-1">
-    <span class="flex-1 text-2xl">
+    <span class="flex-1 title-large">
       <a href="/">ADAM COMER</a>
     </span>
   </div>
 
   <div class="lg:flex flex-row hidden">
-    <a href="/">
+    <a href="/" class="corner-full" {{ if $homeActive }}aria-current="page" {{ end }}>
       <div
-        class="group inline-flex items-center py-3 px-3 title-medium rounded-full mx-2 hover:secondary-container hover:on-secondary-container-text"
+        class="group inline-flex items-center py-3 px-3 title-medium corner-full mx-2 transition-colors duration-200 {{ if $homeActive }}secondary-container on-secondary-container-text{{ else }}hover:secondary-container hover:on-secondary-container-text{{ end }}"
       >
         <svg
-          class="mr-2 on-surface-fill group-hover:on-secondary-container-fill"
+          class="mr-2 transition-colors duration-200 {{ if $homeActive }}on-secondary-container-fill{{ else }}on-surface-fill group-hover:on-secondary-container-fill{{ end }}"
           xmlns="http://www.w3.org/2000/svg"
           height="24"
           viewBox="0 -960 960 960"
@@ -21,12 +28,12 @@
         >Home
       </div>
     </a>
-    <a href="/blog/">
+    <a href="/blog/" class="corner-full" {{ if $blogActive }}aria-current="page" {{ end }}>
       <div
-        class="group inline-flex items-center py-3 px-3 title-medium rounded-full mx-2 hover:secondary-container hover:on-secondary-container-text"
+        class="group inline-flex items-center py-3 px-3 title-medium corner-full mx-2 transition-colors duration-200 {{ if $blogActive }}secondary-container on-secondary-container-text{{ else }}hover:secondary-container hover:on-secondary-container-text{{ end }}"
       >
         <svg
-          class="mr-2 on-surface-fill group-hover:on-secondary-container-fill"
+          class="mr-2 transition-colors duration-200 {{ if $blogActive }}on-secondary-container-fill{{ else }}on-surface-fill group-hover:on-secondary-container-fill{{ end }}"
           xmlns="http://www.w3.org/2000/svg"
           height="24"
           viewBox="0 -960 960 960"
@@ -38,12 +45,12 @@
         >Blog
       </div>
     </a>
-    <a href="/projects/">
+    <a href="/projects/" class="corner-full" {{ if $projectsActive }}aria-current="page" {{ end }}>
       <div
-        class="group inline-flex items-center py-3 px-3 title-medium rounded-full mx-2 hover:secondary-container hover:on-secondary-container-text"
+        class="group inline-flex items-center py-3 px-3 title-medium corner-full mx-2 transition-colors duration-200 {{ if $projectsActive }}secondary-container on-secondary-container-text{{ else }}hover:secondary-container hover:on-secondary-container-text{{ end }}"
       >
         <svg
-          class="mr-2 on-surface-fill group-hover:on-secondary-container-fill"
+          class="mr-2 transition-colors duration-200 {{ if $projectsActive }}on-secondary-container-fill{{ else }}on-surface-fill group-hover:on-secondary-container-fill{{ end }}"
           xmlns="http://www.w3.org/2000/svg"
           height="24"
           viewBox="0 -960 960 960"
@@ -55,12 +62,22 @@
         >Projects
       </div>
     </a>
-    <a href="/experience/">
+    <a
+      href="/experience/"
+      class="corner-full"
+      {{
+      if
+      $experienceActive
+      }}aria-current="page"
+      {{
+      end
+      }}
+    >
       <div
-        class="group inline-flex items-center py-3 px-3 title-medium rounded-full mx-2 hover:secondary-container hover:on-secondary-container-text"
+        class="group inline-flex items-center py-3 px-3 title-medium corner-full mx-2 transition-colors duration-200 {{ if $experienceActive }}secondary-container on-secondary-container-text{{ else }}hover:secondary-container hover:on-secondary-container-text{{ end }}"
       >
         <svg
-          class="mr-2 on-surface-fill group-hover:on-secondary-container-fill"
+          class="mr-2 transition-colors duration-200 {{ if $experienceActive }}on-secondary-container-fill{{ else }}on-surface-fill group-hover:on-secondary-container-fill{{ end }}"
           xmlns="http://www.w3.org/2000/svg"
           height="24"
           viewBox="0 -960 960 960"
@@ -73,7 +90,14 @@
       </div>
     </a>
   </div>
-  <button id="mobile-nav-button" aria-label="Navigation Button" class="lg:hidden">
+
+  <button
+    id="mobile-nav-button"
+    aria-label="Navigation Button"
+    aria-expanded="false"
+    aria-controls="mobile-nav"
+    class="lg:hidden"
+  >
     <svg
       class="on-surface-fill"
       version="1.1"
@@ -101,12 +125,14 @@
     id="mobile-nav"
     class="fixed lg:hidden bottom-0 left-0 right-0 z-50 top-[80px] surface hidden"
   >
-    <hr />
+    <hr class="outline-variant-text" />
     <div class="mt-4 mx-2">
-      <a href="/">
-        <div class="inline-flex items-center py-3 px-3 title-medium rounded-full">
+      <a href="/" class="corner-full" {{ if $homeActive }}aria-current="page" {{ end }}>
+        <div
+          class="inline-flex items-center py-3 px-3 title-medium corner-full transition-colors duration-200 {{ if $homeActive }}secondary-container on-secondary-container-text{{ end }}"
+        >
           <svg
-            class="mr-6 on-surface-fill group-hover:on-secondary-container-fill"
+            class="mr-6 {{ if $homeActive }}on-secondary-container-fill{{ else }}on-surface-fill{{ end }}"
             xmlns="http://www.w3.org/2000/svg"
             height="24"
             viewBox="0 -960 960 960"
@@ -118,10 +144,12 @@
       </a>
     </div>
     <div class="mt-4 mx-2">
-      <a href="/blog/">
-        <div class="inline-flex items-center py-3 px-3 title-medium rounded-full">
+      <a href="/blog/" class="corner-full" {{ if $blogActive }}aria-current="page" {{ end }}>
+        <div
+          class="inline-flex items-center py-3 px-3 title-medium corner-full transition-colors duration-200 {{ if $blogActive }}secondary-container on-secondary-container-text{{ end }}"
+        >
           <svg
-            class="mr-6 on-surface-fill group-hover:on-secondary-container-fill"
+            class="mr-6 {{ if $blogActive }}on-secondary-container-fill{{ else }}on-surface-fill{{ end }}"
             xmlns="http://www.w3.org/2000/svg"
             height="24"
             viewBox="0 -960 960 960"
@@ -135,10 +163,22 @@
       </a>
     </div>
     <div class="mt-4 mx-2">
-      <a href="/projects/">
-        <div class="inline-flex items-center py-3 px-3 title-medium rounded-full">
+      <a
+        href="/projects/"
+        class="corner-full"
+        {{
+        if
+        $projectsActive
+        }}aria-current="page"
+        {{
+        end
+        }}
+      >
+        <div
+          class="inline-flex items-center py-3 px-3 title-medium corner-full transition-colors duration-200 {{ if $projectsActive }}secondary-container on-secondary-container-text{{ end }}"
+        >
           <svg
-            class="mr-6 on-surface-fill group-hover:on-secondary-container-fill"
+            class="mr-6 {{ if $projectsActive }}on-secondary-container-fill{{ else }}on-surface-fill{{ end }}"
             xmlns="http://www.w3.org/2000/svg"
             height="24"
             viewBox="0 -960 960 960"
@@ -152,10 +192,22 @@
       </a>
     </div>
     <div class="mt-4 mx-2">
-      <a href="/experience/">
-        <div class="inline-flex items-center py-3 px-3 title-medium rounded-full">
+      <a
+        href="/experience/"
+        class="corner-full"
+        {{
+        if
+        $experienceActive
+        }}aria-current="page"
+        {{
+        end
+        }}
+      >
+        <div
+          class="inline-flex items-center py-3 px-3 title-medium corner-full transition-colors duration-200 {{ if $experienceActive }}secondary-container on-secondary-container-text{{ end }}"
+        >
           <svg
-            class="mr-6 on-surface-fill group-hover:on-secondary-container-fill"
+            class="mr-6 {{ if $experienceActive }}on-secondary-container-fill{{ else }}on-surface-fill{{ end }}"
             xmlns="http://www.w3.org/2000/svg"
             height="24"
             viewBox="0 -960 960 960"
@@ -177,7 +229,8 @@
     const mobileNav = document.getElementById('mobile-nav')
 
     mobileNavButton.onclick = () => {
-      mobileNav.classList.toggle('hidden')
+      const hidden = mobileNav.classList.toggle('hidden')
+      mobileNavButton.setAttribute('aria-expanded', String(!hidden))
     }
   })()
 </script>
