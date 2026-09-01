@@ -1,29 +1,65 @@
 <!-- prettier-ignore -->
 {{ $image := resources.Get "images/adam-comer-portrait.jpg" }} {{ $image := $image.Fill "720x720 q90" }}
+{{ $rss := "blog/index.xml" | absURL }}
+{{ $canonical := .Params.canonical | default .Permalink }}
 
 <head>
+  <meta charset="utf-8" />
   <title>{{ .Title }}</title>
   <meta name="description" content="{{ .Params.description }}" />
-  <link rel="canonical" href="{{ .Params.canonical }}" />
+  <link rel="canonical" href="{{ $canonical }}" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="alternate" type="application/rss+xml" title="Adam Comer — Blog" href="{{ $rss }}" />
 
+  <meta property="og:site_name" content="Adam Comer" />
+  <meta property="og:locale" content="en_US" />
   <meta property="og:title" content="{{ .Title }}" />
   <meta property="og:description" content="{{ .Params.description }}" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="{{ .Params.canonical }}" />
+  <meta property="og:url" content="{{ $canonical }}" />
   <meta property="og:image" content="{{ $image.Permalink }}" />
   <meta property="og:image:width" content="720" />
   <meta property="og:image:height" content="720" />
+  <meta property="og:image:alt" content="Portrait of Adam Comer" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="{{ .Title }}" />
+  <meta name="twitter:description" content="{{ .Params.description }}" />
+  <meta name="twitter:image" content="{{ $image.Permalink }}" />
+  <meta name="twitter:image:alt" content="Portrait of Adam Comer" />
 
   <script type="application/ld+json">
     {
-      "@context": "http://schema.org",
+      "@context": "https://schema.org",
       "@type": "Person",
       "name": "Adam Comer",
       "url": "https://adambcomer.com/",
-      "email": "adambcomer@proton.me",
+      "email": "adambcomer@gmail.com",
       "image": "{{ $image.Permalink }}",
+      "jobTitle": "Software Engineer",
+      "description": "Fullstack software engineer working on Go microservices, Next.js frontends, and Terraform and Kubernetes infrastructure.",
+      "knowsAbout": [
+        "Go",
+        "TypeScript",
+        "Next.js",
+        "React",
+        "Rust",
+        "Kubernetes",
+        "Terraform",
+        "Distributed Systems",
+        "Databases"
+      ],
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Syniti"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Denver",
+        "addressRegion": "CO",
+        "addressCountry": "US"
+      },
       "sameAs": [
         "https://www.facebook.com/adam.comer.779",
         "https://www.linkedin.com/in/adambcomer",
@@ -38,7 +74,9 @@
       ]
     }
   </script>
-  {{ with (templates.Defer (dict "key" "global")) }} {{ partial "css.html" . }} {{ end }}
+
+  {{ partial "breadcrumbs.html" . }} {{ with (templates.Defer (dict "key" "global")) }} {{ partial
+  "css.html" . }} {{ end }}
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

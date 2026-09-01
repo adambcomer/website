@@ -14,9 +14,11 @@
       <div>
         {{ range where .Pages "IsPage" true }}
         <div class="surface-container-high p-8 rounded-[32px] overflow-hidden h-full">
-          <h2 class="display-small line-clamp-2">{{ .Title }}</h2>
+          <h2 class="display-small line-clamp-2">{{ .LinkTitle }}</h2>
           <p class="label-large on-surface-variant-text mt-6">About</p>
-          <p class="body-large mt-2 line-clamp-3">{{ .Params.description }}</p>
+          <p class="body-large mt-2 line-clamp-3">
+            {{ .Params.subheader | default .Params.description }}
+          </p>
           <div class="flex flex-row mt-8">
             <a href="{{ .Permalink }}" class="primary-text hover:secondary-text"> Learn More </a>
           </div>

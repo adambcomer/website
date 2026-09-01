@@ -1,9 +1,10 @@
 ---
 layout: album
-title: 'July 2026 Photography | Adam Comer'
+title: 'Belcher Hill and Whippletree Loop | July 2026 Photography'
+linkTitle: 'July 2026'
 description:
-  'My Photography in July 2026 from a hike on the Belcher Hill, Longhorn, and Whippletree Loop Trail
-  in Golden, Colorado'
+  'Summer photographs from a hike on the Belcher Hill, Longhorn, and Whippletree Loop Trail in
+  Golden, Colorado: sunset ridges, ponderosa pines, and wildflowers.'
 canonical: https://adambcomer.com/photography/2026/july/
 header: July 2026
 subheader: My Photography in July 2026

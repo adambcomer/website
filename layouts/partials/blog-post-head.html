@@ -1,36 +1,70 @@
 <!-- prettier-ignore -->
-{{ $image := resources.Get "images/adam-comer-portrait.jpg" }} {{ $image := $image.Fill "720x720 q90" }}
+{{ $portrait := resources.Get "images/adam-comer-portrait.jpg" }} {{ $portrait := $portrait.Fill "720x720 q90" }}
+<!-- prettier-ignore -->
+{{ $cover := resources.Get .Params.image }} {{ $cover := $cover.Fill "1200x630 jpg q90 Center" }}
+{{ $rss := "blog/index.xml" | absURL }}
+{{ $canonical := .Params.canonical | default .Permalink }}
+{{ $published := (time.AsTime .Params.createDate).Format "2006-01-02T15:04:05Z07:00" }}
+{{ $modified := (time.AsTime .Params.updateDate).Format "2006-01-02T15:04:05Z07:00" }}
 
 <head>
+  <meta charset="utf-8" />
   <title>{{ .Title }} | Adam Comer</title>
   <meta name="description" content="{{ .Params.description }}" />
-  <link rel="canonical" href="{{ .Params.canonical }}" />
+  <link rel="canonical" href="{{ $canonical }}" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="alternate" type="application/rss+xml" title="Adam Comer — Blog" href="{{ $rss }}" />
 
+  <meta property="og:site_name" content="Adam Comer" />
+  <meta property="og:locale" content="en_US" />
   <meta property="og:title" content="{{ .Title }}" />
   <meta property="og:description" content="{{ .Params.description }}" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="{{ .Params.canonical }}" />
-  <meta property="og:image" content="{{ $image.Permalink }}" />
-  <meta property="og:image:width" content="720" />
-  <meta property="og:image:height" content="720" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="{{ $canonical }}" />
+  <meta property="og:image" content="{{ $cover.Permalink }}" />
+  <meta property="og:image:width" content="{{ $cover.Width }}" />
+  <meta property="og:image:height" content="{{ $cover.Height }}" />
+  <meta property="og:image:alt" content="{{ .Params.imageAlt }}" />
+  <meta property="article:published_time" content="{{ $published }}" />
+  <meta property="article:modified_time" content="{{ $modified }}" />
+  <meta property="article:author" content="https://adambcomer.com/" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{ .Title }}" />
+  <meta name="twitter:description" content="{{ .Params.description }}" />
+  <meta name="twitter:image" content="{{ $cover.Permalink }}" />
+  <meta name="twitter:image:alt" content="{{ .Params.imageAlt }}" />
 
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "BlogPosting",
-      "mainEntityOfPage": "{{ .Params.canonical }}",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ $canonical }}"
+      },
       "headline": "{{ .Title }}",
       "description": "{{ .Params.description }}",
-      "image": "{{ $image.Permalink }}",
-      "datePublished": "{{ .Params.createDate }}",
-      "dateModified": "{{ .Params.updateDate }}",
+      "image": {
+        "@type": "ImageObject",
+        "url": "{{ $cover.Permalink }}",
+        "width": {{ $cover.Width }},
+        "height": {{ $cover.Height }},
+        "caption": "{{ .Params.imageAlt }}"
+      },
+      "datePublished": "{{ $published }}",
+      "dateModified": "{{ $modified }}",
+      "inLanguage": "en-US",
+      "wordCount": {{ .WordCount }},
+      "articleSection": "{{ with .Parent }}{{ .LinkTitle }}{{ else }}Blog{{ end }}",
       "author": {
         "@type": "Person",
         "name": "Adam Comer",
-        "email": "adambcomer@proton.me",
+        "email": "adambcomer@gmail.com",
         "url": "https://adambcomer.com/",
+        "image": "{{ $portrait.Permalink }}",
+        "jobTitle": "Software Engineer",
         "sameAs": [
           "https://www.facebook.com/adam.comer.779",
           "https://www.linkedin.com/in/adambcomer",
@@ -45,8 +79,9 @@
         ]
       },
       "publisher": {
-        "@type": "Organization",
-        "name": "Adam Comer's Blog",
+        "@type": "Person",
+        "name": "Adam Comer",
+        "url": "https://adambcomer.com/",
         "logo": {
           "@type": "ImageObject",
           "url": "https://adambcomer.com/publisherLogo.png",
@@ -56,7 +91,9 @@
       }
     }
   </script>
-  {{ with (templates.Defer (dict "key" "global")) }} {{ partial "css.html" . }} {{ end }}
+
+  {{ partial "breadcrumbs.html" . }} {{ with (templates.Defer (dict "key" "global")) }} {{ partial
+  "css.html" . }} {{ end }}
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

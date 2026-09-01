@@ -1,8 +1,10 @@
 ---
 layout: album
-title: 'Steamboat Springs and Rino Denver | October 2024 Photography | Adam Comer'
+title: 'Steamboat Springs and Rino Denver | October 2024 Photography'
+linkTitle: 'Steamboat Springs and Denver Rino'
 description:
-  'Photographs from Steamboat Springs, Colorado and Rino Denver, Colorado taken in October 2024.'
+  'Autumn photographs from Colorado: hiking Hahns Peak Trail and the Yampa River in Steamboat
+  Springs, then bars, murals, and street art in the Rino district of Denver.'
 canonical: https://adambcomer.com/photography/2024/october/
 header: Steamboat Springs and Denver Rino
 subheader: October 2024

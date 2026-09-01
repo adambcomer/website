@@ -1,7 +1,9 @@
 ---
 layout: simple-database
-title: 'Build a Simple Database | Adam Comer | Software Engineer'
+title: 'Build a Simple Database | LSM-Tree Tutorial | Adam Comer'
+linkTitle: 'Build a Simple Database'
 description:
-  'Introductory tutorial to designing and building a LSM-Tree based Key-Value Store like RocksDB'
+  'A four-part tutorial on building an LSM-tree key-value store from scratch in Rust — the MemTable,
+  write-ahead log, and SSTable, modelled on how RocksDB works.'
 canonical: https://adambcomer.com/blog/simple-database/
 ---

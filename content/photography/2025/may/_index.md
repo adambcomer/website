@@ -1,7 +1,10 @@
 ---
 layout: album
-title: 'May 2025 Photography | Adam Comer'
-description: 'My Photography in May 2025 from a hike at Cedar Gulch Trail in Golden, Colorado'
+title: 'Cedar Gulch Trail, Golden | May 2025 Photography | Adam Comer'
+linkTitle: 'May 2025'
+description:
+  'Spring photographs from a sunset hike on the Cedar Gulch Trail in Golden, Colorado: wild plum
+  blossoms, wildflowers, pine-covered hillsides, and views of North Table Mountain.'
 canonical: https://adambcomer.com/photography/2025/may/
 header: May 2025
 subheader: My Photography in May 2025

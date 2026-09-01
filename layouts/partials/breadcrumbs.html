@@ -1,0 +1,23 @@
+{{- /* Emits BreadcrumbList JSON-LD for any page below the site root, so Google can render a path
+(adambcomer.com › Blog › Build a Simple Database) instead of a bare URL. */ -}} {{- $crumbs := slice
+-}} {{- range .Ancestors.Reverse -}} {{- $name := cond .IsHome "Home" (or .LinkTitle .Title) -}} {{-
+$crumbs = $crumbs | append (dict "name" $name "url" .Permalink) -}} {{- end -}} {{- $crumbs =
+$crumbs | append (dict "name" (or .LinkTitle .Title) "url" .Permalink) -}} {{- if gt (len $crumbs) 1
+}}
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {{- range $i, $c := $crumbs }}{{ if $i }},{{ end }}
+      {
+        "@type": "ListItem",
+        "position": {{ add $i 1 }},
+        "name": "{{ $c.name }}",
+        "item": "{{ $c.url }}"
+      }
+      {{- end }}
+    ]
+  }
+</script>
+{{- end -}}

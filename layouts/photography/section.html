@@ -12,7 +12,7 @@
       </div>
 
       <div>
-        {{ range sort .Pages "Params.date" "asc" }}
+        {{ range sort .Pages "Params.header" "desc" }}
         <div class="surface-container-high p-8 mt-8 rounded-[32px] overflow-hidden h-full">
           <h2 class="display-small line-clamp-2">{{ .Params.header }}</h2>
           <p class="label-large on-surface-variant-text mt-6">About</p>

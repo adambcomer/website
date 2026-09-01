@@ -2,9 +2,7 @@
 type: page
 title: 'Adam Comer | Software Engineer'
 description:
-  'Adam Comer is a Fullstack Software Engineer III at Syniti based in Denver, Colorado. He works on
-  the core platform team building Go microservices, the NextJS frontend, and the Terraform and
-  Kubernetes infrastructure behind them. Outside of work, he enjoys snowboarding, photography, and
-  running.'
+  'Adam Comer is a full-stack software engineer in Denver, Colorado, building Go microservices,
+  Next.js frontends, and Kubernetes and Terraform infrastructure at Syniti.'
 canonical: https://adambcomer.com/
 ---

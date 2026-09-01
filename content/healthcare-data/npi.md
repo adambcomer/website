@@ -1,8 +1,12 @@
 ---
 layout: npi
-title: 'National Provider Identifier Standard (NPI)'
-description: 'REST API and Monthly Archives of Healthcare Providers and NPI numbers'
-canonical: https://adambcomer.com/blog/chess-analysis/
+title: 'NPI Lookup API and Database Downloads | Adam Comer'
+linkTitle: 'National Provider Identifier Standard (NPI)'
+description:
+  'Free NPI lookup API and monthly NPPES database downloads. Query any US healthcare provider by NPI
+  number over a no-auth REST API, or grab the CMS archive as SQLite.'
+subheader: 'REST API and Monthly Archives of Healthcare Providers and NPI numbers'
+canonical: https://adambcomer.com/healthcare-data/npi/
 ---
 
 ## REST API

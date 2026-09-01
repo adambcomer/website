@@ -18,7 +18,7 @@
         <h2 class="display-small">Posts</h2>
 
         <div class="grid gap-6 grid-cols-1 lg:grid-cols-12 mt-8">
-          {{ range .Pages }}
+          {{ range .Pages.ByDate }}
           <a href="{{ .Permalink }}" class="col-span-4">
             <div
               class="surface-container-high rounded-[32px] overflow-hidden h-full hover:surface-container-highest"

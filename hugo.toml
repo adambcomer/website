@@ -1,8 +1,19 @@
 baseURL = 'https://adambcomer.com/'
 languageCode = 'en-us'
+# Lets Hugo fall back to the last git commit date for pages with no date in
+# front matter, so every sitemap entry carries a <lastmod>.
+enableGitInfo = true
 title = 'Adam Comer'
 
 disableKinds = ['taxonomy']
+
+# Blog posts store their dates in `createDate`/`updateDate`, not Hugo's default
+# `date`/`lastmod`. Mapping them here gives every page a real `<lastmod>` in
+# sitemap.xml and sorts list pages newest-first.
+[frontmatter]
+date = ['createDate', 'date', 'publishDate']
+lastmod = ['updateDate', 'lastmod', 'createDate', 'date', ':git']
+publishDate = ['createDate', 'publishDate', 'date']
 
 [build]
 [build.buildStats]

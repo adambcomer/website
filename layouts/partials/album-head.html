@@ -1,42 +1,80 @@
+<!-- prettier-ignore -->
+{{ $canonical := .Params.canonical | default .Permalink }}
+{{ $photos := slice }}
+{{ with resources.Get .Params.photos }}{{ $photos = . | transform.Unmarshal }}{{ end }}
+{{ $cover := index $photos 0 }}
+{{ $date := "" }}
+{{ with .Params.date }}{{ $date = (time.AsTime .).Format "2006-01-02" }}{{ end }}
+
 <head>
+  <meta charset="utf-8" />
   <title>{{ .Title }}</title>
   <meta name="description" content="{{ .Params.description }}" />
-  <link rel="canonical" href="{{ .Params.canonical }}" />
+  <link rel="canonical" href="{{ $canonical }}" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
+  <meta property="og:site_name" content="Adam Comer" />
+  <meta property="og:locale" content="en_US" />
   <meta property="og:title" content="{{ .Title }}" />
   <meta property="og:description" content="{{ .Params.description }}" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="{{ .Params.canonical }}" />
-  {{ with resources.Get .Params.photos }} {{ with . | transform.Unmarshal }} {{ $img := index . 0 }}
-  <meta property="og:image" content="{{ $img.src }}" />
-  <meta property="og:image:width" content="{{ $img.srcWidth }}" />
-  <meta property="og:image:height" content="{{ $img.srcHeight }}" />
+  <meta property="og:url" content="{{ $canonical }}" />
+  <meta property="og:image" content="{{ $cover.src }}" />
+  <meta property="og:image:width" content="{{ $cover.srcWidth }}" />
+  <meta property="og:image:height" content="{{ $cover.srcHeight }}" />
+  <meta property="og:image:alt" content="{{ $cover.alt }}" />
 
-  {{ range . }}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{ .Title }}" />
+  <meta name="twitter:description" content="{{ .Params.description }}" />
+  <meta name="twitter:image" content="{{ $cover.src }}" />
+  <meta name="twitter:image:alt" content="{{ $cover.alt }}" />
+
+  <!-- One ImageGallery wrapping every photo, rather than a loose ImageObject per
+  photo, so Google Images can attribute the whole album to this page. -->
   <script type="application/ld+json">
     {
-      "@context": "https://schema.org/",
-      "@type": "ImageObject",
-      "contentUrl": "{{ .src }}",
-      "width": {{ .srcWidth }},
-      "height": {{ .srcHeight }},
-      "license": "https://creativecommons.org/licenses/by-nc/4.0/",
-      "creditText": "Adam Comer",
-      "creator": {
+      "@context": "https://schema.org",
+      "@type": "ImageGallery",
+      "@id": "{{ $canonical }}",
+      "name": "{{ .Title }}",
+      "description": "{{ .Params.description }}",
+      "url": "{{ $canonical }}",
+      "inLanguage": "en-US",
+      {{ with $date }}"datePublished": "{{ . }}",{{ end }}
+      "author": {
         "@type": "Person",
         "name": "Adam Comer",
-        "url": "https://adambcomer.com/",
-        "email": "adambcomer@proton.me"
+        "url": "https://adambcomer.com/"
       },
-      "copyrightNotice": "Adam Comer",
-      "acquireLicensePage": "https://adambcomer.com/#contact",
-      "name": "{{ .header }}",
-      "description": "{{ .alt }}"
+      "associatedMedia": [
+        {{- range $i, $p := $photos }}{{ if $i }},{{ end }}
+        {
+          "@type": "ImageObject",
+          "contentUrl": "{{ $p.src }}",
+          "width": {{ $p.srcWidth }},
+          "height": {{ $p.srcHeight }},
+          "name": "{{ $p.header }}",
+          "description": "{{ $p.alt }}",
+          "caption": "{{ $p.alt }}",
+          "license": "https://creativecommons.org/licenses/by-nc/4.0/",
+          "acquireLicensePage": "https://adambcomer.com/#contact",
+          "creditText": "Adam Comer",
+          "copyrightNotice": "Adam Comer",
+          "creator": {
+            "@type": "Person",
+            "name": "Adam Comer",
+            "url": "https://adambcomer.com/",
+            "email": "adambcomer@gmail.com"
+          }
+        }
+        {{- end }}
+      ]
     }
   </script>
-  {{ end }} {{ end }} {{ end }} {{ with (templates.Defer (dict "key" "global")) }} {{ partial
+
+  {{ partial "breadcrumbs.html" . }} {{ with (templates.Defer (dict "key" "global")) }} {{ partial
   "css.html" . }} {{ end }}
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
