@@ -1,13 +1,13 @@
 ---
 layout: album
 title: 'Winter in Lakewood, Colorado | December 2024 Photography'
-linkTitle: 'December 2024'
+linkTitle: 'Winter in Lakewood, Colorado'
 description:
   'Early winter photographs from a park in Lakewood, Colorado: a muddy trail, ducks on a frozen
   lake, dried flowers, and birds flying in V formation.'
 canonical: https://adambcomer.com/photography/2024/december/
-header: December 2024
-subheader: My Photography in December 2024
+header: Winter in Lakewood, Colorado
+subheader: December 2024
 photos: photography/2024/december/photos.json
 date: 2024-12-01
 ---
