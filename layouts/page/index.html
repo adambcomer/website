@@ -53,22 +53,23 @@
           <div class="grid gap-8 grid-cols-1 lg:grid-cols-2 my-4">
             <div>
               <p class="body-large">
-                I&apos;m a Full-stack Software Engineer with a broad background in Frontend,
-                Backend, and DevOps development. Currently, I work as a Software Engineer III at
-                Syniti on the core Platform Team. I primarily contribute to the Go microservices and
-                internal libraries on the backend and the Next.js/React on the Frontend.
-                Additionally, I am the lead maintainer of the team's core asset microservice and
-                internal Graph Indexing microservice.
+                I&apos;m a Full-stack Software Engineer with a broad background in Backend,
+                Frontend, and Infrastructure development. Currently, I work as a Software Engineer
+                III at Syniti on the core Platform Team, where I build Go microservices and the
+                Next.js/React frontend, and am a key contributor to the Terraform and Kubernetes
+                work our platform runs on.
               </p>
               <p class="body-large mt-4">
-                Outside of work, I like to use Rust, C, and Python in my personal projects.
+                Outside of work, I write Rust and Typescript in my personal projects &mdash; an
+                LSM-Tree key-value store modeled on RocksDB, a linguistics syntax tree solver, and
+                this website.
               </p>
             </div>
             <div>
               <p class="title-medium on-surface-variant-text">Languages</p>
               <div class="flex flex-wrap">
-                {{ $languages := slice "Javascript" "Typescript" "Golang" "Python" "HTML" "CSS" "C"
-                "Rust" "Java" }} {{ range $languages }}
+                {{ $languages := slice "Golang" "Typescript" "Javascript" "Rust" "Python" "SQL"
+                "HTML" "CSS" }} {{ range $languages }}
                 <span
                   class="label-large secondary-container on-secondary-container-text px-2 py-1 rounded-lg mr-4 mt-2"
                   >{{ . }}</span
@@ -78,8 +79,8 @@
 
               <p class="title-medium md-on-surface-variant mt-4">Tools</p>
               <div class="flex flex-wrap">
-                {{ $tools := slice "Docker" "MongoDB" "Git" "Kubernetes" "React" "AWS" }} {{ range
-                $tools }}
+                {{ $tools := slice "Terraform" "Kubernetes" "Docker" "AWS" "Istio" "React" "NextJS"
+                "DGraph" "Prometheus" "Git" }} {{ range $tools }}
                 <span
                   class="label-large secondary-container on-secondary-container-text px-2 py-1 rounded-lg mr-4 mt-2"
                   >{{ . }}</span
