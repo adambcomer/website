@@ -1,0 +1,50 @@
+<!-- prettier-ignore -->
+{{- /* Renders markdown images as a responsive avif/jpeg set with intrinsic dimensions, so
+in-content images stop causing layout shift and stop shipping the full-size original. Destinations
+are resolved against the page's own resources first, then against an ancestor branch bundle (blog
+post images live under `content/blog/images/`, which makes them resources of the /blog section).
+Srcsets are joined on a bare comma so the formatter cannot line-wrap inside the separator. */ -}}
+{{- $dest := .Destination -}}
+{{- $img := "" -}}
+{{- with .PageInner.Resources.GetMatch $dest }}{{ $img = . }}{{ end -}}
+{{- if not $img -}}
+{{- range .PageInner.Ancestors -}}
+{{- if and (not $img) (hasPrefix $dest .RelPermalink) -}}
+{{- with .Resources.GetMatch (strings.TrimPrefix .RelPermalink $dest) }}{{ $img = . }}{{ end -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+{{- if not $img }}{{ with resources.Get $dest }}{{ $img = . }}{{ end }}{{ end -}}
+{{- $sizes := "(min-width: 1024px) 976px, calc(100vw - 48px)" -}}
+{{- $raster := and $img (eq $img.MediaType.MainType "image") (ne $img.MediaType.SubType "svg") -}}
+{{- if $raster -}}
+{{- /* Markdown images vary in size, so the widths are filtered against the source rather than
+written out one by one: anything wider than the original would just be an upscale. */ -}}
+{{- $widths := slice -}}
+{{- range slice 480 800 1200 }}{{ if le . $img.Width }}{{ $widths = $widths | append . }}{{ end }}{{ end -}}
+{{- if not $widths }}{{ $widths = slice $img.Width }}{{ end -}}
+{{- $avif := slice -}}
+{{- $jpeg := slice -}}
+{{- range $widths -}}
+{{- $avif = $avif | append (printf "%s %dw" ($img.Resize (printf "%dx avif" .)).Permalink .) -}}
+{{- $jpeg = $jpeg | append (printf "%s %dw" ($img.Resize (printf "%dx q80" .)).Permalink .) -}}
+{{- end -}}
+{{- $avifSrcset := delimit $avif "," -}}
+{{- $jpegSrcset := delimit $jpeg "," -}}
+{{- $fallback := $img.Resize (printf "%dx q80" (index $widths (sub (len $widths) 1))) -}}
+<picture class="block">
+  <source type="image/avif" srcset="{{ $avifSrcset }}" sizes="{{ $sizes }}" />
+  <img
+    src="{{ $fallback.Permalink }}"
+    srcset="{{ $jpegSrcset }}"
+    sizes="{{ $sizes }}"
+    width="{{ $img.Width }}"
+    height="{{ $img.Height }}"
+    alt="{{ .Text }}"
+    loading="lazy"
+    decoding="async"
+  />
+</picture>
+{{- else -}}
+<img src="{{ $dest | safeURL }}" alt="{{ .Text }}" loading="lazy" decoding="async" />
+{{- end -}}

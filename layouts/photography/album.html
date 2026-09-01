@@ -21,7 +21,8 @@
         {{ with resources.Get .Params.photos }} {{ with . | transform.Unmarshal }}
         <div class="grid grid-cols-3 gap-px md:gap-1">
           {{ range $i, $p := . }} {{ $modalId := print "modal_" $i }} {{ $modalLabelId := print
-          "modal_label_" $i }}
+          "modal_label_" $i }} {{ $fallbackSrcset := "" }} {{ range .sources }}{{ if eq .type
+          "image/jpeg" }}{{ $fallbackSrcset = delimit .srcset ", " }}{{ end }}{{ end }}
           <button
             class="photo aspect-square cursor-pointer"
             tabindex="0"
@@ -35,11 +36,14 @@
               {{ end }}
               <img
                 src="{{ .src }}"
+                srcset="{{ $fallbackSrcset }}"
+                sizes="33vw"
                 alt="{{ .alt }}"
                 class="object-cover w-full h-full"
                 height="{{ .srcHeight }}"
                 width="{{ .srcWidth }}"
                 loading="lazy"
+                decoding="async"
               />
             </picture>
           </button>
@@ -60,11 +64,14 @@
                 {{ end }}
                 <img
                   src="{{ .src }}"
+                  srcset="{{ $fallbackSrcset }}"
+                  sizes="100vw"
                   alt="{{ .alt }}"
                   class="object-contain w-full max-h-[calc(100vh-32px-2rem-0.5rem-0.5rem-60px)] 2xl:max-h-[calc(100vh-32px-4rem-0.5rem-0.5rem-60px)]"
                   height="{{ .srcHeight }}"
                   width="{{ .srcWidth }}"
                   loading="lazy"
+                  decoding="async"
                 />
               </picture>
               <div class="mt-2">

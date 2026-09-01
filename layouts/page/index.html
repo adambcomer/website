@@ -31,15 +31,37 @@
           </div>
         </div>
 
-        {{ $image := resources.Get "images/adam-comer-portrait.jpg" }} {{ $image := $image.Resize
-        "720x720 q90" }}
-        <img
-          class="col-span-4 h-fit rounded-[48px] mt-16 md:mt-0"
-          src="{{ $image.Permalink }}"
-          width="{{ $image.Width }}"
-          height="{{ $image.Height }}"
-          alt="Portrait of Adam Comer"
-        />
+        <!-- prettier-ignore -->
+        {{- /* The portrait is the LCP element on the home page, so it is fetched eagerly. */ -}}
+        {{ $image := resources.Get "images/adam-comer-portrait.jpg" }}
+        {{ $image = $image.Resize "960x960 q90" }}
+        {{ $avif320 := $image.Resize "320x avif" }}
+        {{ $avif480 := $image.Resize "480x avif" }}
+        {{ $avif720 := $image.Resize "720x avif" }}
+        {{ $avif960 := $image.Resize "960x avif" }}
+        {{ $jpeg320 := $image.Resize "320x q80" }}
+        {{ $jpeg480 := $image.Resize "480x q80" }}
+        {{ $jpeg720 := $image.Resize "720x q80" }}
+        {{ $jpeg960 := $image.Resize "960x q80" }}
+        <picture class="col-span-4 h-fit mt-16 md:mt-0">
+          <source
+            type="image/avif"
+            srcset="{{ $avif320.Permalink }} 320w, {{ $avif480.Permalink }} 480w, {{ $avif720.Permalink }} 720w, {{ $avif960.Permalink }} 960w"
+            sizes="(min-width: 768px) 33vw, calc(100vw - 48px)"
+          />
+          <img
+            class="w-full rounded-[48px]"
+            src="{{ $jpeg960.Permalink }}"
+            srcset="{{ $jpeg320.Permalink }} 320w, {{ $jpeg480.Permalink }} 480w, {{ $jpeg720.Permalink }} 720w, {{ $jpeg960.Permalink }} 960w"
+            sizes="(min-width: 768px) 33vw, calc(100vw - 48px)"
+            width="{{ $image.Width }}"
+            height="{{ $image.Height }}"
+            alt="Portrait of Adam Comer"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </picture>
       </div>
 
       <div class="mt-48">
@@ -120,15 +142,33 @@
             <div
               class="surface-container-high rounded-[32px] overflow-hidden h-full hover:surface-container-highest"
             >
-              {{ $image := resources.Get "images/blog/post-1-cover.jpeg" }} {{ $image := $image.Fill
-              "696x392 jpg q90 Center" }}
-              <img
-                class="w-full rounded-[32px]"
-                src="{{ $image.Permalink }}"
-                width="{{ $image.Width }}"
-                height="{{ $image.Height }}"
-                alt="Gitlab logo on purple background"
-              />
+              <!-- prettier-ignore -->
+              {{ $image := resources.Get "images/blog/post-1-cover.jpeg" }}
+              {{ $image = $image.Fill "1044x588 jpg q90 Center" }}
+              {{ $avif348 := $image.Resize "348x avif" }}
+              {{ $avif696 := $image.Resize "696x avif" }}
+              {{ $avif1044 := $image.Resize "1044x avif" }}
+              {{ $jpeg348 := $image.Resize "348x q80" }}
+              {{ $jpeg696 := $image.Resize "696x q80" }}
+              {{ $jpeg1044 := $image.Resize "1044x q80" }}
+              <picture class="block">
+                <source
+                  type="image/avif"
+                  srcset="{{ $avif348.Permalink }} 348w, {{ $avif696.Permalink }} 696w, {{ $avif1044.Permalink }} 1044w"
+                  sizes="(min-width: 1024px) 33vw, calc(100vw - 48px)"
+                />
+                <img
+                  class="w-full rounded-[32px]"
+                  src="{{ $jpeg1044.Permalink }}"
+                  srcset="{{ $jpeg348.Permalink }} 348w, {{ $jpeg696.Permalink }} 696w, {{ $jpeg1044.Permalink }} 1044w"
+                  sizes="(min-width: 1024px) 33vw, calc(100vw - 48px)"
+                  width="{{ $image.Width }}"
+                  height="{{ $image.Height }}"
+                  alt="Gitlab logo on purple background"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
 
               <div class="p-8">
                 <p class="label-large">Article</p>
@@ -146,15 +186,33 @@
             <div
               class="surface-container-high rounded-[32px] overflow-hidden h-full hover:surface-container-highest"
             >
-              {{ $image := resources.Get "images/blog/simple-database-motivation-design-cover.jpg"
-              }} {{ $image := $image.Fill "696x392 jpg q90 Center" }}
-              <img
-                class="w-full rounded-[32px]"
-                src="{{ $image.Permalink }}"
-                width="{{ $image.Width }}"
-                height="{{ $image.Height }}"
-                alt="Servers in a data center"
-              />
+              <!-- prettier-ignore -->
+              {{ $image := resources.Get "images/blog/simple-database-motivation-design-cover.jpg" }}
+              {{ $image = $image.Fill "1044x588 jpg q90 Center" }}
+              {{ $avif348 := $image.Resize "348x avif" }}
+              {{ $avif696 := $image.Resize "696x avif" }}
+              {{ $avif1044 := $image.Resize "1044x avif" }}
+              {{ $jpeg348 := $image.Resize "348x q80" }}
+              {{ $jpeg696 := $image.Resize "696x q80" }}
+              {{ $jpeg1044 := $image.Resize "1044x q80" }}
+              <picture class="block">
+                <source
+                  type="image/avif"
+                  srcset="{{ $avif348.Permalink }} 348w, {{ $avif696.Permalink }} 696w, {{ $avif1044.Permalink }} 1044w"
+                  sizes="(min-width: 1024px) 33vw, calc(100vw - 48px)"
+                />
+                <img
+                  class="w-full rounded-[32px]"
+                  src="{{ $jpeg1044.Permalink }}"
+                  srcset="{{ $jpeg348.Permalink }} 348w, {{ $jpeg696.Permalink }} 696w, {{ $jpeg1044.Permalink }} 1044w"
+                  sizes="(min-width: 1024px) 33vw, calc(100vw - 48px)"
+                  width="{{ $image.Width }}"
+                  height="{{ $image.Height }}"
+                  alt="Servers in a data center"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
 
               <div class="p-8">
                 <p class="label-large">Article</p>
@@ -170,15 +228,33 @@
             <div
               class="surface-container-high rounded-[32px] overflow-hidden h-full hover:surface-container-highest"
             >
-              {{ $image := resources.Get "images/blog/post-2-cover.jpg" }} {{ $image := $image.Fill
-              "696x392 jpg q90 Center" }}
-              <img
-                class="w-full rounded-[32px]"
-                src="{{ $image.Permalink }}"
-                width="{{ $image.Width }}"
-                height="{{ $image.Height }}"
-                alt="Pawns on a chessboard"
-              />
+              <!-- prettier-ignore -->
+              {{ $image := resources.Get "images/blog/post-2-cover.jpg" }}
+              {{ $image = $image.Fill "1044x588 jpg q90 Center" }}
+              {{ $avif348 := $image.Resize "348x avif" }}
+              {{ $avif696 := $image.Resize "696x avif" }}
+              {{ $avif1044 := $image.Resize "1044x avif" }}
+              {{ $jpeg348 := $image.Resize "348x q80" }}
+              {{ $jpeg696 := $image.Resize "696x q80" }}
+              {{ $jpeg1044 := $image.Resize "1044x q80" }}
+              <picture class="block">
+                <source
+                  type="image/avif"
+                  srcset="{{ $avif348.Permalink }} 348w, {{ $avif696.Permalink }} 696w, {{ $avif1044.Permalink }} 1044w"
+                  sizes="(min-width: 1024px) 33vw, calc(100vw - 48px)"
+                />
+                <img
+                  class="w-full rounded-[32px]"
+                  src="{{ $jpeg1044.Permalink }}"
+                  srcset="{{ $jpeg348.Permalink }} 348w, {{ $jpeg696.Permalink }} 696w, {{ $jpeg1044.Permalink }} 1044w"
+                  sizes="(min-width: 1024px) 33vw, calc(100vw - 48px)"
+                  width="{{ $image.Width }}"
+                  height="{{ $image.Height }}"
+                  alt="Pawns on a chessboard"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
               <div class="p-8">
                 <p class="label-large">Article</p>
                 <h3 class="headline-medium line-clamp-2">

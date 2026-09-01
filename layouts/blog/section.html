@@ -41,14 +41,32 @@
               class="surface-container-high rounded-[32px] overflow-hidden h-full hover:surface-container-highest"
             >
               <!-- prettier-ignore -->
-              {{ $image := resources.Get .Params.image }} {{ $image := $image.Fill "696x392 jpg q90 Center" }}
-              <img
-                class="w-full rounded-[32px]"
-                src="{{ $image.Permalink }}"
-                width="{{ $image.Width }}"
-                height="{{ $image.Height }}"
-                alt="{{ .Params.imageAlt }}"
-              />
+              {{ $image := resources.Get .Params.image }}
+              {{ $image = $image.Fill "1044x588 jpg q90 Center" }}
+              {{ $avif348 := $image.Resize "348x avif" }}
+              {{ $avif696 := $image.Resize "696x avif" }}
+              {{ $avif1044 := $image.Resize "1044x avif" }}
+              {{ $jpeg348 := $image.Resize "348x q80" }}
+              {{ $jpeg696 := $image.Resize "696x q80" }}
+              {{ $jpeg1044 := $image.Resize "1044x q80" }}
+              <picture class="block">
+                <source
+                  type="image/avif"
+                  srcset="{{ $avif348.Permalink }} 348w, {{ $avif696.Permalink }} 696w, {{ $avif1044.Permalink }} 1044w"
+                  sizes="(min-width: 1024px) 33vw, calc(100vw - 48px)"
+                />
+                <img
+                  class="w-full rounded-[32px]"
+                  src="{{ $jpeg1044.Permalink }}"
+                  srcset="{{ $jpeg348.Permalink }} 348w, {{ $jpeg696.Permalink }} 696w, {{ $jpeg1044.Permalink }} 1044w"
+                  sizes="(min-width: 1024px) 33vw, calc(100vw - 48px)"
+                  width="{{ $image.Width }}"
+                  height="{{ $image.Height }}"
+                  alt="{{ .Params.imageAlt }}"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
 
               <div class="p-8">
                 <p class="label-large">Article</p>

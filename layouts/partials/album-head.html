@@ -3,6 +3,32 @@
 {{ $photos := slice }}
 {{ with resources.Get .Params.photos }}{{ $photos = . | transform.Unmarshal }}{{ end }}
 {{ $cover := index $photos 0 }}
+
+{{/* Social scrapers cap the images they will fetch (Twitter and LinkedIn at 5MB), and
+the cover's full-resolution original runs well past that, so share the largest JPEG
+variant whose long edge is at or below 1600px instead. Capping the long edge rather
+than the width keeps portrait covers small too. */}}
+{{ $ogImage := $cover.src }}
+{{ $ogWidth := $cover.srcWidth }}
+{{ $ogHeight := $cover.srcHeight }}
+{{ $bestWidth := 0 }}
+{{ range $cover.sources }}
+  {{ if eq .type "image/jpeg" }}
+    {{ range .srcset }}
+      {{ $url := index (split . " ") 0 }}
+      {{ with findRESubmatch `_([0-9]+)x([0-9]+)\.[a-z]+$` $url }}
+        {{ $w := int (index (index . 0) 1) }}
+        {{ $h := int (index (index . 0) 2) }}
+        {{ if and (le (math.Max $w $h) 1600) (gt $w $bestWidth) }}
+          {{ $bestWidth = $w }}
+          {{ $ogImage = $url }}
+          {{ $ogWidth = $w }}
+          {{ $ogHeight = $h }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
 {{ $date := "" }}
 {{ with .Params.date }}{{ $date = (time.AsTime .).Format "2006-01-02" }}{{ end }}
 
@@ -20,15 +46,15 @@
   <meta property="og:description" content="{{ .Params.description }}" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="{{ $canonical }}" />
-  <meta property="og:image" content="{{ $cover.src }}" />
-  <meta property="og:image:width" content="{{ $cover.srcWidth }}" />
-  <meta property="og:image:height" content="{{ $cover.srcHeight }}" />
+  <meta property="og:image" content="{{ $ogImage }}" />
+  <meta property="og:image:width" content="{{ $ogWidth }}" />
+  <meta property="og:image:height" content="{{ $ogHeight }}" />
   <meta property="og:image:alt" content="{{ $cover.alt }}" />
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="{{ .Title }}" />
   <meta name="twitter:description" content="{{ .Params.description }}" />
-  <meta name="twitter:image" content="{{ $cover.src }}" />
+  <meta name="twitter:image" content="{{ $ogImage }}" />
   <meta name="twitter:image:alt" content="{{ $cover.alt }}" />
 
   <!-- One ImageGallery wrapping every photo, rather than a loose ImageObject per

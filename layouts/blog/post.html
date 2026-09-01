@@ -11,14 +11,37 @@
         {{ $date := time.AsTime .Params.updateDate }} Updated {{ $date.Format "Jan 02, 2006" }}
       </p>
 
-      {{ $image := resources.Get .Params.image }} {{ $image := $image.Fill "1920x1080 q90" }}
-      <img
-        class="mt-16 rounded-[32px]"
-        src="{{ $image.Permalink }}"
-        width="{{ $image.Width }}"
-        height="{{ $image.Height }}"
-        alt="{{ .Params.imageAlt }}"
-      />
+      <!-- prettier-ignore -->
+      {{- /* The cover is the LCP element on every post, so it is fetched eagerly. */ -}}
+      {{ $image := resources.Get .Params.image }}
+      {{ $image = $image.Fill "1920x1080 q90 Center" }}
+      {{ $avif640 := $image.Resize "640x avif" }}
+      {{ $avif1024 := $image.Resize "1024x avif" }}
+      {{ $avif1440 := $image.Resize "1440x avif" }}
+      {{ $avif1920 := $image.Resize "1920x avif" }}
+      {{ $jpeg640 := $image.Resize "640x q80" }}
+      {{ $jpeg1024 := $image.Resize "1024x q80" }}
+      {{ $jpeg1440 := $image.Resize "1440x q80" }}
+      {{ $jpeg1920 := $image.Resize "1920x q80" }}
+      <picture class="block mt-16">
+        <source
+          type="image/avif"
+          srcset="{{ $avif640.Permalink }} 640w, {{ $avif1024.Permalink }} 1024w, {{ $avif1440.Permalink }} 1440w, {{ $avif1920.Permalink }} 1920w"
+          sizes="(min-width: 1024px) 976px, calc(100vw - 48px)"
+        />
+        <img
+          class="w-full rounded-[32px]"
+          src="{{ $jpeg1920.Permalink }}"
+          srcset="{{ $jpeg640.Permalink }} 640w, {{ $jpeg1024.Permalink }} 1024w, {{ $jpeg1440.Permalink }} 1440w, {{ $jpeg1920.Permalink }} 1920w"
+          sizes="(min-width: 1024px) 976px, calc(100vw - 48px)"
+          width="{{ $image.Width }}"
+          height="{{ $image.Height }}"
+          alt="{{ .Params.imageAlt }}"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </picture>
 
       <div class="my-16 blog-content">{{ .Content }}</div>
     </main>
