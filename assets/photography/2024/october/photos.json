@@ -72,11 +72,11 @@
       {
         "type": "image/jpeg",
         "srcset": [
-          "https://images.adambcomer.com/web/2024/october/hahns-peak-colorado-trail-sign_392x588.jpeg 392w",
-          "https://images.adambcomer.com/web/2024/october/hahns-peak-colorado-trail-sign_588x882.jpeg 588w",
-          "https://images.adambcomer.com/web/2024/october/hahns-peak-colorado-trail-sign_784x1176.jpeg 784w",
-          "https://images.adambcomer.com/web/2024/october/hahns-peak-colorado-trail-sign_1568x2352.jpeg 1568w",
-          "https://images.adambcomer.com/web/2024/october/hahns-peak-colorado-trail-sign_2352x3527.jpeg 2352w"
+          "https://images.adambcomer.com/web/2024/october/hahns-peak-colorado-trail-sign_588x392.jpeg 588w",
+          "https://images.adambcomer.com/web/2024/october/hahns-peak-colorado-trail-sign_882x588.jpeg 882w",
+          "https://images.adambcomer.com/web/2024/october/hahns-peak-colorado-trail-sign_1176x784.jpeg 1176w",
+          "https://images.adambcomer.com/web/2024/october/hahns-peak-colorado-trail-sign_2352x1568.jpeg 2352w",
+          "https://images.adambcomer.com/web/2024/october/hahns-peak-colorado-trail-sign_3527x2352.jpeg 3527w"
         ]
       }
     ]
