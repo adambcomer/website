@@ -31,11 +31,9 @@ automatically memorizing moves after checking my games with a Chess Engine and/o
 database for a similar position. This project will test how long players at every level stay in book
 using a dataset of public games from Lichess.
 
-**Disclaimer:** I’m not a strong Chess player. And you can verify this by looking at
-[my Chess.com profile and games](https://www.chess.com/member/adambcomer). That being said, I’m not
-going to be analyzing individual games or positions in this article. Instead, I’m going to base my
-analysis on the similarity of play from the Lichess games to an opening book and games played by
-Masters.
+**Disclaimer:** I’m not a strong Chess player. That being said, I’m not going to be analyzing
+individual games or positions in this article. Instead, I’m going to base my analysis on the
+similarity of play from the Lichess games to an opening book and games played by Masters.
 
 ## Data
 
